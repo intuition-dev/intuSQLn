@@ -31,7 +31,7 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
 // serviceApp.listen(8888)
 
 
-import { SysAgent } from './lib/SysAgent'
+import { SysAgent } from './SysAgent'
 
 const sa = new SysAgent()
 sa.ping()

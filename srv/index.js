@@ -13,3 +13,6 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
     console.log(params);
     handler.ret(res, 'OK', 0, 0);
 });
+const SysAgent_1 = require("./SysAgent");
+const sa = new SysAgent_1.SysAgent();
+sa.ping();
