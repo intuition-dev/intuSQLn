@@ -7,7 +7,6 @@ import { BaseDBL } from 'mbake/lib/BaseDBL'
 
 export class MDB extends BaseDBL  {
 
-    static uuid = require('uuid/v4')
     
     protected db
 
@@ -18,15 +17,15 @@ export class MDB extends BaseDBL  {
     }//()
 
     async schema() {
-        // geo is ip for now
-        // timestamp is date of last change in GMT
-        await this._run(this.db.prepare(`CREATE TABLE mon ( guid, shard_geo, 
+        // shard is ip for now
+        // dt_stamp is timestamp of last change in GMT
+        await this._run(this.db.prepare(`CREATE TABLE mon( guid, shard, 
             host, 
             nicR, nicT,
             memFree, memUsed,
             cpu,            
             load, 
-            dt_stamp DATETIME ) `)) 
+            dt_stamp DATETIME) `)) 
 
         await this._run(this.db.prepare(`CREATE INDEX mon_dt_stamp ON mon (dt_stamp DESC, host)`)) 
     }
@@ -34,11 +33,23 @@ export class MDB extends BaseDBL  {
     async ins(params) {
         console.log(params)
 
-       let stmt = this.db.prepare(`INSERT INTO mon(guid, shard_g, load) 
-       VALUES
-       ( ?,?,?)`)
-        await this._run(stmt, '1l23', 'us', 3
-            ,new Date().toUTCString()
+        let stmt = this.db.prepare(`INSERT INTO mon( guid, shard, 
+            host, 
+            nicR, nicT,
+            memFree, memUsed,
+            cpu,            
+            dt_stamp) 
+                VALUES
+            ( ?,?,
+            ?,?,?,
+            ?,?,?
+            ? )`)
+        await this._run(stmt, params.guid, params.ip,
+            params.host,
+            params.nicR, params.nicT,
+            params.memFree, params.memUsed,
+            params.cpu, 
+            new Date().toUTCString()
         )
 
         const qry = this.db.prepare(`SELECT * FROM mon `)
