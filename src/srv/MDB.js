@@ -31,7 +31,8 @@ class MDB extends BaseDBL_1.BaseDBL {
             ?,?,?,
             ? )`);
         await this._run(stmt, params.guid, params.ip, params.host, params.nicR, params.nicT, params.memFree, params.memUsed, params.cpu, params.dt_stamp);
-        const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local FROM mon `);
+        const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
+            ORDER BY dt_stamp DESC `);
         const rows = await this._qry(qry);
         console.log(rows);
     }

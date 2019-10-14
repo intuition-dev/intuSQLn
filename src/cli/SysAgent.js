@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger = require('tracer').console();
 const Invoke_1 = require("./Invoke");
 class SysAgent {
     async ping() {
@@ -36,7 +37,8 @@ class SysAgent {
             track['swapFree'] = data.swapfree;
         });
         await SysAgent.si.currentLoad().then(data => {
-            track['cpu'] = data.avgload;
+            track['cpu'] = data.currentload;
+            track['cpuIdle'] = data.currentload_idle;
         });
         track['host'] = SysAgent.os.hostname();
         await SysAgent.rpc.invoke('monitor', 'monitor', 'monitor', track);

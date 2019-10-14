@@ -52,7 +52,8 @@ export class MDB extends BaseDBL  {
             params.dt_stamp 
         )
 
-        const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local FROM mon `)
+        const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
+            ORDER BY dt_stamp DESC `)
         const rows = await this._qry(qry)
         console.log(rows)
   

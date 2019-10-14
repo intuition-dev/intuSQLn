@@ -1,5 +1,9 @@
 // All rights reserved by MetaBake (INTUITION.DEV) | Cekvenich, licensed under LGPL 3.0
+
+const logger = require('tracer').console()
+
 import { httpRPC } from './Invoke'
+
 
 export class SysAgent { // agent
     static uuid = require('uuid/v4')
@@ -51,7 +55,8 @@ export class SysAgent { // agent
         })
 
         await SysAgent.si.currentLoad().then(data => {
-            track['cpu']= data.avgload
+            track['cpu']= data.currentload
+            track['cpuIdle']= data.currentload_idle
         })
 
         track['host']=SysAgent.os.hostname() 
