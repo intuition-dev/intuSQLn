@@ -10,6 +10,7 @@ serviceApp.makeInstance(['*']);
 const handler = new Serv_1.BaseRPCMethodHandler();
 serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
     const params = URL.parse(req.url, true).query;
+    params['ip'] = req.ip;
     m.ins(params);
     handler.ret(res, 'OK', 0, 0);
 });

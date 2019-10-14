@@ -15,6 +15,7 @@ export class SysAgent { // agent
 
         const track =  new Object() 
         track['guid']= SysAgent.uuid()
+        track['dt_stamp']= new Date().toISOString()
 
         await SysAgent.si.fsStats().then(data => { 
             track['fsR']=data.rx

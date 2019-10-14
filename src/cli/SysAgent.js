@@ -5,11 +5,8 @@ class SysAgent {
     async ping() {
         console.log('ping:->');
         const track = new Object();
-        await SysAgent.si.services('node, pm2, caddy').then(data => {
-            for (let o of data)
-                delete o['startmode'];
-            track['services'] = data;
-        });
+        track['guid'] = SysAgent.uuid();
+        track['dt_stamp'] = new Date().toISOString();
         await SysAgent.si.fsStats().then(data => {
             track['fsR'] = data.rx;
             track['fsW'] = data.wx;
@@ -55,8 +52,12 @@ class SysAgent {
             }, t);
         });
     }
-    info() {
+    async info() {
         console.log('info');
+        await SysAgent.si.services('node, pm2, caddy').then(data => {
+            for (let o of data)
+                delete o['startmode'];
+        });
         SysAgent.si.networkConnections().then(data => console.log(data));
         SysAgent.si.processes().then(data => console.log(data));
         SysAgent.si.networkInterfaces().then(data => console.log(data));
@@ -67,6 +68,7 @@ class SysAgent {
     }
 }
 exports.SysAgent = SysAgent;
+SysAgent.uuid = require('uuid/v4');
 SysAgent.si = require('systeminformation');
 SysAgent.os = require('os');
 SysAgent.rpc = new Invoke_1.httpRPC('http', 'localhost', 8888);

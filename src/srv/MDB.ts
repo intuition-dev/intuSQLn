@@ -7,7 +7,6 @@ import { BaseDBL } from 'mbake/lib/BaseDBL'
 
 export class MDB extends BaseDBL  {
 
-    
     protected db
 
     constructor() {
@@ -24,14 +23,15 @@ export class MDB extends BaseDBL  {
             nicR, nicT,
             memFree, memUsed,
             cpu,            
-            load, 
             dt_stamp DATETIME) `)) 
 
         await this._run(this.db.prepare(`CREATE INDEX mon_dt_stamp ON mon (dt_stamp DESC, host)`)) 
     }
 
+    // fix CPU
+
     async ins(params) {
-        console.log(params)
+        console.log(Date.now(), params)
 
         let stmt = this.db.prepare(`INSERT INTO mon( guid, shard, 
             host, 
@@ -42,17 +42,17 @@ export class MDB extends BaseDBL  {
                 VALUES
             ( ?,?,
             ?,?,?,
-            ?,?,?
+            ?,?,?,
             ? )`)
         await this._run(stmt, params.guid, params.ip,
             params.host,
             params.nicR, params.nicT,
             params.memFree, params.memUsed,
-            params.cpu, 
-            new Date().toUTCString()
+            params.cpu,
+            params.dt_stamp 
         )
 
-        const qry = this.db.prepare(`SELECT * FROM mon `)
+        const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local FROM mon `)
         const rows = await this._qry(qry)
         console.log(rows)
   
