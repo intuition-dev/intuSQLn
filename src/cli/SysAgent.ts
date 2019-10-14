@@ -12,13 +12,6 @@ export class SysAgent { // agent
         console.log('ping:->')
 
         const track =  new Object() 
-        
-        await SysAgent.si.services('node, pm2, caddy').then(data =>  {
-            for(let o of data) 
-                delete o['startmode']
-            
-            track['services']=data
-        })
 
         await SysAgent.si.fsStats().then(data => { 
             track['fsR']=data.rx
@@ -77,8 +70,15 @@ export class SysAgent { // agent
         })
     }//()
 
-    info() { // rare, like day
+    async info() { // rare, like day
         console.log('info')
+
+        await SysAgent.si.services('node, pm2, caddy').then(data =>  {
+            for(let o of data) 
+                delete o['startmode']
+            
+            //track['services']=data
+        })
 
         SysAgent.si.networkConnections().then(data => console.log(data))
 

@@ -69,9 +69,7 @@ export class httpRPC {//
         let url:string = THIZ.httpOrs+'://'+THIZ.host + (THIZ.port ? (':' + THIZ.port) : '') + '/'+route 
   
         url = url + '/?' + query
-  
-        console.log(url)
-    
+      
         fetch(url, {
               method: 'GET',
               cache: 'default',

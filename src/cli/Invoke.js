@@ -34,7 +34,6 @@ class httpRPC {
         return new Promise(function (resolve, reject) {
             let url = THIZ.httpOrs + '://' + THIZ.host + (THIZ.port ? (':' + THIZ.port) : '') + '/' + route;
             url = url + '/?' + query;
-            console.log(url);
             fetch(url, {
                 method: 'GET',
                 cache: 'default',

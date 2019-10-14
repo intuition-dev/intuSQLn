@@ -16,6 +16,7 @@ const handler = new BaseRPCMethodHandler()
 serviceApp.routeRPC('monitor', 'monitor', (req, res) => { 
 
    const params = URL.parse(req.url, true).query
+   params['ip'] = req.ip // you may need req.ips
    
    m.ins(params)
 
