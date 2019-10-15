@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const faker = require('faker');
 const guid = require('uuid/v4');
+var logger = require('tracer').console();
 const MDB_1 = require("../srv/MDB");
 const db = new MDB_1.MDB();
 class LoadGen {
     async run() {
-        await db.schema();
         const send = {
             guid: guid(), ip: faker.internet.ip(),
             host: faker.internet.userName(),

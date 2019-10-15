@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fetch = require('node-fetch');
+var logger = require('tracer').console();
 const btoa = function (str) { return Buffer.from(str).toString('base64'); };
 class httpRPC {
     constructor(httpOrs, host, port) {
@@ -10,7 +11,7 @@ class httpRPC {
         this.httpOrs = httpOrs;
         this.host = host;
         this.port = port;
-        console.log(this.httpOrs, this.host, this.port);
+        logger.trace(this.httpOrs, this.host, this.port);
     }
     setUser(user, pswd) {
         this.user = user;
@@ -56,8 +57,8 @@ class httpRPC {
                 resolve(resp.result);
             })
                 .catch(function (err) {
-                console.log('fetch err');
-                console.log(err);
+                logger.trace('fetch err');
+                logger.trace(err);
                 reject(err);
             });
         });

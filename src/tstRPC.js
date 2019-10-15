@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const URL = require('url');
+var logger = require('tracer').console();
 const Serv_1 = require("mbake/lib/Serv");
 const MDB_1 = require("./srv/MDB");
 const m = new MDB_1.MDB();

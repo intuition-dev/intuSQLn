@@ -2,6 +2,8 @@
 const faker = require('faker')
 const guid = require('uuid/v4')
 
+var logger = require('tracer').console()
+
 import { MDB } from "../srv/MDB"
 
 const db = new MDB()
@@ -9,7 +11,7 @@ const db = new MDB()
 export class LoadGen {
 
     async run() {
-        await db.schema()
+        //await db.schema()
 
         const send = {
             guid: guid(), ip: faker.internet.ip(),

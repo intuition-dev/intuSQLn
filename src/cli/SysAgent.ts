@@ -1,6 +1,6 @@
 // All rights reserved by MetaBake (INTUITION.DEV) | Cekvenich, licensed under LGPL 3.0
 
-const logger = require('tracer').console()
+var logger = require('tracer').console()
 
 import { httpRPC } from './Invoke'
 
@@ -15,7 +15,7 @@ export class SysAgent { // agent
     static rpc = new httpRPC('http', 'localhost', 8888)
 
     async ping() { // often like 1 second
-        console.log('ping:->')
+        logger.trace('ping:->')
 
         const track =  new Object() 
         track['guid']= SysAgent.guid()
@@ -39,7 +39,7 @@ export class SysAgent { // agent
         let nic 
         await  SysAgent.si.networkInterfaceDefault().then(data => {
             nic = data
-            console.log('nic',data)
+            logger.trace('nic',data)
         })
         await SysAgent.si.networkStats(nic).then( function(data){ 
             const dat = data[0]
@@ -63,7 +63,7 @@ export class SysAgent { // agent
         
         await SysAgent.rpc.invoke('monitor', 'monitor', 'monitor', track)
         
-        await console.log('<-',JSON.stringify(track))
+        await logger.trace('<-',JSON.stringify(track))
         
         //wait
         await this.wait(2000)
@@ -73,14 +73,14 @@ export class SysAgent { // agent
     wait(t) {
         return new Promise((resolve, reject) => {
             setTimeout(function(){
-                console.log('.')
+                logger.trace('.')
                 resolve()
             },t)
         })
     }//()
 
     async info() { // rare, like day
-        console.log('info')
+        logger.trace('info')
 
         await SysAgent.si.services('node, pm2, caddy').then(data =>  {
             for(let o of data) 
@@ -89,19 +89,19 @@ export class SysAgent { // agent
             //track['services']=data
         })
 
-        SysAgent.si.networkConnections().then(data => console.log(data))
+        SysAgent.si.networkConnections().then(data => logger.trace(data))
 
-        SysAgent.si.processes().then(data => console.log(data))
+        SysAgent.si.processes().then(data => logger.trace(data))
 
-        SysAgent.si.networkInterfaces().then(data => console.log(data))
+        SysAgent.si.networkInterfaces().then(data => logger.trace(data))
 
-        SysAgent.si.fsSize().then(data => console.log(data))
+        SysAgent.si.fsSize().then(data => logger.trace(data))
 
-        SysAgent.si.blockDevices().then(data => console.log(data))
+        SysAgent.si.blockDevices().then(data => logger.trace(data))
 
-        SysAgent.si.osInfo().then(data => console.log(data))
+        SysAgent.si.osInfo().then(data => logger.trace(data))
 
-        SysAgent.si.users().then(data => console.log(data))
+        SysAgent.si.users().then(data => logger.trace(data))
 
     }//()
 

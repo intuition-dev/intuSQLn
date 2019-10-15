@@ -1,7 +1,9 @@
 
-const logger = require('tracer').console()
+var logger = require('tracer').console()
 
 const os = require('os')
+
+var logger = require('tracer').console()
 
 const sqlite3 = require('sqlite3').verbose()
 
@@ -33,7 +35,7 @@ export class MDB extends BaseDBL  {
     // fix CPU
 
     async ins(params) {
-        console.log(Date.now(), params)
+        //logger.trace(Date.now(), params)
 
         let stmt = this.db.prepare(`INSERT INTO mon( guid, shard, 
             host, 
@@ -57,19 +59,19 @@ export class MDB extends BaseDBL  {
         const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
             ORDER BY dt_stamp DESC `)
         const rows = await this._qry(qry)
-        console.log(rows)
+        logger.trace(rows)
   
     }
 
     async memory() {
         const qry = this.db.prepare(`SELECT sqlite3_memory_used()`)
         const rows = await this._qry(qry)
-        console.log(rows)
+        logger.trace(rows)
 
     }
 
     checkNode() {
-        console.log(os.freemem(), os.totalmem())
+        logger.trace(os.freemem(), os.totalmem())
     }
 
 }//()

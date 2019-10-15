@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const logger = require('tracer').console();
+var logger = require('tracer').console();
 const Invoke_1 = require("./Invoke");
 class SysAgent {
     async ping() {
-        console.log('ping:->');
+        logger.trace('ping:->');
         const track = new Object();
         track['guid'] = SysAgent.guid();
         track['dt_stamp'] = new Date().toISOString();
@@ -23,7 +23,7 @@ class SysAgent {
         let nic;
         await SysAgent.si.networkInterfaceDefault().then(data => {
             nic = data;
-            console.log('nic', data);
+            logger.trace('nic', data);
         });
         await SysAgent.si.networkStats(nic).then(function (data) {
             const dat = data[0];
@@ -42,31 +42,31 @@ class SysAgent {
         });
         track['host'] = SysAgent.os.hostname();
         await SysAgent.rpc.invoke('monitor', 'monitor', 'monitor', track);
-        await console.log('<-', JSON.stringify(track));
+        await logger.trace('<-', JSON.stringify(track));
         await this.wait(2000);
         this.ping();
     }
     wait(t) {
         return new Promise((resolve, reject) => {
             setTimeout(function () {
-                console.log('.');
+                logger.trace('.');
                 resolve();
             }, t);
         });
     }
     async info() {
-        console.log('info');
+        logger.trace('info');
         await SysAgent.si.services('node, pm2, caddy').then(data => {
             for (let o of data)
                 delete o['startmode'];
         });
-        SysAgent.si.networkConnections().then(data => console.log(data));
-        SysAgent.si.processes().then(data => console.log(data));
-        SysAgent.si.networkInterfaces().then(data => console.log(data));
-        SysAgent.si.fsSize().then(data => console.log(data));
-        SysAgent.si.blockDevices().then(data => console.log(data));
-        SysAgent.si.osInfo().then(data => console.log(data));
-        SysAgent.si.users().then(data => console.log(data));
+        SysAgent.si.networkConnections().then(data => logger.trace(data));
+        SysAgent.si.processes().then(data => logger.trace(data));
+        SysAgent.si.networkInterfaces().then(data => logger.trace(data));
+        SysAgent.si.fsSize().then(data => logger.trace(data));
+        SysAgent.si.blockDevices().then(data => logger.trace(data));
+        SysAgent.si.osInfo().then(data => logger.trace(data));
+        SysAgent.si.users().then(data => logger.trace(data));
     }
 }
 exports.SysAgent = SysAgent;
