@@ -1,96 +1,50 @@
 // All rights reserved by MetaBake (INTUITION.DEV) | Cekvenich, licensed under LGPL 3.0
 
-const logger = require('tracer').console()
 const fs = require('fs-extra')
-const Database = require('better-sqlite3')
+
+var logger = require('tracer').console()
 
 /**
  * Helper for SQLite3
  */
-export class BaseDBL {
-
-   fn
+export class BBaseDBL {
+   protected fn
    protected db
 
-   constructor( fn) {
-      this.fn = fn
-   }
+   static Database = require('better-sqlite3')
 
+   con( fn) {
+      this.fn = fn
+      this.db = new BBaseDBL.Database(fn)
+   }
 
    async tableExists(tab): Promise<any> { 
       try {
-         this.con()
-
-         const qry = this.db.prepare("SELECT name FROM sqlite_master WHERE type=\'table\' AND name= ?", tab)
-         const rows = await this._qry(qry)
-         logger.trace('exits?', rows)
-         const row = rows[0]
-         if(row.name == tab) return true
+         const row = this.readOne("SELECT name FROM sqlite_master WHERE type=\'table\' AND name= ?", tab)
+         if(row['name'] == tab) return true
          return false
       } catch(err) {
          return false
       }   
    }//()
 
+   // returns # of rows changed
+   write(sql:string, ...args):number {
+         const stmt = this.db.prepare(sql)
+         const info= stmt.run(args)
+         if(info.changes != 1) logger.trace(info.changes)
+         return info.changes
+   }
 
-  con() {
-      if (this.db) {
-          logger.trace('connection exists')
-          return
-      }
-      logger.trace('new connection')
-      this.db = new sqlite3.cached.Database(this.path + this.fn)
-  }//()
+   read(sql:string, ...args):Array<Object> {
+      const stmt = this.db.prepare(sql)
+      return stmt.all(args)
+   }
 
-  
-   protected _run(stmt, ...args):Promise<any> {
-      return new Promise( function (resolve, reject) {
-         try {
-         stmt.run( args
-            , function (err) {
-               if (err) {
-                  logger.trace(err)
-                  reject(err)
-               }
-               else resolve('OK')
-            })
-         } catch(err) {
-            logger.warn(err)
-            reject(err)
-         }
-      })
-
-   }//()
-
-   protected _qry(stmt, ...args):Promise<any> {
-      return new Promise( function (resolve, reject) {
-         try {
-         stmt.all( args
-            , function (err, rows) {
-               if (err) {
-                  logger.trace(err)
-                  reject(err)
-               }
-               else resolve(rows)
-            })
-         } catch(err) {
-            logger.warn(err)
-            reject(err)
-         }
-      })
-   }//()
+   readOne(sql:string, ...args):Object {
+      const stmt = this.db.prepare(sql)
+      return stmt.get(args)
+   }
 
 }//class
 
-
-export  interface iDBL {
-   /**
-    * returns when db is setup
-    */
-   isSetupDone():Promise<boolean> 
-
-}
-
-module.exports = {
-   BaseDBL
-}
