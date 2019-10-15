@@ -15,7 +15,6 @@ class BBaseDBL {
         this._db.pragma('locking_mode=EXCLUSIVE');
         logger.trace(this._db.pragma('locking_mode', { simple: true }));
         this._db.pragma('automatic_index=false');
-        this._db.pragma('wal_autocheckpoint=0');
     }
     tableExists(tab) {
         try {
@@ -40,6 +39,15 @@ class BBaseDBL {
     readOne(sql, ...args) {
         const stmt = this._db.prepare(sql);
         return stmt.get(args);
+    }
+    BEGIN() {
+        this.write('BEGIN');
+    }
+    COMMIT() {
+        this.write('COMMIT');
+    }
+    ROLLBACK() {
+        this.write('ROLLBACK');
     }
 }
 exports.BBaseDBL = BBaseDBL;

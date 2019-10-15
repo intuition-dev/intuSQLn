@@ -20,7 +20,7 @@ export class LoadGen {
             i++
             await this.single()
         } while (i< 100 * 1000)
-
+        
         await db.count()
         
         var result = perfy.end('loop')

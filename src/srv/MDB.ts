@@ -73,14 +73,3 @@ export class MDB extends BBaseDBL  {
     }
 
 }//()
-
-// https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
-
-// database.run( 'PRAGMA journal_mode = WAL;' );
-
-/*
-
-http://blog.quibb.org/2010/08/fast-bulk-inserts-into-sqlite/
-
-
-*/
