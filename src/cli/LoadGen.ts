@@ -9,7 +9,6 @@ import { MDB } from "../srv/MDB"
 
 const db = new MDB()
 
-
 export class LoadGen {
     async run() {
         await db.schema()

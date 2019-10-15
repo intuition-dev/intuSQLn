@@ -11,12 +11,10 @@ class LoadGen {
         await db.schema();
         perfy.start('loop');
         var i = 0;
-        db.BEGIN;
         do {
             i++;
             await this.single();
         } while (i < 100 * 1000);
-        db.COMMIT;
         await db.count();
         var result = perfy.end('loop');
         logger.trace(result.time);

@@ -1,20 +1,20 @@
 
 var logger = require('tracer').console()
 const os = require('os')
-var logger = require('tracer').console()
 
-import { BBaseDBL } from './BBaseDBL'
+import { BaseDBL } from 'mbake/lib/BaseDBL'
 
-
-export class MDB extends BBaseDBL  {
+export class MDB extends BaseDBL  {
+    
 
     constructor() {
         super()
-        this.con(process.cwd() + '/XXX.db')
+        this.defCon(process.cwd(), '/XXX.db')
     }//()
-    
+
 
     async schema() {
+        logger.trace('.')
         // shard is ip for now, should be geocode
         // dt_stamp is timestamp of last change in GMT
         await this.write(`CREATE TABLE mon( guid, shard, 
@@ -26,8 +26,6 @@ export class MDB extends BBaseDBL  {
 
         await this.write(`CREATE INDEX mon_dt_stamp ON mon (dt_stamp DESC, host)`)
     }
-
-    // fix CPU
 
     async ins(params) {
         //logger.trace(Date.now(), params)

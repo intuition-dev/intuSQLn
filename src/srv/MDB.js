@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger = require('tracer').console();
 const os = require('os');
-var logger = require('tracer').console();
-const BBaseDBL_1 = require("./BBaseDBL");
-class MDB extends BBaseDBL_1.BBaseDBL {
+const BaseDBL_1 = require("mbake/lib/BaseDBL");
+class MDB extends BaseDBL_1.BaseDBL {
     constructor() {
         super();
-        this.con(process.cwd() + '/XXX.db');
+        this.defCon(process.cwd(), '/XXX.db');
     }
     async schema() {
+        logger.trace('.');
         await this.write(`CREATE TABLE mon( guid, shard, 
             host, 
             nicR, nicT,
