@@ -2,53 +2,35 @@
 
 const logger = require('tracer').console()
 const fs = require('fs-extra')
-const sqlite3 = require('better-sqlite3')
+const Database = require('better-sqlite3')
 
 /**
  * Helper for SQLite3
  */
 export class BaseDBL {
 
-   path
    fn
    protected db
 
-   /**
-    * @param path consider using process.cwd()
-    * @param fn  /name.db
-    */
-   constructor(path, fn) {
-      this.path = path
+   constructor( fn) {
       this.fn = fn
    }
 
-   fileExists() {
-      return fs.existsSync(this.path + this.fn)
-  }
 
-  delDb() {
+   async tableExists(tab): Promise<any> { 
       try {
-            this.db.close(function() {
-            fs.removeSync(this.path + this.fn)
-          })
-      } catch(err) {}
+         this.con()
 
-  }
-
-async tableExists(tab): Promise<any> { 
-   try {
-      this.con()
-
-      const qry = this.db.prepare("SELECT name FROM sqlite_master WHERE type=\'table\' AND name= ?", tab)
-      const rows = await this._qry(qry)
-      logger.trace('exits?', rows)
-      const row = rows[0]
-      if(row.name == tab) return true
-      return false
-   } catch(err) {
-       return false
-   }   
-}//()
+         const qry = this.db.prepare("SELECT name FROM sqlite_master WHERE type=\'table\' AND name= ?", tab)
+         const rows = await this._qry(qry)
+         logger.trace('exits?', rows)
+         const row = rows[0]
+         if(row.name == tab) return true
+         return false
+      } catch(err) {
+         return false
+      }   
+   }//()
 
 
   con() {
