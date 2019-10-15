@@ -5,15 +5,19 @@ const os = require('os')
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 
 export class MDB extends BaseDBL  {
-    
 
     constructor() {
         super()
-        this.defCon(process.cwd(), '/XXX.db')
+
+        this.schema()
     }//()
 
-
     async schema() {
+        this.defCon(process.cwd(), '/XXX.db')
+
+        const exists = this.tableExists('mon')
+        if(exists) return
+
         logger.trace('.')
         // shard is ip for now, should be geocode
         // dt_stamp is timestamp of last change in GMT
@@ -63,7 +67,6 @@ export class MDB extends BaseDBL  {
     async memory() {
         const row = this.readOne(`SELECT sqlite3_memory_used()`)
         logger.trace(row)
-
     }
 
     checkNode() {
