@@ -1,8 +1,6 @@
 
 var logger = require('tracer').console()
-
 const os = require('os')
-
 var logger = require('tracer').console()
 
 import { BBaseDBL } from './BBaseDBL'
@@ -10,22 +8,11 @@ import { BBaseDBL } from './BBaseDBL'
 
 export class MDB extends BBaseDBL  {
 
-    //protected db
-
     constructor() {
         super()
         this.con(process.cwd() + '/XXX.db')
-        
-        /*
-        db.pragma('cache_size = 32000');
-        console.log(db.pragma('cache_size', { simple: true })); // => 32000
-
-        this.db.run('PRAGMA synchronous=OFF')
-        this.db.run('PRAGMA count_changes=OFF')
-        this.db.run('PRAGMA journal_mode=MEMORY')
-        this.db.run('PRAGMA temp_store=MEMORY')
-        */
     }//()
+    
 
     async schema() {
         // shard is ip for now, should be geocode
@@ -68,20 +55,16 @@ export class MDB extends BBaseDBL  {
         let sql = (`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
             ORDER BY dt_stamp DESC `)
 
-    }
+    }//()
 
     async count() {
-
-        const qry = this.db.prepare(`SELECT count(*) FROM mon `)
-        const rows = await this._qry(qry)
-        logger.trace(rows)
-
+        const row = this.readOne(`SELECT count(*) as count FROM mon `)
+        logger.trace(row)
     }
 
     async memory() {
-        const qry = this.db.prepare(`SELECT sqlite3_memory_used()`)
-        const rows = await this._qry(qry)
-        logger.trace(rows)
+        const row = this.readOne(`SELECT sqlite3_memory_used()`)
+        logger.trace(row)
 
     }
 
@@ -98,7 +81,6 @@ export class MDB extends BBaseDBL  {
 /*
 
 http://blog.quibb.org/2010/08/fast-bulk-inserts-into-sqlite/
-
 
 
 */

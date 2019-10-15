@@ -16,9 +16,21 @@ export class BBaseDBL {
    con( fn) {
       this._fn = fn
       this._db = new BBaseDBL.Database(fn)
+
+      this._db.pragma('cache_size = 5000')
+      logger.trace(this._db.pragma('cache_size', { simple: true }))
+
+      this._db.pragma('synchronous=OFF')
+      this._db.pragma('count_changes=OFF')
+      this._db.pragma('journal_mode=MEMORY')
+      this._db.pragma('temp_store=MEMORY')
+
+      this._db.pragma('locking_mode=EXCLUSIVE')
+      logger.trace(this._db.pragma('locking_mode', { simple: true }))
+
    }
 
-   async tableExists(tab): Promise<any> { 
+   tableExists(tab): boolean { 
       try {
          const row = this.readOne("SELECT name FROM sqlite_master WHERE type=\'table\' AND name= ?", tab)
          if(row['name'] == tab) return true
@@ -32,7 +44,6 @@ export class BBaseDBL {
    write(sql:string, ...args):number {
          const stmt = this._db.prepare(sql)
          const info= stmt.run(args)
-         if(info.changes != 1) logger.trace(info.changes)
          return info.changes
    }
 
@@ -41,6 +52,9 @@ export class BBaseDBL {
       return stmt.all(args)
    }
 
+   /**
+   like read, but returns only the first row
+   */
    readOne(sql:string, ...args):Object {
       const stmt = this._db.prepare(sql)
       return stmt.get(args)
