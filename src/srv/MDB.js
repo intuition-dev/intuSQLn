@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger = require('tracer').console();
+const os = require('os');
 const sqlite3 = require('sqlite3').verbose();
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
 class MDB extends BaseDBL_1.BaseDBL {
     constructor() {
-        super(null, null);
-        this.db = new sqlite3.cached.Database(':memory:');
+        super('.', 'XXX.db');
     }
     async schema() {
         await this._run(this.db.prepare(`CREATE TABLE mon( guid, shard, 
@@ -35,6 +35,14 @@ class MDB extends BaseDBL_1.BaseDBL {
             ORDER BY dt_stamp DESC `);
         const rows = await this._qry(qry);
         console.log(rows);
+    }
+    async memory() {
+        const qry = this.db.prepare(`SELECT sqlite3_memory_used()`);
+        const rows = await this._qry(qry);
+        console.log(rows);
+    }
+    checkNode() {
+        console.log(os.freemem(), os.totalmem());
     }
 }
 exports.MDB = MDB;

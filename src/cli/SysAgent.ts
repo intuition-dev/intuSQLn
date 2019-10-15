@@ -6,7 +6,7 @@ import { httpRPC } from './Invoke'
 
 
 export class SysAgent { // agent
-    static uuid = require('uuid/v4')
+    static guid = require('uuid/v4')
 
     static si = require('systeminformation')
 
@@ -18,7 +18,7 @@ export class SysAgent { // agent
         console.log('ping:->')
 
         const track =  new Object() 
-        track['guid']= SysAgent.uuid()
+        track['guid']= SysAgent.guid()
         track['dt_stamp']= new Date().toISOString()
 
         await SysAgent.si.fsStats().then(data => { 

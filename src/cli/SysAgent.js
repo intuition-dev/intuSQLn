@@ -6,7 +6,7 @@ class SysAgent {
     async ping() {
         console.log('ping:->');
         const track = new Object();
-        track['guid'] = SysAgent.uuid();
+        track['guid'] = SysAgent.guid();
         track['dt_stamp'] = new Date().toISOString();
         await SysAgent.si.fsStats().then(data => {
             track['fsR'] = data.rx;
@@ -70,7 +70,7 @@ class SysAgent {
     }
 }
 exports.SysAgent = SysAgent;
-SysAgent.uuid = require('uuid/v4');
+SysAgent.guid = require('uuid/v4');
 SysAgent.si = require('systeminformation');
 SysAgent.os = require('os');
 SysAgent.rpc = new Invoke_1.httpRPC('http', 'localhost', 8888);

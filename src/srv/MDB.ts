@@ -1,6 +1,8 @@
 
 const logger = require('tracer').console()
 
+const os = require('os')
+
 const sqlite3 = require('sqlite3').verbose()
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
@@ -10,13 +12,13 @@ export class MDB extends BaseDBL  {
     protected db
 
     constructor() {
-        super(null, null)
-        this.db = new sqlite3.cached.Database(':memory:')
+        super('.', 'XXX.db')
+        //this.db = new sqlite3.cached.Database(':memory:')
 
     }//()
 
     async schema() {
-        // shard is ip for now
+        // shard is ip for now, should be geocode
         // dt_stamp is timestamp of last change in GMT
         await this._run(this.db.prepare(`CREATE TABLE mon( guid, shard, 
             host, 
@@ -58,5 +60,32 @@ export class MDB extends BaseDBL  {
         console.log(rows)
   
     }
+
+    async memory() {
+        const qry = this.db.prepare(`SELECT sqlite3_memory_used()`)
+        const rows = await this._qry(qry)
+        console.log(rows)
+
+    }
+
+    checkNode() {
+        console.log(os.freemem(), os.totalmem())
+    }
+
 }//()
 
+// https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
+
+// database.run( 'PRAGMA journal_mode = WAL;' );
+
+/*
+
+http://blog.quibb.org/2010/08/fast-bulk-inserts-into-sqlite/
+
+db.run('PRAGMA synchronous=OFF')
+db.run('PRAGMA count_changes=OFF')
+db.run('PRAGMA journal_mode=MEMORY')
+db.run('PRAGMA temp_store=MEMORY')
+
+
+*/
