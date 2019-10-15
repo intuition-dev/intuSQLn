@@ -9,12 +9,12 @@ import { BaseDBL } from 'mbake/lib/BaseDBL'
 
 export class MDB extends BaseDBL  {
 
-    protected db
+    //protected db
 
     constructor() {
-        super('.', 'XXX.db')
+        super(process.cwd(), '/XXX.db')
+        this.con()
         //this.db = new sqlite3.cached.Database(':memory:')
-
     }//()
 
     async schema() {

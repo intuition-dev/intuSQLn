@@ -6,7 +6,8 @@ const sqlite3 = require('sqlite3').verbose();
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
 class MDB extends BaseDBL_1.BaseDBL {
     constructor() {
-        super('.', 'XXX.db');
+        super(process.cwd(), 'XXX.db');
+        this.con();
     }
     async schema() {
         await this._run(this.db.prepare(`CREATE TABLE mon( guid, shard, 

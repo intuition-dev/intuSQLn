@@ -1,20 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const URL = require('url');
-const Serv_1 = require("mbake/lib/Serv");
-const MDB_1 = require("./srv/MDB");
-const m = new MDB_1.MDB();
-m.schema();
-const serviceApp = new Serv_1.ExpressRPC();
-serviceApp.makeInstance(['*']);
-const handler = new Serv_1.BaseRPCMethodHandler();
-serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
-    const params = URL.parse(req.url, true).query;
-    params['ip'] = req.ip;
-    m.ins(params);
-    handler.ret(res, 'OK', 0, 0);
-});
-serviceApp.listen(8888);
-const SysAgent_1 = require("./cli/SysAgent");
-const sa = new SysAgent_1.SysAgent();
-sa.ping();
+const LoadGen_1 = require("./cli/LoadGen");
+new LoadGen_1.LoadGen().run();

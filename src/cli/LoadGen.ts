@@ -5,18 +5,18 @@ const guid = require('uuid/v4')
 import { MDB } from "../srv/MDB"
 
 const db = new MDB()
-db.schema()
 
 export class LoadGen {
 
-    run() {
+    async run() {
+        await db.schema()
 
         const send = {
             guid: guid(), ip: faker.internet.ip(),
             host: faker.internet.userName(),
-            nicR: faker.random.float(), nicT: faker.random.float(),
-            memFree: faker.random.float(), memUsed: faker.random.float(),
-            cpu: faker.random.float(),
+            nicR: faker.random.number(), nicT: faker.random.number(),
+            memFree: faker.random.number(), memUsed: faker.random.number(),
+            cpu: faker.random.number(),
             dt_stmp: new Date().toISOString()
 
         }
