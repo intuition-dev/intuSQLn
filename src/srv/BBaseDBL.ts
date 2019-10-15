@@ -13,6 +13,9 @@ export class BBaseDBL {
 
    static Database = require('better-sqlite3')
 
+   /**
+   connect with defaults
+   */
    con( fn) {
       this._fn = fn
       this._db = new BBaseDBL.Database(fn)
@@ -28,6 +31,7 @@ export class BBaseDBL {
       this._db.pragma('locking_mode=EXCLUSIVE')
       logger.trace(this._db.pragma('locking_mode', { simple: true }))
 
+      this._db.pragma('automatic_index=false')
    }
 
    tableExists(tab): boolean { 
@@ -60,5 +64,14 @@ export class BBaseDBL {
       return stmt.get(args)
    }
 
+   BEGIN() {
+      this.write('BEGIN')
+   }
+   COMMIT() {
+      this.write('COMMIT')
+   }
+   ROLLBACK() {
+      this.write('ROLLBACK')
+   }
 }//class
 

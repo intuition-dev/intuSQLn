@@ -14,6 +14,8 @@ class BBaseDBL {
         this._db.pragma('temp_store=MEMORY');
         this._db.pragma('locking_mode=EXCLUSIVE');
         logger.trace(this._db.pragma('locking_mode', { simple: true }));
+        this._db.pragma('automatic_index=false');
+        this._db.pragma('wal_autocheckpoint=0');
     }
     tableExists(tab) {
         try {
