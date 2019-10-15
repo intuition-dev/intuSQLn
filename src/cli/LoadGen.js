@@ -2,11 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const faker = require('faker');
 const guid = require('uuid/v4');
+const perfy = require('perfy');
 var logger = require('tracer').console();
 const MDB_1 = require("../srv/MDB");
 const db = new MDB_1.MDB();
 class LoadGen {
     async run() {
+        await db.schema();
+        perfy.start('loop');
+        var i = 0;
+        do {
+            i++;
+            await this.single();
+        } while (i < 100 * 1000);
+        await db.count();
+        var result = perfy.end('loop');
+        logger.trace(result.time);
+        process.exit();
+    }
+    async single() {
         const send = {
             guid: guid(), ip: faker.internet.ip(),
             host: faker.internet.userName(),

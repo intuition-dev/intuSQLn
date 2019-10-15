@@ -5,9 +5,9 @@ const os = require('os')
 
 var logger = require('tracer').console()
 
-const sqlite3 = require('sqlite3').verbose()
+import { BaseDBL } from './BBaseDBL'
 
-import { BaseDBL } from 'mbake/lib/BaseDBL'
+
 
 export class MDB extends BaseDBL  {
 
@@ -16,7 +16,12 @@ export class MDB extends BaseDBL  {
     constructor() {
         super(process.cwd(), '/XXX.db')
         this.con()
-        //this.db = new sqlite3.cached.Database(':memory:')
+
+        this.db.run('PRAGMA synchronous=OFF')
+        this.db.run('PRAGMA count_changes=OFF')
+        this.db.run('PRAGMA journal_mode=MEMORY')
+        this.db.run('PRAGMA temp_store=MEMORY')
+
     }//()
 
     async schema() {
@@ -59,8 +64,16 @@ export class MDB extends BaseDBL  {
         const qry = this.db.prepare(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
             ORDER BY dt_stamp DESC `)
         const rows = await this._qry(qry)
-        logger.trace(rows)
+        //logger.trace(rows)
   
+    }
+
+    async count() {
+
+        const qry = this.db.prepare(`SELECT count(*) FROM mon `)
+        const rows = await this._qry(qry)
+        logger.trace(rows)
+
     }
 
     async memory() {
@@ -84,10 +97,6 @@ export class MDB extends BaseDBL  {
 
 http://blog.quibb.org/2010/08/fast-bulk-inserts-into-sqlite/
 
-db.run('PRAGMA synchronous=OFF')
-db.run('PRAGMA count_changes=OFF')
-db.run('PRAGMA journal_mode=MEMORY')
-db.run('PRAGMA temp_store=MEMORY')
 
 
 */

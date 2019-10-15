@@ -6,6 +6,7 @@
     "yarn": ">=1.19.0"
   },
   "dependencies": {
+    "better-sqlite3": "^5.4.3",
     "faker": ">=4.1.0",
     "mbake": ">=6.10.3",
     "sqlite3": "^4.1.0",

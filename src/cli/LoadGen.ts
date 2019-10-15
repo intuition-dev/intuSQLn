@@ -1,6 +1,7 @@
 
 const faker = require('faker')
 const guid = require('uuid/v4')
+const perfy = require('perfy')
 
 var logger = require('tracer').console()
 
@@ -8,10 +9,28 @@ import { MDB } from "../srv/MDB"
 
 const db = new MDB()
 
+
 export class LoadGen {
 
     async run() {
-        //await db.schema()
+        await db.schema()
+
+        perfy.start('loop')
+        var i = 0
+        do {
+            i++
+            await this.single()
+        } while (i< 100 * 1000)
+
+        await db.count()
+        
+        var result = perfy.end('loop')
+        logger.trace(result.time) // 9.965
+
+        process.exit()
+    }//()
+
+    async single() {
 
         const send = {
             guid: guid(), ip: faker.internet.ip(),
@@ -20,14 +39,14 @@ export class LoadGen {
             memFree: faker.random.number(), memUsed: faker.random.number(),
             cpu: faker.random.number(),
             dt_stmp: new Date().toISOString()
-
         }
-
-
         db.ins(send)
+    
     }
 
 } // 
+
+
 
 /*
 params.guid, params.ip,
