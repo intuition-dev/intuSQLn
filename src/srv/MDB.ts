@@ -13,7 +13,7 @@ export class MDB extends BaseDBL  {
     }//()
 
     async schema() {
-        this.defCon(process.cwd(), '/XXX.db')
+        this.defCon(process.cwd(), '/mon.db')
 
         const exists = this.tableExists('mon')
         if(exists) return
