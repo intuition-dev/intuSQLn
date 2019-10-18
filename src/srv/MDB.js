@@ -6,9 +6,13 @@ const BaseDBL_1 = require("mbake/lib/BaseDBL");
 class MDB extends BaseDBL_1.BaseDBL {
     constructor() {
         super();
-        this.defCon(process.cwd(), '/XXX.db');
+        this.schema();
     }
     async schema() {
+        this.defCon(process.cwd(), '/mon.db');
+        const exists = this.tableExists('mon');
+        if (exists)
+            return;
         logger.trace('.');
         await this.write(`CREATE TABLE mon( guid, shard, 
             host, 
