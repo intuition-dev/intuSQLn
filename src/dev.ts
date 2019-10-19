@@ -28,7 +28,10 @@ serviceApp.listen(8888)
 
 
 // client
-import { SysAgent } from './cli/SysAgent'
+import { Client } from './cli/Client'
 
-const sa = new SysAgent()
-sa.ping()
+new Client().foo()
+
+import { LoadGen } from './cli/LoadGen'
+
+//new LoadGen().run()

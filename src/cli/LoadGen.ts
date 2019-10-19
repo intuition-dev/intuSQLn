@@ -10,6 +10,7 @@ import { MDB } from "../srv/MDB"
 const db = new MDB()
 
 export class LoadGen {
+   
     async run() {
         await db.schema()
 
@@ -40,7 +41,6 @@ export class LoadGen {
         db.ins(send)
     }
 } // 
-
 
 /*
 params.guid, params.ip,

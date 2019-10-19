@@ -3,6 +3,8 @@ import { SysAgent } from "mbake/lib/SysAgent"
 
 import { HttpRPC } from "mbake/lib/Invoke"
 
+var logger = require('tracer').console()
+
 
 export class Client {
 
@@ -10,11 +12,13 @@ export class Client {
 
 
     async foo() {
-     
-        await Client.rpc.invoke('monitor', 'monitor', 'monitor', SysAgent.ping() )
+      
+      logger.trace('loop')
 
-        await  SysAgent.wait(2000)
-        this.foo()
+      await Client.rpc.invoke('monitor', 'monitor', 'monitor', SysAgent.ping() )
+
+      await  SysAgent.wait(2000)
+      this.foo()
 
     }
 

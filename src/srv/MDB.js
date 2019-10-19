@@ -20,7 +20,7 @@ class MDB extends BaseDBL_1.BaseDBL {
             memFree, memUsed,
             cpu,            
             dt_stamp DATETIME) `);
-        await this.write(`CREATE INDEX mon_dt_stamp ON mon (dt_stamp DESC, host)`);
+        await this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`);
     }
     async ins(params) {
         this.write(`INSERT INTO mon( guid, shard, 

@@ -1,4 +1,4 @@
 clear
 tsc
 
-node load.js
+node dev.js

@@ -16,6 +16,5 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
     handler.ret(res, 'OK', 0, 0);
 });
 serviceApp.listen(8888);
-const SysAgent_1 = require("./cli/SysAgent");
-const sa = new SysAgent_1.SysAgent();
-sa.ping();
+const Client_1 = require("./cli/Client");
+new Client_1.Client().foo();

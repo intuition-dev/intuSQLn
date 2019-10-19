@@ -13,6 +13,7 @@ export class MDB extends BaseDBL  {
     }//()
 
     async schema() {
+       
         this.defCon(process.cwd(), '/mon.db')
 
         const exists = this.tableExists('mon')
@@ -28,7 +29,7 @@ export class MDB extends BaseDBL  {
             cpu,            
             dt_stamp DATETIME) `)
 
-        await this.write(`CREATE INDEX mon_dt_stamp ON mon (dt_stamp DESC, host)`)
+        await this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
     }
 
     async ins(params) {
