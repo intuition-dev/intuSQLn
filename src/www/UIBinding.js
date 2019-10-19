@@ -21,8 +21,7 @@ function smoot() {
        , lineWidth: 4 })
 
    chart.streamTo(document.getElementById("chart1"), 1000)
-
-
+   
 }
  
 // sets the states of the view, such as buttons, click enabled/grayed and others
