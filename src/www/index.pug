@@ -1,7 +1,23 @@
 head
    include headFrag
 
+   style. 
+      div.smoothie-chart-tooltip {
+         background: white;
+         padding: 1em;
+         margin-top: 20px;
+         font-family: consolas;
+         color: black;
+         font-size: 10px;
+         pointer-events: none;
+      }
+            
 body
    p oh hi
+
+   div
+      canvas#chart1(width="500" height="100")
+
+   script(src='UIBinding.js')
 
 
