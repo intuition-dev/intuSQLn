@@ -13,7 +13,6 @@ export class Client {
      
         await Client.rpc.invoke('monitor', 'monitor', 'monitor', new SysAgent().ping() )
 
-
         await new SysAgent().wait(2000)
         this.foo()
 
