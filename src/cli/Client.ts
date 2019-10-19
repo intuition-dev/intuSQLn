@@ -13,11 +13,11 @@ export class Client {
 
     async foo() {
       
-      logger.trace('loop')
+      logger.trace('loop:')
 
-      await Client.rpc.invoke('monitor', 'monitor', 'monitor', SysAgent.ping() )
+      await Client.rpc.invoke('monitor', 'monitor', 'monitor', await SysAgent.ping() )
 
-      await  SysAgent.wait(2000)
+      await  SysAgent.wait(200)
       this.foo()
 
     }
