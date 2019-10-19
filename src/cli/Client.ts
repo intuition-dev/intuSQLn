@@ -1,19 +1,19 @@
 
 import { SysAgent } from "mbake/lib/SysAgent"
 
-import { httpRPC } from "mbake/lib/Invoke"
+import { HttpRPC } from "mbake/lib/Invoke"
 
 
 export class Client {
 
-    static rpc = new httpRPC('http', 'localhost', 8888)
+    static rpc = new HttpRPC('http', 'localhost', 8888)
 
 
     async foo() {
      
-        await Client.rpc.invoke('monitor', 'monitor', 'monitor', new SysAgent().ping() )
+        await Client.rpc.invoke('monitor', 'monitor', 'monitor', SysAgent.ping() )
 
-        await new SysAgent().wait(2000)
+        await  SysAgent.wait(2000)
         this.foo()
 
     }
