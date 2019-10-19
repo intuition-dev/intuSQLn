@@ -10,4 +10,4 @@ import { MDB } from "./srv/MDB"
 const m = new MDB()
 m.schema()
 
-m.showLast()
+m.showLastPerSecond()

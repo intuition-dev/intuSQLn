@@ -16,5 +16,5 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
     handler.ret(res, 'OK', 0, 0);
 });
 serviceApp.listen(8888);
-const Client_1 = require("./cli/Client");
+const Client_1 = require("./agent/Client");
 new Client_1.Client().foo();

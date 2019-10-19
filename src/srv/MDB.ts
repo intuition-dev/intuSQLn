@@ -1,6 +1,5 @@
 
 var logger = require('tracer').console()
-const os = require('os')
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 
@@ -56,15 +55,33 @@ export class MDB extends BaseDBL  {
 
    }//()
 
-   showLast(host?) {
+   showLastPerSecond(host?):Map<Number, Object> {
 
-      let rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
+      const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
          ORDER BY host, dt_stamp DESC 
-         LIMIT 3
+         LIMIT 5
          `)
 
-      
-      logger.trace(rows)
+      const sz = rows.length
+
+      //first pass to get seconds, min and max
+      let i
+      const rows2 = new Map()
+      for(i = sz -1; i >= 0; i-- ) {
+         const row = rows[i]
+         let date = new Date(row['local'])
+         let seconds = Math.round(date.getTime() /1000)
+         
+         delete row['dt_stamp']
+         delete row['guid']
+         delete row['shard']
+         
+         rows2.set(seconds,row)
+      }//()
+
+      logger.trace(rows2)
+      return rows2
+ 
    }
 
 

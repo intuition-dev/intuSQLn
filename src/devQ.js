@@ -5,4 +5,4 @@ var logger = require('tracer').console();
 const MDB_1 = require("./srv/MDB");
 const m = new MDB_1.MDB();
 m.schema();
-m.showLast();
+m.showLastPerSecond();

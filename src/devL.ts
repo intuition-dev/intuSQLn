@@ -28,10 +28,10 @@ serviceApp.listen(8888)
 
 
 // client
-import { Client } from './cli/Client'
+import { Client } from './agent/Client'
 
 new Client().foo()
 
-import { LoadGen } from './cli/LoadGen'
+import { LoadGen } from './agent/LoadGen'
 
 //new LoadGen().run()

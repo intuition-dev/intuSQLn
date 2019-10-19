@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var logger = require('tracer').console();
-const os = require('os');
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
 class MDB extends BaseDBL_1.BaseDBL {
     constructor() {
@@ -35,12 +34,25 @@ class MDB extends BaseDBL_1.BaseDBL {
          ?,?,?,
          ? )`, params.guid, params.ip, params.host, params.nicR, params.nicT, params.memFree, params.memUsed, params.cpu, params.dt_stamp);
     }
-    showLast(host) {
-        let rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
+    showLastPerSecond(host) {
+        const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
          ORDER BY host, dt_stamp DESC 
-         LIMIT 3
+         LIMIT 5
          `);
-        logger.trace(rows);
+        const sz = rows.length;
+        let i;
+        const rows2 = new Map();
+        for (i = sz - 1; i >= 0; i--) {
+            const row = rows[i];
+            let date = new Date(row['local']);
+            let seconds = Math.round(date.getTime() / 1000);
+            delete row['dt_stamp'];
+            delete row['guid'];
+            delete row['shard'];
+            rows2.set(seconds, row);
+        }
+        logger.trace(rows2);
+        return rows2;
     }
     countMon() {
         const row = this.readOne(`SELECT count(*) as count FROM mon `);
