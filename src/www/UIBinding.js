@@ -1,27 +1,35 @@
 
 console.log('UI:')
 
-// var vm = new VideModel()
+// var vm = new ViewModel()
 
-depp.require(['DOM', 'smoothie'], function() {
+depp.require(['DOM', 'smoothie', 'raphael', 'justgage'], function() {
    console.log('ready')
    smoot()
 }) 
 
 function smoot() {
-   var random = new TimeSeries()
+   var ts1 = new TimeSeries()
    setInterval(function() {
-     random.append(new Date().getTime(), Math.random() * 1000);
+      ts1.append(new Date().getTime(), Math.random() * 1000)
    }, 1000)
 
-   var chart = new SmoothieChart()
-   chart.addTimeSeries(random, 
+   var chart1 = new SmoothieChart()
+   chart1.addTimeSeries(ts1, 
       { strokeStyle: 'rgba(0, 255, 0, 1)',
        fillStyle: 'rgba(0, 255, 0, 0.2)'
        , lineWidth: 4 })
 
-   chart.streamTo(document.getElementById("chart1"), 1000)
-   
+   chart1.streamTo(document.getElementById('chart1'), 1000)
+
+   //g
+   var g1 = new JustGage({
+      id: 'gag1',
+      value: 67,
+      min: 0,
+      max: 100,
+    })
+
 }
  
 // sets the states of the view, such as buttons, click enabled/grayed and others
