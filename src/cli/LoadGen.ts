@@ -21,7 +21,7 @@ export class LoadGen {
             await this.single()
         } while (i< 100 * 1000)
         
-        await db.count()
+        await db.countMon()
         
         var result = perfy.end('loop')
         logger.trace(result.time) // 4.3

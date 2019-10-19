@@ -1,4 +1,4 @@
 clear
 tsc
 
-node dev.js
+node dev1.js
