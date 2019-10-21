@@ -8,12 +8,14 @@ var ptyProcess = pty.spawn(shell, [], {
     cwd: process.env.HOME,
     env: process.env
 });
-ptyProcess.on('data', function (data) {
-    process.stdout.write(data);
+const so = require('socket.io')();
+so.on('connection', client => {
+    client.emit('welcome', { message: 'welcome', id: client.id });
+    client.on('cx', console.log);
+    console.log(client.id);
 });
-ptyProcess.write('ls\r');
-ptyProcess.resize(100, 40);
-ptyProcess.write('ls\r');
-const io = require('socket.io')();
-io.on('connection', client => { });
-io.listen(3000);
+function sendTime() {
+    so.emit('time', { time: new Date().toJSON() });
+}
+setInterval(sendTime, 1000);
+so.listen(3000);
