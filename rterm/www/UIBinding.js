@@ -1,10 +1,9 @@
 
 console.log('UI:')
 
-
 // var vm = new ViewModel()
 
-depp.require(['DOM'], function() {
+depp.require(['poly', 'socketio', 'xterm', 'html2canvas'], function() {
     console.log('ready')
 }) 
  

@@ -4,14 +4,16 @@ var pty = require('node-pty');
  
 var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
  
+
 var ptyProcess = pty.spawn(shell, [], {
   name: 'xterm-color',
   cols: 80,
   rows: 30,
   cwd: process.env.HOME,
   env: process.env
-});
- 
+})
+
+/*
 ptyProcess.on('data', function(data) {
   process.stdout.write(data);
 });
@@ -19,11 +21,10 @@ ptyProcess.on('data', function(data) {
 ptyProcess.write('ls\r');
 ptyProcess.resize(100, 40);
 ptyProcess.write('ls\r');
+*/
 
 
 
-/*
 const io = require('socket.io')()
 io.on('connection', client => {  })
-io.listen(3000);
-*/
+io.listen(3000)
