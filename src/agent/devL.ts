@@ -5,7 +5,7 @@ var logger = require('tracer').console()
 
 // from mbake
 import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
-import { MDB } from "./srv/MDB"
+import { MDB } from "../dsrv/MDB"
 
 const m = new MDB()
 m.schema()
@@ -28,10 +28,10 @@ serviceApp.listen(8888)
 
 
 // client
-import { Client } from './agent/Client'
+import { Client } from './Client'
 
 new Client().foo()
 
-import { LoadGen } from './agent/LoadGen'
+import { LoadGen } from './LoadGen'
 
 //new LoadGen().run()
