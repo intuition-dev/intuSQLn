@@ -16,28 +16,35 @@ depp.require(['poly', 'xterm2', 'html2canvas'], function() {
 }) 
 
 function setup() {
+    
+   Terminal.apply(attach)
+   Terminal.apply(fit)
+   window.term = new Terminal()
+   term.open(document.getElementById('terminal'))
+   term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+
    // ws ////////////////////
    const url = 'ws://localhost:8080'
    const socket = new WebSocket(url)
-   
+  
+   /*
    socket.onopen = () => {
       socket.send('Message From Client') 
-    }
-    
-    socket.onerror = (error) => {
+   }
+   */
+
+   socket.onerror = (error) => {
       console.log(`WebSocket error: ${error}`)
-    }
-    
-    socket.onmessage = (e) => {
-      console.log('msg', e.data)
-    }
-
-
-   if(true) return
-   var term = new Terminal();
-   term.open(document.getElementById('terminal'));
-   term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+   }
    
+   /*
+   socket.onmessage = (e) => {
+      console.log('msg', e.data)
+   }
+   */
+
+   //combo
+   term.attach(socket)
 }
 
 function addMessage(message) {
