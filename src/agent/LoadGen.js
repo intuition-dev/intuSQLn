@@ -4,7 +4,7 @@ const faker = require('faker');
 const guid = require('uuid/v4');
 const perfy = require('perfy');
 var logger = require('tracer').console();
-const MDB_1 = require("../srv/MDB");
+const MDB_1 = require("../dsrv/MDB");
 const db = new MDB_1.MDB();
 class LoadGen {
     async run() {

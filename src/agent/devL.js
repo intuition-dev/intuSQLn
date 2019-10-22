@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const URL = require('url');
 var logger = require('tracer').console();
 const Serv_1 = require("mbake/lib/Serv");
-const MDB_1 = require("./srv/MDB");
+const MDB_1 = require("../dsrv/MDB");
 const m = new MDB_1.MDB();
 m.schema();
 const serviceApp = new Serv_1.ExpressRPC();
@@ -16,5 +16,5 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
     handler.ret(res, 'OK', 0, 0);
 });
 serviceApp.listen(8888);
-const Client_1 = require("./agent/Client");
+const Client_1 = require("./Client");
 new Client_1.Client().foo();
