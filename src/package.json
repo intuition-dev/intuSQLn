@@ -7,10 +7,10 @@
   },
   "dependencies": {
     "faker": ">=4.1.0",
-    "mbake": ">=6.10.11"
+    "mbake": ">=6.10.12"
 
   },
   "devDependencies": {
-    "@types/node": ">=12.11.1"
+    "@types/node": ">=12.11.2"
   }
 }
