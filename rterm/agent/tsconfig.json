@@ -1,27 +1,27 @@
 {
-    "compilerOptions": {
-        "target": "ES2017",
+   "compilerOptions": {
+      "target": "ES2017",
 
-        "module": "commonjs",
-        "moduleResolution": "node",
+      "module": "commonjs",
+      "moduleResolution": "node",
 
-        "allowSyntheticDefaultImports": true,
-        
-        "noImplicitThis": true,
-        "noImplicitReturns": true,
+      "allowSyntheticDefaultImports": true,
+      
+      "noImplicitThis": true,
+      "noImplicitReturns": true,
 
-        "removeComments": true,
-        "outDir": ".",
-        "baseUrl": ".",
-        "paths": {
-            "*": ["node_modules/*"]
-        }
-    },
+      "removeComments": true,
+      "outDir": ".",
+      "baseUrl": ".",
+      "paths": {
+         "*": ["node_modules/*"]
+      }
+   },
 
-    "include": [
-        "**/*.ts"
-    ],
-    "exclude": [
-        "node_modules"
-       ]
+   "include": [
+      "**/*.ts"
+   ],
+   "exclude": [
+      "node_modules"
+      ]
 }
