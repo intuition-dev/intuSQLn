@@ -14,7 +14,8 @@ function setup() {
    term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
 
    // ws ////////////////////
-
+   let socket = new WebSocket("ws://javascript.info")
+   
 }
 
 
