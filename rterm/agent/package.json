@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.js",
   "author": "",
+
   "dependencies": {
-    "mbake": "^6.10.11",
+    "mbake": ">=6.10.11",
     "node-pty": ">=0.9.0-beta28",
-    "socket.io": ">=2.3.0"
+    "ws": ">=7.2.0"
+
+  }, "devDependencies": {
+   "async-limiter": ">=1.0.1"
   }
+
 }

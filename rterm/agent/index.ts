@@ -1,6 +1,8 @@
 
 var os = require('os');
 var pty = require('node-pty');
+
+const WebSocket = require('ws')
  
 var shell = 'bash'
  
@@ -23,19 +25,6 @@ ptyProcess.write('ls\r');
 
 
 
-// /////////////////////////////////////////////////////////////
-
-const so = require('socket.io')()
-so.on('connection', client => { 
-   client.emit('welcome', {message: 'welcome', id: client.id} )
-
-   client.on('cx', console.log)
-   console.log(client.id)
-})
-
-function sendTime() { // to all
-   so.emit('time', { time: new Date().toJSON() })
-}
-setInterval(sendTime, 1000)
-
-so.listen(3000)
+// ws /////////////////////////////////////////////////////////////
+ 
+var wss = new WebSocket.Server({ port: 8080 })
