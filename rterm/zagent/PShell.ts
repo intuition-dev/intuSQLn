@@ -3,6 +3,7 @@ var pty = require('node-pty') // pipped terminal
 
 const WebSocket = require('ws')
 
+// https://dev.to/davidk01/ptyjs--xtermjs--shell-in-your-browser-1f9c
 export class PShell {
 
    allowedIP
