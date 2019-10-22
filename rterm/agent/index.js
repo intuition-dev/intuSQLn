@@ -1,6 +1,5 @@
 var os = require('os');
 var pty = require('node-pty');
-var WebSocket = require('ws');
 var shell = 'bash';
 var ptyProcess = pty.spawn(shell, [], {
     name: 'xterm-color',
@@ -15,4 +14,4 @@ ptyProcess.on('data', function (data) {
 ptyProcess.write('ls\r');
 ptyProcess.resize(100, 40);
 ptyProcess.write('ls\r');
-var wss = new WebSocket.Server({ port: 8080 });
+const WebSocket = require('ws');

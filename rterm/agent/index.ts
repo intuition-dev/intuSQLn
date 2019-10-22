@@ -2,8 +2,6 @@
 var os = require('os');
 var pty = require('node-pty');
 
-const WebSocket = require('ws')
- 
 var shell = 'bash'
  
 var ptyProcess = pty.spawn(shell, [], {
@@ -14,7 +12,6 @@ var ptyProcess = pty.spawn(shell, [], {
   env: process.env
 })
 
-
 ptyProcess.on('data', function(data) {
   process.stdout.write(data);
 });
@@ -24,7 +21,6 @@ ptyProcess.resize(100, 40);
 ptyProcess.write('ls\r');
 
 
-
 // ws /////////////////////////////////////////////////////////////
- 
-var wss = new WebSocket.Server({ port: 8080 })
+//export {}
+const WebSocket = require('ws');
