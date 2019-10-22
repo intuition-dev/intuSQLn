@@ -1,10 +1,26 @@
 
 var os = require('os');
-var pty = require('node-pty');
+var pty = require('node-pty'); 
+
+const WebSocket = require('ws')
+
+const ws = new WebSocket.Server({ port: 8080 })
+
+ws.on('connection', function connection(soc) {
+  
+   soc.on('message', function incoming(message) {
+    console.log('received: %s', message)
+  })
+
+  soc.send('something')
+})
+
+console.log('running')
+
 
 var shell = 'bash'
- 
-/*
+
+
 var ptyProcess = pty.spawn(shell, [], {
   name: 'xterm-color',
   cols: 80,
@@ -20,19 +36,3 @@ ptyProcess.on('data', function(data) {
 ptyProcess.write('ls\r');
 ptyProcess.resize(100, 40);
 ptyProcess.write('ls\r');
-*/
-
-// ws /////////////////////////////////////////////////////////////
-//export {}
-const WebSocket = require('ws')
-
-const wss = new WebSocket.Server({ port: 8080 })
-
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message)
-  })
-
-  ws.send('something')
-})
-console.log('running')
