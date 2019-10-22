@@ -4,13 +4,14 @@
 
       "module": "commonjs",
       "moduleResolution": "node",
+      "esModuleInterop" : true,
       "lib": ["es2018"],
 
       "allowSyntheticDefaultImports": true,
 
       "strictBindCallApply": true,	
       "noImplicitThis": true,
-      "noImplicitReturns": true,
+
 
       "removeComments": true,
       "outDir": ".",
