@@ -17,7 +17,20 @@ depp.require(['poly', 'xterm2', 'html2canvas'], function() {
 
 function setup() {
    // ws ////////////////////
-   let socket = new WebSocket("ws://javascript.info")
+   const url = 'ws://localhost:8080'
+   const socket = new WebSocket(url)
+   
+   socket.onopen = () => {
+      socket.send('Message From Client') 
+    }
+    
+    socket.onerror = (error) => {
+      console.log(`WebSocket error: ${error}`)
+    }
+    
+    socket.onmessage = (e) => {
+      console.log('msg', e.data)
+    }
 
 
    if(true) return

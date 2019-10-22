@@ -1,1 +1,1 @@
-find ~ -name
+find . -type f -name '*.js' -delete

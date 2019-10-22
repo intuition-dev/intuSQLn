@@ -1,2 +1,5 @@
-# intuSQLn
-Like memSQL, but with SQLite and httpRPC+
+# intuServices
+
+Like Nagios, Cacti
+
+Also SQLite

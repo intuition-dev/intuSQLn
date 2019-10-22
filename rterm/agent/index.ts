@@ -4,6 +4,7 @@ var pty = require('node-pty');
 
 var shell = 'bash'
  
+/*
 var ptyProcess = pty.spawn(shell, [], {
   name: 'xterm-color',
   cols: 80,
@@ -19,7 +20,7 @@ ptyProcess.on('data', function(data) {
 ptyProcess.write('ls\r');
 ptyProcess.resize(100, 40);
 ptyProcess.write('ls\r');
-
+*/
 
 // ws /////////////////////////////////////////////////////////////
 //export {}
@@ -34,3 +35,4 @@ wss.on('connection', function connection(ws) {
 
   ws.send('something')
 })
+console.log('running')
