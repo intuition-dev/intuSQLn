@@ -21,10 +21,19 @@ function data() {
 
    const pro = rpc.invoke('dash', 'dash', 'dash', {})
    pro.then(function(resp) {
-     console.log('data', JSON.stringify(resp))
+     display(resp)
    })   
 
 }
+
+function display(data) {
+   const secs = Object.keys(data)
+   const sz = secs.length
+   console.log(sz, secs)
+   
+
+}
+
 
 function smoot() {
    var ts1 = new TimeSeries()

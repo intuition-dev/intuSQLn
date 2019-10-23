@@ -59,7 +59,7 @@ export class MDB extends BaseDBL  {
 
       const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
          ORDER BY host, dt_stamp DESC 
-         LIMIT 5
+         LIMIT 60
          `)
 
       const sz = rows.length
@@ -76,7 +76,7 @@ export class MDB extends BaseDBL  {
          delete row['guid']
          delete row['shard']
          
-         rows2['seconds']=row
+         rows2[seconds]=row
       }//for
 
       //logger.trace(rows2)
