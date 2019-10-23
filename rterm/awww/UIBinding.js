@@ -1,15 +1,8 @@
 
 console.log('UI:')
 
-depp.define({
-   'xterm22': ['https://cdn.jsdelivr.net/npm/xterm@4.1.0/lib/xterm.js', 
-               'https://cdn.jsdelivr.net/npm/xterm@4.1.0/css/xterm.css',
-               '/xterm/AttachAddon.js',
-               '/xterm/FitAddon.js'
-   ]
-})
 
-depp.require(['poly', 'DOM', 'xterm22'], function() {
+depp.require(['poly', 'DOM', 'xterm'], function() {
    console.log('ready')
    setupT()
 }) 
