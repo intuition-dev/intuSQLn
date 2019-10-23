@@ -29,9 +29,29 @@ function data() {
 function display(data) {
    const secs = Object.keys(data)
    const sz = secs.length
-   console.log(sz, secs)
-   
+   let i
+   let lastNicR
+   let lastNicT
+   for(i = 0; i< sz; i++) {
+      let sec = secs[i]
+      console.log(sec)
+      let row = data[sec]
+      // compute change 
+      let nicR = row['nicR']
+      let nicT = row['nicT']
+      let dNicR = nicR - lastNicR
+      let dNicT = nicT - lastNicT
+      if(!lastNicR) dNicR = 0
+      if(!lastNicT) dNicT = 0
+      console.log(dNicR, dNicT)
+      row['dNicR'] = dNicR
+      row['dNicT'] - dNicT
+      lastNicR = nicR
+      lastNicT = nicT
 
+   }
+
+   
 }
 
 
