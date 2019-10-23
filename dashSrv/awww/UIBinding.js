@@ -15,7 +15,7 @@ function data() {
 
    const pro = rpc.invoke('dash', 'dash', 'dash', {})
    pro.then(function(resp) {
-     console.log(resp)
+     console.log('data', JSON.stringify(resp))
    })   
 
 }

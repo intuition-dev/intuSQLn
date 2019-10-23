@@ -2,8 +2,7 @@
   "name": "MonitorSrv",
   "author": "MetaBake LLC",
   "engines": {
-    "node": ">=12.13.0",
-    "yarn": ">=1.19.0"
+    "node": ">=12.13.0"
   },
   "dependencies": {
     "faker": ">=4.1.0",
