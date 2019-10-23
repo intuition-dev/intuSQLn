@@ -55,7 +55,7 @@ export class MDB extends BaseDBL  {
 
    }//()
 
-   showLastPerSecond(host?):Map<Number, Object> {
+   showLastPerSecond(host?) {
 
       const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
          ORDER BY host, dt_stamp DESC 
@@ -66,7 +66,7 @@ export class MDB extends BaseDBL  {
 
       //first pass to get seconds, min and max
       let i
-      const rows2 = new Map()
+      const rows2 = {}
       for(i = sz -1; i >= 0; i-- ) {
          const row = rows[i]
          let date = new Date(row['local'])
@@ -76,7 +76,7 @@ export class MDB extends BaseDBL  {
          delete row['guid']
          delete row['shard']
          
-         rows2.set(seconds,row)
+         rows2['seconds']=row
       }//for
 
       //logger.trace(rows2)

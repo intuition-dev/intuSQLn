@@ -19,7 +19,7 @@ export class DashHandler extends BaseRPCMethodHandler {
 
       logger.trace( ret)
 
-      this.ret(resp, 'OK', null, null)
+      this.ret(resp, ret, null, null)
 
    }//()
 
