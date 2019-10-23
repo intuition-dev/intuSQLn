@@ -5,7 +5,7 @@ const perfy = require('perfy')
 
 var logger = require('tracer').console()
 
-import { MDB } from "../dsrv/MDB"
+import { MDB } from "./MDB"
 
 const db = new MDB()
 
