@@ -1,6 +1,6 @@
-import { BaseRPCMethodHandler } from 'mbake/lib/Serv';
+import { BaseRPCMethodHandler } from 'mbake/lib/Serv'
 
-import { MDB } from '../lib/MDB';
+import { MDB } from '../lib/MDB'
 
 var logger = require('tracer').console()
 
@@ -17,7 +17,9 @@ export class DashHandler extends BaseRPCMethodHandler {
 
       logger.trace(params)
 
-      this.ret(resp, "OK", null, null)
+      let ret = this.mdb.showLastPerSecond()
+
+      this.ret(resp, ret, null, null)
 
    }//()
 

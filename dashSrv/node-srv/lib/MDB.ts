@@ -77,12 +77,11 @@ export class MDB extends BaseDBL  {
          delete row['shard']
          
          rows2.set(seconds,row)
-      }//()
+      }//for
 
       logger.trace(rows2)
       return rows2
- 
-   }
+   }//()
 
    countMon() {
       const row = this.readOne(`SELECT count(*) as count FROM mon `)
