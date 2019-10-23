@@ -3,10 +3,22 @@ console.log('UI:')
 
 // var vm = new ViewModel()
 
-depp.require(['DOM', 'smoothie', 'raphael', 'justgage'], function() {
+depp.require(['poly', 'DOM', 'RPC', 'smoothie', 'raphael', 'justgage'], function() {
    console.log('ready')
    smoot()
+   data()
 }) 
+
+function data() {
+
+   const rpc = new httpRPC('http', 'localhost', 8888)
+
+   const pro = rpc.invoke('api', 'pageOne', 'multiply', {a:5, b:2})
+   pro.then(function(resp) {
+     console.log(resp)
+   })   
+
+}
 
 function smoot() {
    var ts1 = new TimeSeries()
