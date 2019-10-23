@@ -12,7 +12,6 @@
       "strictBindCallApply": true,	
       "noImplicitThis": true,
 
-
       "removeComments": true,
       "outDir": "..",
       "baseUrl": ".",

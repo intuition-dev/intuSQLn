@@ -84,9 +84,6 @@ export class MDB extends BaseDBL  {
  
    }
 
-
-
-
    countMon() {
       const row = this.readOne(`SELECT count(*) as count FROM mon `)
       logger.trace(row)

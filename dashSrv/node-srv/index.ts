@@ -7,17 +7,18 @@ var logger = require('tracer').console()
 import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
 
 import { MDB } from "./lib/MDB"
+import { DashHandler } from "./handler/DashHandler"
 
 const m = new MDB()
 m.schema()
 
 m.showLastPerSecond()
 
-const serviceApp = new ExpressRPC()
-serviceApp.makeInstance(['*'])
+const dashSrv = new ExpressRPC()
+dashSrv.makeInstance(['*'])
 
 const handler = new BaseRPCMethodHandler()
-serviceApp.routeRPC('monitor', 'monitor', (req, res) => { 
+dashSrv.routeRPC('monitor', 'monitor', (req, res) => { 
 
    const params = URL.parse(req.url, true).query
    params['ip'] = req.ip // you may need req.ips
@@ -28,6 +29,8 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
 })
 
 // dash handler
+const dashH = new DashHandler(m)
+dashSrv.routeRPC('dash', 'dash', dashH.handleRPC.bind(dashH) )
 
 
-serviceApp.listen(8888)
+dashSrv.listen(8888)
