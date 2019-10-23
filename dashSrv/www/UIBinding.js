@@ -1,9 +1,15 @@
 
 console.log('UI:')
 
+depp.define({
+
+   'RPCXX': ['#poly', '#lz-string', '#eventBus', 'https://cdn.jsdelivr.net/gh/intuition-dev/mbToolBelt@v2.10.17/http-rpc+/web/httpRPC.js']
+
+})
+
 // var vm = new ViewModel()
 
-depp.require(['poly', 'lz-string', 'DOM', 'RPC', 'smoothie', 'raphael', 'justgage'], function() {
+depp.require(['poly', 'lz-string', 'DOM', 'RPCXX', 'smoothie', 'raphael', 'justgage'], function() {
    console.log('ready')
    smoot()
    data()
