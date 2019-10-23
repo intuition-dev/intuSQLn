@@ -10,14 +10,14 @@ export class DashHandler extends BaseRPCMethodHandler {
 
    constructor(mdb) {
       super()
-
+      this.mdb = mdb
    }
 
    dash(resp, params) {
 
-      logger.trace(params)
-
       let ret = this.mdb.showLastPerSecond()
+
+      logger.trace( ret)
 
       this.ret(resp, ret, null, null)
 

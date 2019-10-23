@@ -79,7 +79,7 @@ export class MDB extends BaseDBL  {
          rows2.set(seconds,row)
       }//for
 
-      logger.trace(rows2)
+      //logger.trace(rows2)
       return rows2
    }//()
 
