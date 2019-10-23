@@ -23,7 +23,7 @@ export class PShell {
 
       // after auth/sec continue
       var shell = 'bash'
-      this.shell = pty.spwan(shell,[], {
+      this.shell = pty.spawn(shell,[], {
          name: 'xterm-color',
          cwd: process.env.HOME,
          env: process.env 
