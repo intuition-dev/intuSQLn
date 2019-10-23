@@ -1,10 +1,11 @@
 {
-  "name": "MonitorSrv",
+  "name": "MonitorAgent",
   "author": "MetaBake LLC",
+
   "engines": {
-    "node": ">=12.13.0",
-    "yarn": ">=1.19.0"
+   "node": ">=10.16.3"
   },
+  
   "dependencies": {
     "faker": ">=4.1.0",
     "mbake": ">=6.10.12"

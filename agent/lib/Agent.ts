@@ -5,22 +5,20 @@ import { HttpRPC } from "mbake/lib/Invoke"
 
 var logger = require('tracer').console()
 
-export class Client {
+export class Agent {
 
     static rpc = new HttpRPC('http', 'localhost', 8888)
 
-
-    async foo() {
+    async run() {
       
       logger.trace('loop:')
 
-      await Client.rpc.invoke('monitor', 'monitor', 'monitor', await SysAgent.stats() )
+      await Agent.rpc.invoke('monitor', 'monitor', 'monitor', await SysAgent.stats() )
 
       await  SysAgent.wait(200)
-      this.foo()
+      this.run()
 
     }
-
 
 
 }

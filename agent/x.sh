@@ -1,4 +1,4 @@
 clear
 tsc
 
-node devQ.js
+node index.js

@@ -5,11 +5,13 @@ var logger = require('tracer').console()
 
 // from mbake
 import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
-import { MDB } from "../dsrv/MDB"
+
+import { MDB } from "./lib/MDB"
 
 const m = new MDB()
 m.schema()
 
+m.showLastPerSecond()
 
 const serviceApp = new ExpressRPC()
 serviceApp.makeInstance(['*'])
@@ -24,14 +26,8 @@ serviceApp.routeRPC('monitor', 'monitor', (req, res) => {
 
    handler.ret(res, 'OK', 0, 0)
 })
+
+// dash handler
+
+
 serviceApp.listen(8888)
-
-
-// client
-import { Client } from './Client'
-
-new Client().foo()
-
-import { LoadGen } from './LoadGen'
-
-//new LoadGen().run()
