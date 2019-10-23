@@ -1,39 +1,50 @@
-"use strict";
-var AttachAddon = (function () {
-    function AttachAddon(socket, options) {
+/**
+ * Copyright (c) 2014, 2019 The xterm.js authors. All rights reserved.
+ * @license MIT
+ *
+ * Implements the attach method, that attaches the terminal to a WebSocket stream.
+ */
+
+// forked on 10-22-19
+
+class AttachAddon {
+    constructor(socket, options) {
         this._disposables = [];
         this._socket = socket;
+        // always set binary type to arraybuffer, we do not handle blobs
         this._socket.binaryType = 'arraybuffer';
         this._bidirectional = (options && options.bidirectional === false) ? false : true;
     }
-    AttachAddon.prototype.activate = function (terminal) {
-        var _this = this;
-        this._disposables.push(addSocketListener(this._socket, 'message', function (ev) {
-            var data = ev.data;
+    activate(terminal) {
+        this._disposables.push(addSocketListener(this._socket, 'message', ev => {
+            const data = ev.data;
             terminal.write(typeof data === 'string' ? data : new Uint8Array(data));
         }));
         if (this._bidirectional) {
-            this._disposables.push(terminal.onData(function (data) { return _this._sendData(data); }));
+            this._disposables.push(terminal.onData(data => this._sendData(data)));
         }
-        this._disposables.push(addSocketListener(this._socket, 'close', function () { return _this.dispose(); }));
-        this._disposables.push(addSocketListener(this._socket, 'error', function () { return _this.dispose(); }));
-    };
-    AttachAddon.prototype.dispose = function () {
-        this._disposables.forEach(function (d) { return d.dispose(); });
-    };
-    AttachAddon.prototype._sendData = function (data) {
+        this._disposables.push(addSocketListener(this._socket, 'close', () => this.dispose()));
+        this._disposables.push(addSocketListener(this._socket, 'error', () => this.dispose()));
+    }
+    dispose() {
+        this._disposables.forEach(d => d.dispose());
+    }
+    _sendData(data) {
+        // TODO: do something better than just swallowing
+        // the data if the socket is not in a working condition
         if (this._socket.readyState !== 1) {
             return;
         }
         this._socket.send(data);
-    };
-    return AttachAddon;
-}());
+    }
+}
+
 function addSocketListener(socket, type, handler) {
     socket.addEventListener(type, handler);
     return {
-        dispose: function () {
+        dispose: () => {
             if (!handler) {
+                // Already disposed
                 return;
             }
             socket.removeEventListener(type, handler);

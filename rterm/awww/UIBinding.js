@@ -32,7 +32,6 @@ function setupT() {
 
    socket.onopen = function(e) {
       console.log(e)
-      term.attach(socket)
    }
 
    socket.onerror = function(error) {
