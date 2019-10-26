@@ -7,7 +7,6 @@
   },
   
   "dependencies": {
-    "faker": ">=4.1.0",
     "mbake": ">=6.10.12"
 
   },
