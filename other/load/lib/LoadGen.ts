@@ -12,7 +12,6 @@ const db = new DB()
 export class LoadGen {
    
     async run() {
-        await db.schema()
 
         perfy.start('loop')
         var i = 0

@@ -8,7 +8,6 @@ const DB_1 = require("./DB");
 const db = new DB_1.DB();
 class LoadGen {
     async run() {
-        await db.schema();
         perfy.start('loop');
         var i = 0;
         do {

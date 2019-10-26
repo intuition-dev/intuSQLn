@@ -11,7 +11,7 @@ export class MDB extends BaseDBL  {
       this.schema()
    }//()
 
-   schema() {
+   private schema() {
       this.defCon(process.cwd(), '/mon.db')
 
       const exists = this.tableExists('mon')

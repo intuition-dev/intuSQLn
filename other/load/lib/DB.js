@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var logger = require('tracer').console();
+const logger = require('tracer').console();
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
 class DB extends BaseDBL_1.BaseDBL {
     constructor() {

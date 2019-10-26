@@ -1,5 +1,5 @@
 
-var logger = require('tracer').console()
+const logger = require('tracer').console()
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 
@@ -11,7 +11,7 @@ export class DB extends BaseDBL  {
       this.schema()
    }//()
 
-   schema() {
+   private schema() {
       this.defCon(process.cwd(), '/aa.db')
 
       const exists = this.tableExists('mon')
