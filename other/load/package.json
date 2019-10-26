@@ -1,5 +1,5 @@
 {
-  "name": "MonitorSrv",
+  "name": "LoadGen",
   "author": "MetaBake LLC",
   "engines": {
     "node": ">=13.0.1"

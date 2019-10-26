@@ -5,9 +5,9 @@ const perfy = require('perfy')
 
 var logger = require('tracer').console()
 
-import { MDB } from "./MDB"
+import { DB } from "./DB"
 
-const db = new MDB()
+const db = new DB()
 
 export class LoadGen {
    
@@ -41,13 +41,3 @@ export class LoadGen {
         db.ins(send)
     }
 } // 
-
-/*
-params.guid, params.ip,
-            params.host,
-            params.nicR, params.nicT,
-            params.memFree, params.memUsed,
-            params.cpu,
-            params.dt_stamp 
-
-*/
