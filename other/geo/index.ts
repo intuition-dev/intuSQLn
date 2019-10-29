@@ -2,4 +2,4 @@
 
 import { Load} from "./lib/Load"
 
-new Load().start()
+new Load().import()

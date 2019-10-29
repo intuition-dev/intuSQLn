@@ -13,7 +13,7 @@ export class GDB extends BaseDBL  {
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/aa.db')
+      this.defCon(process.cwd(), '/dpip.db')
 
       const exists = this.tableExists('mon')
       if(exists) return
@@ -22,28 +22,28 @@ export class GDB extends BaseDBL  {
       // shard is ip for now, should be geocode
       // dt_stamp is timestamp of last change in GMT
       this.write(`CREATE TABLE geo( first, last, cont,
-         cou, state, city, latiLong
+         cou, state, city,
+         lat, long
          ) `)
 
     }
 
-   ins(params) {
+   ins(p) {
       //log.info(Date.now(), params)
 
       this.write(`INSERT INTO geo( first, last, cont,
-         cou, state, city, latiLong
+            cou, state, city, 
+            lat, long
          )
             VALUES
-         ( ?,?,?
-         ?,?,?,?
+         ( ?,?,?,
+           ?,?,?,
+           ?,?
          )`
          ,
-         params.guid, params.ip,
-         params.host,
-         params.nicR, params.nicT,
-         params.memFree, params.memUsed,
-         params.cpu,
-         params.dt_stamp 
+         p['0'], p['1'], p['2'],
+         p['3'], p['4'], p['5'],
+         p['6'], p['7']
       )
 
    }//()

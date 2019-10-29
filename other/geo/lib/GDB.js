@@ -1,39 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
-const log = bunyan.createLogger({ name: "class name" });
+const log = bunyan.createLogger({ src: true, name: "class name" });
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
-class DB extends BaseDBL_1.BaseDBL {
+class GDB extends BaseDBL_1.BaseDBL {
     constructor() {
         super();
         this.schema();
     }
     schema() {
-        this.defCon(process.cwd(), '/aa.db');
+        this.defCon(process.cwd(), '/dpip.db');
         const exists = this.tableExists('mon');
         if (exists)
             return;
         log.info('.');
-        this.write(`CREATE TABLE mon( guid, shard, 
-         host, 
-         nicR, nicT,
-         memFree, memUsed,
-         cpu,            
-         dt_stamp DATETIME) `);
-        this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`);
+        this.write(`CREATE TABLE geo( first, last, cont,
+         cou, state, city,
+         lat, long
+         ) `);
     }
-    ins(params) {
-        this.write(`INSERT INTO mon( guid, shard, 
-         host, 
-         nicR, nicT,
-         memFree, memUsed,
-         cpu,            
-         dt_stamp) 
-               VALUES
-         ( ?,?,
-         ?,?,?,
-         ?,?,?,
-         ? )`, params.guid, params.ip, params.host, params.nicR, params.nicT, params.memFree, params.memUsed, params.cpu, params.dt_stamp);
+    ins(p) {
+        this.write(`INSERT INTO geo( first, last, cont,
+            cou, state, city, 
+            lat, long
+         )
+            VALUES
+         ( ?,?,?,
+           ?,?,?,
+           ?,?
+         )`, p['0'], p['1'], p['2'], p['3'], p['4'], p['5'], p['6'], p['7']);
     }
     showLastPerSecond(host) {
         const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
@@ -58,9 +53,5 @@ class DB extends BaseDBL_1.BaseDBL {
         const row = this.readOne(`SELECT count(*) as count FROM mon `);
         log.info(row);
     }
-    memory() {
-        const row = this.readOne(`SELECT sqlite3_memory_used()`);
-        log.info(row);
-    }
 }
-exports.DB = DB;
+exports.GDB = GDB;
