@@ -1,7 +1,7 @@
 
 
 const bunyan = require('bunyan')
-const log = bunyan.createLogger({name: "geoapp"})
+const log = bunyan.createLogger({src: true, name: "geoapp"})
 
 
 const csv = require('csv-parser')
