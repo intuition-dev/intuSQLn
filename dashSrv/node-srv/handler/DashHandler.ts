@@ -2,7 +2,6 @@ import { BaseRPCMethodHandler } from 'mbake/lib/Serv'
 
 import { MDB } from '../lib/MDB'
 
-var logger = require('tracer').console()
 
 export class DashHandler extends BaseRPCMethodHandler {
  

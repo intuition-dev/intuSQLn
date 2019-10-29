@@ -3,7 +3,6 @@ const faker = require('faker')
 const guid = require('uuid/v4')
 const perfy = require('perfy')
 
-var logger = require('tracer').console()
 
 import { DB } from "./DB"
 

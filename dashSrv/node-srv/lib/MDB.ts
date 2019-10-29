@@ -1,5 +1,4 @@
 
-var logger = require('tracer').console()
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 

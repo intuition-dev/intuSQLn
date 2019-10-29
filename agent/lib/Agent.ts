@@ -3,7 +3,6 @@ import { SysAgent } from "mbake/lib/SysAgent"
 
 import { HttpRPC } from "mbake/lib/Invoke"
 
-var logger = require('tracer').console()
 
 export class Agent {
 

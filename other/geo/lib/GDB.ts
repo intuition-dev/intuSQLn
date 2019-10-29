@@ -4,7 +4,7 @@ const log = bunyan.createLogger({name: "class name"})
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 
-export class DB extends BaseDBL  {
+export class GDB extends BaseDBL  {
 
    constructor() {
       super()
@@ -21,30 +21,22 @@ export class DB extends BaseDBL  {
       log.info('.')
       // shard is ip for now, should be geocode
       // dt_stamp is timestamp of last change in GMT
-      this.write(`CREATE TABLE mon( guid, shard, 
-         host, 
-         nicR, nicT,
-         memFree, memUsed,
-         cpu,            
-         dt_stamp DATETIME) `)
+      this.write(`CREATE TABLE geo( first, last, cont,
+         cou, state, city, latiLong
+         ) `)
 
-      this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
     }
 
    ins(params) {
       //log.info(Date.now(), params)
 
-      this.write(`INSERT INTO mon( guid, shard, 
-         host, 
-         nicR, nicT,
-         memFree, memUsed,
-         cpu,            
-         dt_stamp) 
-               VALUES
-         ( ?,?,
-         ?,?,?,
-         ?,?,?,
-         ? )`
+      this.write(`INSERT INTO geo( first, last, cont,
+         cou, state, city, latiLong
+         )
+            VALUES
+         ( ?,?,?
+         ?,?,?,?
+         )`
          ,
          params.guid, params.ip,
          params.host,
@@ -86,11 +78,6 @@ export class DB extends BaseDBL  {
 
    countMon() {
       const row = this.readOne(`SELECT count(*) as count FROM mon `)
-      log.info(row)
-   }
-
-   memory() {
-      const row = this.readOne(`SELECT sqlite3_memory_used()`)
       log.info(row)
    }
 
