@@ -9,7 +9,7 @@ class GDB extends BaseDBL_1.BaseDBL {
         this.schema();
     }
     schema() {
-        this.defCon(process.cwd(), '/dpip.db');
+        this.defCon(process.cwd(), '/dbip.db');
         const exists = this.tableExists('mon');
         if (exists)
             return;

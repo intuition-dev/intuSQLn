@@ -13,7 +13,7 @@ export class GDB extends BaseDBL  {
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/dpip.db')
+      this.defCon(process.cwd(), '/dbip.db')
 
       const exists = this.tableExists('mon')
       if(exists) return
