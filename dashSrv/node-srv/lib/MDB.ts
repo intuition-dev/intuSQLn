@@ -17,7 +17,7 @@ export class MDB extends BaseDBL  {
       const exists = this.tableExists('mon')
       if(exists) return
 
-      logger.trace('.')
+      log.info('.')
       // shard is ip for now, should be geocode
       // dt_stamp is timestamp of last change in GMT
       this.write(`CREATE TABLE mon( guid, shard, 
@@ -31,7 +31,7 @@ export class MDB extends BaseDBL  {
     }
 
    ins(params) {
-      //logger.trace(Date.now(), params)
+      //log.info(Date.now(), params)
 
       this.write(`INSERT INTO mon( guid, shard, 
          host, 
@@ -79,18 +79,18 @@ export class MDB extends BaseDBL  {
          rows2[seconds]=row
       }//for
 
-      //logger.trace(rows2)
+      //log.info(rows2)
       return rows2
    }//()
 
    countMon() {
       const row = this.readOne(`SELECT count(*) as count FROM mon `)
-      logger.trace(row)
+      log.info(row)
    }
 
    memory() {
       const row = this.readOne(`SELECT sqlite3_memory_used()`)
-      logger.trace(row)
+      log.info(row)
    }
 
 

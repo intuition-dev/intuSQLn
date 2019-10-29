@@ -11,7 +11,7 @@ export class Agent {
 
     async run() {
       
-      logger.trace('loop:')
+      log.info('loop:')
 
       await Agent.rpc.invoke('monitor', 'monitor', 'monitor', await SysAgent.stats() )
 

@@ -23,7 +23,7 @@ export class LoadGen {
         await db.countMon()
         
         var result = perfy.end('loop')
-        logger.trace(result.time) // 4.3
+        log.info(result.time) // 4.3
 
         process.exit()
     }//()
