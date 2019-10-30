@@ -22,6 +22,7 @@
   "dependencies": {
     "geolib": ">=3.0.4",
     "ip": ">=1.1.5",
+    "csv-parser": ">=2.3.1",
     "mbake": ">=6.10.16"
   }
 }
