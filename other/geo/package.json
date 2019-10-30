@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "geolib": ">=3.0.4",
+    "ip-to-int": ">=0.3.1",
     "mbake": ">=6.10.16"
   }
 }
