@@ -3,7 +3,7 @@ console.log('UI:')
 
 depp.define({
 
-   'RPCXX': ['#poly', '#lz-string', '#eventBus', 'https://cdn.jsdelivr.net/gh/intuition-dev/mbToolBelt@v2.10.17/http-rpc+/web/httpRPC.js']
+   'RPCXX': ['#poly', '#lz-string', '#eventBus', 'https://cdn.jsdelivr.net/gh/intuition-dev/mbToolBelt@v2.10.18/http-rpc+/web/httpRPC.js']
 
 })
 
