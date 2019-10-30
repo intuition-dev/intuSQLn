@@ -11,7 +11,7 @@ const db = new GDB_1.GDB();
 class Load {
     async import() {
         perfy.start('imp');
-        fs.createReadStream(csvFile)
+        await fs.createReadStream(csvFile)
             .pipe(csv({ headers: false }))
             .on('data', async (row) => {
             await db.ins(row);
@@ -20,7 +20,10 @@ class Load {
             let time = perfy.end('imp');
             console.log(':i:');
             log.info(time);
+            this.check();
         });
+    }
+    async check() {
         await db.count();
         await db.get();
     }

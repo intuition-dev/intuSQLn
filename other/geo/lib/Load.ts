@@ -18,7 +18,7 @@ export class Load {
 
 async import() {
    perfy.start('imp')
-   fs.createReadStream(csvFile)
+   await fs.createReadStream(csvFile)
    .pipe(csv({headers:false}))
    .on('data', async (row) => {
          await db.ins(row)
@@ -27,12 +27,15 @@ async import() {
       let time = perfy.end('imp')
       console.log(':i:')
       log.info(time)
-   })
 
+      this.check()
+   })
+}//()
+
+private async check() {
    await db.count()
 
    await db.get()
-
-}//()
+}
 
 }//class

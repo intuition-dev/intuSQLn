@@ -2,4 +2,10 @@
 
 import { Load} from "./lib/Load"
 
-new Load().import()
+const l = new Load()
+
+async function foo(){
+   await l.import()
+}
+
+foo()

@@ -1,4 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Load_1 = require("./lib/Load");
-new Load_1.Load().import();
+const l = new Load_1.Load();
+async function foo() {
+    await l.import();
+}
+foo();
