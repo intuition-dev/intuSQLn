@@ -9,19 +9,20 @@ const perfy = require('perfy');
 const csvFile = 'dbip.csv';
 const db = new GDB_1.GDB();
 class Load {
-    import() {
+    async import() {
         perfy.start('imp');
         fs.createReadStream(csvFile)
             .pipe(csv({ headers: false }))
-            .on('data', (row) => {
-            db.ins(row);
+            .on('data', async (row) => {
+            await db.ins(row);
         })
             .on('end', () => {
             let time = perfy.end('imp');
+            console.log(':i:');
             log.info(time);
         });
-        db.count();
-        db.get();
+        await db.count();
+        await db.get();
     }
 }
 exports.Load = Load;

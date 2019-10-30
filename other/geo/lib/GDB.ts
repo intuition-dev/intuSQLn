@@ -66,7 +66,8 @@ export class GDB extends BaseDBL  {
          LIMIT 1
          `, 68257567 )
 
-      log.info(row)
+      console.log(':r:')
+      console.log(row)
       let time = perfy.end('g')
       log.info(time)
 
@@ -80,6 +81,7 @@ export class GDB extends BaseDBL  {
       log.info(row)
 
       let time = perfy.end('c')
+      console.log(':t:')
       log.info(time)
    }
 
