@@ -5,11 +5,10 @@ const log = bunyan.createLogger({src: true, name: "geoapp"})
 
 import { GDB } from './GDB'
 
-
 const csv = require('csv-parser')
 const fs = require('fs')
 
-var perfy = require('perfy')
+const perfy = require('perfy')
 
 const csvFile = 'dbip.csv'
 
@@ -28,6 +27,10 @@ import() {
       let time = perfy.end('imp')
       log.info(time)
    })
+
+   db.count()
+
+   db.get()
 
 }//()
 
