@@ -1,7 +1,9 @@
 
 
 const bunyan = require('bunyan')
-const log = bunyan.createLogger({src: true, name: "geoapp"})
+const bformat = require('bunyan-format')  
+const formatOut = bformat({ outputMode: 'short' })
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "geoapp"})
 
 import { GDB } from './GDB'
 

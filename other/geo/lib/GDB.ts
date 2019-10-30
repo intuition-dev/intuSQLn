@@ -1,6 +1,8 @@
 
 const bunyan = require('bunyan')
-const log = bunyan.createLogger({src: true, name: "class name"})
+const bformat = require('bunyan-format')  
+const formatOut = bformat({ outputMode: 'short' })
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "class name"})
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 
