@@ -4,7 +4,7 @@ const log = bunyan.createLogger({src: true, name: "class name"})
 
 import { BaseDBL } from 'mbake/lib/BaseDBL'
 
-const ipInt = require('ip-to-int')
+const ip = require('ip')
 
 const perfy = require('perfy')
 
@@ -16,7 +16,13 @@ export class GDB extends BaseDBL  {
    }//()
 
    ins(p) {
-      const fromInt = ipInt(p['0'])
+      let fromInt:number 
+      try {
+         fromInt = ip.toLong(p['0'])
+      } catch(err) {
+         console.log(p['0'])
+         fromInt = 0
+      }
 
       this.write(`INSERT INTO geo( fromInt, first, last, cont,
             cou, state, city, 
@@ -37,12 +43,10 @@ export class GDB extends BaseDBL  {
    private schema() {
       this.defCon(process.cwd(), '/dbip.db')
 
-      const exists = this.tableExists('mon')
+      const exists = this.tableExists('geo')
       if(exists) return
 
       log.info('.')
-      // shard is ip for now, should be geocode
-      // dt_stamp is timestamp of last change in GMT
       this.write(`CREATE TABLE geo( fromInt, 
          cou, state, city,
          first, last, cont,
@@ -54,7 +58,7 @@ export class GDB extends BaseDBL  {
 
    get(ip?) {
       perfy.start('g')
-      //const fromInt = ipInt(p['0'])
+      //const fromInt = ip.toLong(ip)
 
       const row = this.readOne(`SELECT cou, state, city FROM geo
          WHERE ? >= fromInt

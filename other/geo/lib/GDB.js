@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
 const log = bunyan.createLogger({ src: true, name: "class name" });
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
-const ipInt = require('ip-to-int');
+const ip = require('ip');
 const perfy = require('perfy');
 class GDB extends BaseDBL_1.BaseDBL {
     constructor() {
@@ -11,7 +11,14 @@ class GDB extends BaseDBL_1.BaseDBL {
         this.schema();
     }
     ins(p) {
-        const fromInt = ipInt(p['0']);
+        let fromInt;
+        try {
+            fromInt = ip.toLong(p['0']);
+        }
+        catch (err) {
+            console.log(p['0']);
+            fromInt = 0;
+        }
         this.write(`INSERT INTO geo( fromInt, first, last, cont,
             cou, state, city, 
             lat, long
@@ -24,7 +31,7 @@ class GDB extends BaseDBL_1.BaseDBL {
     }
     schema() {
         this.defCon(process.cwd(), '/dbip.db');
-        const exists = this.tableExists('mon');
+        const exists = this.tableExists('geo');
         if (exists)
             return;
         log.info('.');
