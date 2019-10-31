@@ -1,0 +1,10 @@
+{
+  "name": "pupp",
+  "version": "1.0.0",
+
+
+  "dependencies": {
+    "puppeteer": ">=2.0.0"
+  }
+  
+}
