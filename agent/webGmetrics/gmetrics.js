@@ -1,11 +1,13 @@
 
-console.log('x')
+console.log('good metrics')
 
-
-function gmetrics() {
+function _gmetrics() {
    var ajax = new XMLHttpRequest()
-   ajax.open('GET', 'myservice/username?id=some-unique-id')
+   ajax.open('GET', 'http://localhost:3000/metrics?a=b')
    ajax.send()
 }
 
-gmetrics()
+setTimeout(function(){
+   _gmetrics()
+},50)
+

@@ -1,28 +1,14 @@
 
 import {  ExpressRPC } from "mbake/lib/Serv"
 
-const URL = require('url')
-
-const bunyan = require('bunyan')
-const bformat = require('bunyan-format')  
-const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
+import {  MetricsHandler } from "./handler/MetricsHandler"
 
 
-log.info('ok')
+const exp = new ExpressRPC() 
+exp.makeInstance(['*'])
 
-const express = require('express')
-const app = express()
-const port = 3000
+const mh = new MetricsHandler()
 
+exp.appInst.get('/metrics', mh.handle)
 
-app.get('/metrics', (req, res) => { 
-   res.send('OK')
-   
-   let params = URL.parse(req.url, true).query
-   log.info(params)
-})
-
-
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+exp.listen(3000)
