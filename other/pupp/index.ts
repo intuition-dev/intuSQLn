@@ -1,14 +1,29 @@
 
-import {  ExpressRPC } from "mbake/lib/Serv"
-
-import {  MetricsHandler } from "./handler/MetricsHandler"
+import puppeteer from 'puppeteer'
 
 
-const exp = new ExpressRPC() 
-exp.makeInstance(['*'])
+(async () => {
+   // deploy headless true
+   const browser = await puppeteer.launch({
+      headless: false, 
+      defaultViewport: null,
+      devtools: true
+   })
+   const page = await browser.newPage()
+   const client = await page.target().createCDPSession()
+   await client.send('Network.enable')
 
-const mh = new MetricsHandler()
+   await client.send('Network.setRequestInterception', { patterns: [{ 
+         urlPattern: '*', 
+         resourceType: 'Script', 
+         interceptionStage: 'HeadersReceived' 
+         }
+      ]})
 
-exp.appInst.get('/metrics', mh.handle)
+   await page.goto('https://www.ubaycap.com')
+   await page.screenshot({path: 'XxxX.png'})
+  
+   await browser.close()
+ })()
 
-exp.listen(3000)
+ // https://medium.com/@jsoverson/using-chrome-devtools-protocol-with-puppeteer-737a1300bac0
