@@ -40,8 +40,11 @@ async function run(url) {
    const domains = {}
    page.on('response', response => {
       const url:string = response.url()
+      let domain:string = url.replace('http://','').replace('https://','').split(/[/?#]/)[0]
+      if(domain.includes('data:image'))
+         return
       console.info( ' ', url.substring(0, 90) )
-      var domain = url.replace('http://','').replace('https://','').split(/[/?#]/)[0]
+      domain = reverseString(domain)
       if(domains[domain])
          domains[domain]  = domains[domain] + 1
       else domains[domain] = 1
@@ -53,16 +56,38 @@ async function run(url) {
    const performanceTiming = await JSON.parse( // this goes to the browsers itself
       await page.evaluate(() => JSON.stringify(window.performance.timing))
     )
-   console.log( 'load', ( performanceTiming['loadEventEnd'] - performanceTiming['navigationStart']) /1000)
 
    const pMetrics = await client.send('Performance.getMetrics')
    const performanceMetrics = aToObj ( pMetrics.metrics )
-   console.log( 'firstMP', performanceMetrics['FirstMeaningfulPaint'] - performanceMetrics['NavigationStart'])
 
-   console.log('domains', domains )
+   const ordered = {}
+   Object.keys(domains).sort().forEach(function(key) {
+      ordered[reverseString(key)] = domains[key]
+   })
+   console.log('domains', ordered )
    await browser.close()
+
+   console.log( 'firstMP', performanceMetrics['FirstMeaningfulPaint'] - performanceMetrics['NavigationStart'])
+   console.log( 'load', ( performanceTiming['loadEventEnd'] - performanceTiming['navigationStart']) /1000)
+
 }//()
 
+function reverseString(str) {
+   // Step 1. Use the split() method to return a new array
+   var splitString = str.split(""); // var splitString = "hello".split("");
+   // ["h", "e", "l", "l", "o"]
+
+   // Step 2. Use the reverse() method to reverse the new created array
+   var reverseArray = splitString.reverse(); // var reverseArray = ["h", "e", "l", "l", "o"].reverse();
+   // ["o", "l", "l", "e", "h"]
+
+   // Step 3. Use the join() method to join all elements of the array into a string
+   var joinArray = reverseArray.join(""); // var joinArray = ["o", "l", "l", "e", "h"].join("");
+   // "olleh"
+   
+   //Step 4. Return the reversed string
+   return joinArray; // "olleh"
+}
 
 function aToObj(a) {
    var rv = {};
