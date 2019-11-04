@@ -17,7 +17,7 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "ii"})
 
 const perfy = require('perfy')
 
-async function run() {
+async function run(url) {
    const browser = await puppeteer.launch({
       devtools: true,
       headless:true
@@ -37,9 +37,17 @@ async function run() {
     })
    await client.send('Emulation.setCPUThrottlingRate', { rate: 4 });
 
-   page.on('response', response => console.info( ' ', response.url() ))
+   const domains = {}
+   page.on('response', response => {
+      const url:string = response.url()
+      console.info( ' ', url.substring(0, 90) )
+      var domain = url.replace('http://','').replace('https://','').split(/[/?#]/)[0]
+      if(domains[domain])
+         domains[domain]  = domains[domain] + 1
+      else domains[domain] = 1
+   })
 
-   await page.goto('https://www.msnbc.com', { waitUntil: 'networkidle0' })
+   await page.goto(url, { waitUntil: 'networkidle0' })
    await page.waitFor(200)
 
    const performanceTiming = await JSON.parse( // this goes to the browsers itself
@@ -51,6 +59,7 @@ async function run() {
    const performanceMetrics = aToObj ( pMetrics.metrics )
    console.log( 'firstMP', performanceMetrics['FirstMeaningfulPaint'] - performanceMetrics['NavigationStart'])
 
+   console.log('domains', domains )
    await browser.close()
 }//()
 
@@ -64,4 +73,6 @@ function aToObj(a) {
    return rv
 }
 
-run()
+run('https://www.nbcnews.com')
+
+// run('https://www.ubaycap.com')
