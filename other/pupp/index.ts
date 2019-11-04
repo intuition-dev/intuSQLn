@@ -64,8 +64,10 @@ async function run(url) {
    Object.keys(domains).sort().forEach(function(key) {
       ordered[reverseString(key)] = domains[key]
    })
-   console.log('domains', ordered )
    await browser.close()
+
+   console.log('domains', ordered )
+   console.log('domains', Object.keys(ordered).length )
 
    console.log( 'firstMP', performanceMetrics['FirstMeaningfulPaint'] - performanceMetrics['NavigationStart'])
    console.log( 'load', ( performanceTiming['loadEventEnd'] - performanceTiming['navigationStart']) /1000)
