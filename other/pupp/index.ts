@@ -26,15 +26,26 @@ async function run() {
    const client = await page.target().createCDPSession()
    await client.send('Performance.enable')
 
+   //slow to 4g
+   await client.send('Network.enable')
+   await client.send('Network.clearBrowserCache')
+   await client.send('Network.emulateNetworkConditions', {
+      'offline': false,
+      'latency': 25,
+      'downloadThroughput': 4 * 1024 * 1024 / 8,
+      'uploadThroughput': 3 * 1024 * 1024 / 8
+    })
+   await client.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+
    page.on('response', response => console.info( ' ', response.url() ))
 
-   await page.goto('https://www.ubaycap.com', { waitUntil: 'networkidle0' })
-   await page.waitFor(1000)
+   await page.goto('https://www.msnbc.com', { waitUntil: 'networkidle0' })
+   await page.waitFor(200)
 
    const performanceTiming = await JSON.parse( // this goes to the browsers itself
       await page.evaluate(() => JSON.stringify(window.performance.timing))
     )
-   console.log( 'load', performanceTiming['loadEventEnd'] - performanceTiming['navigationStart'])
+   console.log( 'load', ( performanceTiming['loadEventEnd'] - performanceTiming['navigationStart']) /1000)
 
    const pMetrics = await client.send('Performance.getMetrics')
    const performanceMetrics = aToObj ( pMetrics.metrics )
