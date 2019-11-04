@@ -6,7 +6,6 @@
 
 // https://fdalvi.github.io/blog/2018-02-05-puppeteer-network-throttle/
 
-
 declare var window: any // needed to compile ts
 
 import puppeteer from 'puppeteer'
@@ -25,22 +24,27 @@ async function run() {
    })
    const [page] = await browser.pages();
 
+   await page.evaluate(() => console.timeStamp());
+
    const client = await page.target().createCDPSession()
    await client.send('Performance.enable')
 
    // page.on('request', request => console.info(`👉 Request: ${request.url()}`));
    page.on('response', response => console.info(`👉 Response: ${response.url()}`));
+   page.on('response', response =>  log.info(response) )
 
    await page.goto('https://www.ubaycap.com', { waitUntil: 'networkidle0' })
 
-   const performanceTiming = JSON.parse( // this goes to the browsers itself
-      await page.evaluate(() => JSON.stringify(window.performance))
+   //** */
+   const performanceTiming = await JSON.parse( // this goes to the browsers itself
+      await page.evaluate(() => JSON.stringify(window.performance.timing))
     )
-   console.log(performanceTiming)
+   //console.log(performanceTiming)
+   //loadEventEnd - navigationStart // load
 
    const performanceMetrics = await client.send('Performance.getMetrics')
-   //log.info(performanceMetrics)
-
+   // log.info(performanceMetrics)
+   // FirstMeaningfulPaint - NavigationStart
    await browser.close()
 }//()
 
