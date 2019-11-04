@@ -23,15 +23,10 @@ async function run() {
       headless:true
    })
    const [page] = await browser.pages();
-
-   await page.evaluate(() => console.timeStamp());
-
    const client = await page.target().createCDPSession()
    await client.send('Performance.enable')
 
-   // page.on('request', request => console.info(`👉 Request: ${request.url()}`));
-   page.on('response', response => console.info(`👉 Response: ${response.url()}`));
-   page.on('response', response =>  log.info(response) )
+   //page.on('response', response => console.info( response.url() ))
 
    await page.goto('https://www.ubaycap.com', { waitUntil: 'networkidle0' })
 
@@ -42,9 +37,11 @@ async function run() {
    //console.log(performanceTiming)
    //loadEventEnd - navigationStart // load
 
-   const performanceMetrics = await client.send('Performance.getMetrics')
-   // log.info(performanceMetrics)
+   const pMetrics = await client.send('Performance.getMetrics')
+   const performanceMetrics = pMetrics.metrics 
    // FirstMeaningfulPaint - NavigationStart
+   console.log(performanceMetrics)
+
    await browser.close()
 }//()
 
