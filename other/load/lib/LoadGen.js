@@ -3,7 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const faker = require('faker');
 const guid = require('uuid/v4');
 const perfy = require('perfy');
-var logger = require('tracer').console();
+const bunyan = require('bunyan');
+const bformat = require('bunyan-format');
+const formatOut = bformat({ outputMode: 'short' });
+const log = bunyan.createLogger({ src: true, stream: formatOut, name: "pup" });
 const DB_1 = require("./DB");
 const db = new DB_1.DB();
 class LoadGen {
@@ -16,7 +19,7 @@ class LoadGen {
         } while (i < 100 * 1000);
         await db.countMon();
         var result = perfy.end('loop');
-        logger.trace(result.time);
+        log.info(result.time);
         process.exit();
     }
     async single() {

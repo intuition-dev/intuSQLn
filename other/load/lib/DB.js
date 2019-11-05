@@ -1,18 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const logger = require('tracer').console();
+const bunyan = require('bunyan');
+const bformat = require('bunyan-format');
+const formatOut = bformat({ outputMode: 'short' });
+const log = bunyan.createLogger({ src: true, stream: formatOut, name: "some name" });
 const BaseDBL_1 = require("mbake/lib/BaseDBL");
 class DB extends BaseDBL_1.BaseDBL {
     constructor() {
         super();
         this.schema();
     }
+    async backup(newName) {
+        await this._db.backup(newName, { progress({ totalPages: t, remainingPages: r }) {
+                console.log(r);
+            } });
+    }
     schema() {
         this.defCon(process.cwd(), '/aa.db');
         const exists = this.tableExists('mon');
         if (exists)
             return;
-        logger.trace('.');
+        log.info('.');
         this.write(`CREATE TABLE mon( guid, shard, 
          host, 
          nicR, nicT,
@@ -55,11 +63,11 @@ class DB extends BaseDBL_1.BaseDBL {
     }
     countMon() {
         const row = this.readOne(`SELECT count(*) as count FROM mon `);
-        logger.trace(row);
+        log.info(row);
     }
     memory() {
         const row = this.readOne(`SELECT sqlite3_memory_used()`);
-        logger.trace(row);
+        log.info(row);
     }
 }
 exports.DB = DB;

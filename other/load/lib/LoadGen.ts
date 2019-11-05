@@ -3,15 +3,18 @@ const faker = require('faker')
 const guid = require('uuid/v4')
 const perfy = require('perfy')
 
+const bunyan = require('bunyan')
+const bformat = require('bunyan-format')  
+const formatOut = bformat({ outputMode: 'short' })
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "pup"})
 
 import { DB } from "./DB"
 
 const db = new DB()
 
 export class LoadGen {
-   
-    async run() {
 
+    async run() {
         perfy.start('loop')
         var i = 0
         do {
