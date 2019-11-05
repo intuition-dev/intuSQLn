@@ -55,8 +55,7 @@ export class Pupp {
    
       await page.goto(url, { waitUntil: ['networkidle', 'load'], timeout: 120 * 1000,  networkIdleTimeout: 5 * 1000  })
       await page.waitFor(200)
-
-      page.screenshot({})
+      const screenShot:string = await page.screenshot({fullPage: true, encoding: 'base64', })
 
       const performanceTiming = await JSON.parse( // this goes to the browsers itself
          await page.evaluate(() => JSON.stringify(window.performance.timing))
