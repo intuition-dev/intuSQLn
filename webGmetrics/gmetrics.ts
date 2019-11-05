@@ -1,13 +1,10 @@
 
-
 class __gMetrics {
 
    private _start = Date.now()
 
-
-   constructor() {
-
-
+   constructor2() {
+      
       window.addEventListener("error", function (e) {
          console.log( e.error.message)
       })
@@ -23,14 +20,11 @@ class __gMetrics {
 
    }//()
 
-
    metrics() {
       var ajax = new XMLHttpRequest()
-      ajax.open('GET', 'http://localhost:3000/metrics?a=b')
+      ajax.open('POST', 'http://localhost:3000/metrics?a=b')
       ajax.send()
    }
 
-}
-
-new __gMetrics().metrics()
+}//
 
