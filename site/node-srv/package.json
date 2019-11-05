@@ -1,0 +1,16 @@
+{
+  "name": "site hooks",
+
+  "private": true,
+
+  "engines": {
+    "node": ">=13.0.1"
+  },
+  "dependencies": {
+    "mbake": ">=6.10.19"
+
+  },
+  "devDependencies": {
+    "@types/node": ">=12.12.5"
+  }
+}
