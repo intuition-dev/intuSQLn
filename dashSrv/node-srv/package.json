@@ -20,9 +20,9 @@
     "node": ">=13.0.1"
   },
   "dependencies": {
-    "mbake": ">=6.10.19"
+    "mbake": ">=6.11.1"
   },
   "devDependencies": {
-    "@types/node": ">=12.12.5"
+    "@types/node": ">=12.12.6"
   }
 }
