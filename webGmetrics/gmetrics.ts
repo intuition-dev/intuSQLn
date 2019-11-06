@@ -23,7 +23,11 @@ class __gMetrics {
    }//()
 
    _error(errorObj) {
-
+      // send locale
+      var ajax = new XMLHttpRequest()
+      ajax.open('POST', __gMetrics._url + '/error')
+      ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      ajax.send(JSON.stringify(errorObj))
    }
 
    /**
@@ -34,12 +38,19 @@ class __gMetrics {
    metrics() { 
       // send locale
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', 'http://localhost:3000/metrics?a=b')
-      ajax.send()
+      ajax.open('POST', __gMetrics._url + '/metrics')
+      ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      var obj = {a:'b'}
+      ajax.send(JSON.stringify(obj))
+      console.log('sent')
    }
 
    log(arg) {
-
+      // send locale
+      var ajax = new XMLHttpRequest()
+      ajax.open('POST', __gMetrics._url + '/log')
+      ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      ajax.send(JSON.stringify(arg))
    }
 
 
