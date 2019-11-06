@@ -3,7 +3,7 @@ class __gMetrics {
 
    private _start = Date.now()
 
-   static _url = 'http://localhost:3000'
+   static _url = 'https://1826820696.rsc.cdn77.org'
 
    constructor(orgCode) {
       

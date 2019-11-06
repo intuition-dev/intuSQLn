@@ -29,6 +29,6 @@ var __gMetrics = (function () {
         ajax.open('POST', __gMetrics._url + '/log');
         ajax.send(JSON.stringify(arg));
     };
-    __gMetrics._url = 'http://localhost:3000';
+    __gMetrics._url = 'https://1826820696.rsc.cdn77.org';
     return __gMetrics;
 }());
