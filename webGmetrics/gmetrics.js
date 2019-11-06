@@ -1,8 +1,6 @@
 var __gMetrics = (function () {
-    function __gMetrics() {
+    function __gMetrics(orgCode) {
         this._start = Date.now();
-    }
-    __gMetrics.prototype.constructor2 = function () {
         window.addEventListener("error", function (e) {
             console.log(e.error.message);
         });
@@ -13,11 +11,16 @@ var __gMetrics = (function () {
             console.log(message);
             return true;
         };
+    }
+    __gMetrics.prototype._error = function (errorObj) {
     };
     __gMetrics.prototype.metrics = function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', 'http://localhost:3000/metrics?a=b');
         ajax.send();
     };
+    __gMetrics.prototype.log = function (arg) {
+    };
+    __gMetrics._url = 'http://localhost:3000';
     return __gMetrics;
 }());
