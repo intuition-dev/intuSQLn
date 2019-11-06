@@ -45,7 +45,6 @@ class __gMetrics {
       ajax.send(JSON.stringify(errorObj))
    }
 
-
    log(arg) {
       // send locale
       var ajax = new XMLHttpRequest()
@@ -53,8 +52,6 @@ class __gMetrics {
       //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
       ajax.send(JSON.stringify(arg))
    }
-
-
-
+   
 }//
 
