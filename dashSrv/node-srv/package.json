@@ -1,31 +1,26 @@
 {
   "name": "good-monitor",
   "author": "MetaBake LLC",
-
   "private": true,
-
   "version": "0.10.15",
   "description": " Monitoring",
   "bin": {
-      "ok": "ok.js"
+    "ok": "ok.js"
   },
   "license": "AGPL-1.0-only",
-
   "homepage": "http://www.INTUITION.DEV",
   "repository": {
-      "type": "git",
-      "url": "http://git.mbake.org"
+    "type": "git",
+    "url": "http://git.mbake.org"
   },
   "keywords": [
     "monitoring"
   ],
-
   "engines": {
     "node": ">=13.0.1"
   },
   "dependencies": {
     "mbake": ">=6.10.19"
-
   },
   "devDependencies": {
     "@types/node": ">=12.12.5"

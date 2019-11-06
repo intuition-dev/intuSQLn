@@ -13,10 +13,9 @@ export class MetricsHandler {
    metrics(req, resp) {// RUM, APM, 
       //locale
 
-      resp.send('OK')
-
       let params = req.body
       log.info(params)
+      resp.send('OK')
          
    }//()
    

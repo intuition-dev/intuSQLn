@@ -21,15 +21,7 @@ class __gMetrics {
       }//
 
    }//()
-
-   _error(errorObj) {
-      // send locale
-      var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url + '/error')
-      ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-      ajax.send(JSON.stringify(errorObj))
-   }
-
+   
    /**
     *  Send browser, referer, fingerprint, ip(for geo), browser
     *  Also used for RUM
@@ -39,17 +31,26 @@ class __gMetrics {
       // send locale
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
-      ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      //ajax.setRequestHeader("Content-Type", "application/json")
       var obj = {a:'b'}
-      ajax.send(JSON.stringify(obj))
-      console.log('sent')
+      ajax.send(JSON.stringify(obj) )
+      console.log('sent', JSON.stringify(obj))
    }
+
+   _error(errorObj) {
+      // send locale
+      var ajax = new XMLHttpRequest()
+      ajax.open('POST', __gMetrics._url + '/error')
+      //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      ajax.send(JSON.stringify(errorObj))
+   }
+
 
    log(arg) {
       // send locale
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/log')
-      ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
       ajax.send(JSON.stringify(arg))
    }
 
