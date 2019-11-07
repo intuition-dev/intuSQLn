@@ -1,4 +1,4 @@
 clear
 tsc
 
-node metrics.js
+node tst.js
