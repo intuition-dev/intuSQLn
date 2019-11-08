@@ -14,8 +14,10 @@ class __gMetrics {
    static _start = Date.now()
    static _dom 
 
+   static _orgCode
+
    constructor(orgCode) {
-      // 
+      __gMetrics._orgCode = orgCode
       window.addEventListener("error", function (e) {
          console.log( e.error.message)
          __gMetrics._error('error',e)
@@ -46,7 +48,7 @@ class __gMetrics {
       setTimeout(function () {
          __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
       },25)
-   }
+   }//()
 
    static onLoadedFinger() {
       if (window.requestIdleCallback) {
@@ -78,6 +80,7 @@ class __gMetrics {
     *  and AMP: reports DOM ready relative to start
     */
    static _metrics(fid, idleTime?) { 
+      __gMetrics.met['orgCode']=__gMetrics._orgCode
       __gMetrics.met['fid'] = fid
       __gMetrics.met['lang'] = __gMetrics.lang
       __gMetrics.met['userAgent'] = navigator.userAgent
@@ -99,6 +102,7 @@ class __gMetrics {
 
       // percent chance of receiving
 
+      console.log(__gMetrics.met)
       if(true) return
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
@@ -108,18 +112,21 @@ class __gMetrics {
    }
 
    static _error(type, errorObj) {
+      var err  = {}
+      err['met']= __gMetrics.met
+      err['type']= type
+      err['error']= errorObj
+
       // is error new
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/error')
-      //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-      ajax.send(JSON.stringify(errorObj))
+      ajax.send(JSON.stringify(err))
    }
 
    log(arg) {
       // send locale
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/log')
-      //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
       ajax.send(JSON.stringify(arg))
    }
 
@@ -139,5 +146,5 @@ class __gMetrics {
     }
 }//
 
-new __gMetrics('')
+new __gMetrics('xxx')
 
