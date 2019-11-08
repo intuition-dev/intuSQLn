@@ -70,18 +70,22 @@ export class MeDB extends BaseDBL  {
 
       const exists = this.tableExists('met')
       if(exists) return
-
       log.info('.')
-      // shard is ip for now, should be geocode
-      // dt_stamp is timestamp of last change in GMT
-      this.write(`CREATE TABLE met( guid, geoLocation, orgCode, ip,
-         fid, lang, userAgent, referrer,
-         h, w, url,
-         idleTime, domTime, startTime 
 
-         dt_stamp DATETIME) `)
+      this.write(`CREATE TABLE met( fullFinger, dateTime DATETIME, orgCode
+            url, referrer, domTime, idleTime
+            referrerLocalFlag, priorDateTimeDiff
+         ) `)
+
+      this.write(`CREATE TABLE devices( fullFinger, ip,
+            lat, long, cou, sub, post, aso, proxy,
+            bro, os, mobile, tz, lang, ie, 
+            h, w, dateTime DATETIME
+         ) `)
+
 
       this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
+
     }
 
    _fingeExists(fullFinger) {
