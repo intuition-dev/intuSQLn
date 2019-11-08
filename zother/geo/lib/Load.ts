@@ -7,7 +7,7 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "geoapp"})
 import { GDB } from './GDB'
 
 const csv = require('csv-parser')
-const fs = require('fs')
+const fs = require('fs-extra')
 
 const perfy = require('perfy')
 
