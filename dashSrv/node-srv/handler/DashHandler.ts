@@ -7,7 +7,6 @@ const bformat = require('bunyan-format')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "Metrics handler"})
 
-
 export class DashHandler extends BaseRPCMethodHandler {
  
    mdb:MDB
@@ -27,4 +26,4 @@ export class DashHandler extends BaseRPCMethodHandler {
 
    }//()
 
-}
+}//

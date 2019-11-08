@@ -1,3 +1,4 @@
+import { MDB } from "../lib/MDB"
 
 const URL = require('url')
 
@@ -10,6 +11,11 @@ log.info('hand')
 
 export class MetricsHandler {
   
+   _db:MDB
+   constructor(db) {
+      this._db = db
+   }
+
    // also for error
    // is mobile
    // is tablet
@@ -21,11 +27,12 @@ export class MetricsHandler {
    // percent chance of receiving
    
    metrics(req, resp) {// RUM, APM, 
-      //locale
 
       let params = req.body
       log.info(params)
       resp.send('OK')
+
+      this._db.
          
    }//()
    

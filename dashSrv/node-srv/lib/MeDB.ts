@@ -6,7 +6,11 @@ const bformat = require('bunyan-format')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
 
-export class MDB extends BaseDBL  {
+export class MeDB extends BaseDBL  {
+
+   writeMetrics(row) {
+      
+   }//()
 
    constructor() {
       super()
@@ -15,7 +19,7 @@ export class MDB extends BaseDBL  {
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/mon.db')
+      this.defCon(process.cwd(), '/met.db')
 
       const exists = this.tableExists('mon')
       if(exists) return
@@ -90,11 +94,5 @@ export class MDB extends BaseDBL  {
       const row = this.readOne(`SELECT count(*) as count FROM mon `)
       log.info(row)
    }
-
-   memory() {
-      const row = this.readOne(`SELECT sqlite3_memory_used()`)
-      log.info(row)
-   }
-
 
 }//()
