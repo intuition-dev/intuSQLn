@@ -1,5 +1,6 @@
 
 declare var Fingerprint2 // to compile
+declare var userAgent
 
 /**
  * This will download fingerprint
@@ -55,15 +56,27 @@ class __gMetrics {
       met['fid'] = fid
       met['lang'] = __gMetrics.lang
       met['userAgent'] = navigator.userAgent
+      met['referrer'] = document.referrer
+      met['h']=window.screen.height
+      met['w']=window.screen.width
+      met['url']= window.location.href.split('?')[0]
+      // requestIdleCallback, load time
+      // dom time
+      // also for error
+      // is mobile
+      // is tablet
+      // ip, zip, country
+      // do seo search for title via api
 
-      
+      // perf trace route
+
+
       if(true) return
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
       //ajax.setRequestHeader("Content-Type", "application/json")
-      var obj = {a:'b'}
-      ajax.send(JSON.stringify(obj) )
-      console.log('sent', JSON.stringify(obj))
+      ajax.send(JSON.stringify(met) )
+      console.log('sent', JSON.stringify(met))
    }
 
    _error(errorObj) {
