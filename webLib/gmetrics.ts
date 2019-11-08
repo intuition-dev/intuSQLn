@@ -1,12 +1,14 @@
 
 declare var Fingerprint2 // to compile
 declare var userAgent
-
+declare var requestIdleCallback
 /**
  * This will download fingerprint
  */
 class __gMetrics {
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
+   static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
+
    private _start = Date.now()
    static _url = 'https://1826820696.rsc.cdn77.org'
 
@@ -35,14 +37,25 @@ class __gMetrics {
    }
 
    static onLoadedFinger() {
-      setTimeout(function () {
-         Fingerprint2.get(function (components) {
-            console.log(components)
-            let fid = Fingerprint2.x64hash128(components.join(''), 31)
-            console.log(fid)
-            __gMetrics._metrics(fid)
-         })  
-     }, 500)
+      if (window.requestIdleCallback) {
+         requestIdleCallback(function () {
+             Fingerprint2.get(function (components) {
+               console.log(components)
+               let fid = Fingerprint2.x64hash128(components.join(''), 31)
+               console.log(fid, Date.now())
+               __gMetrics._metrics(fid)
+            })
+         })
+     } else {
+         setTimeout(function () {
+             Fingerprint2.get(function (components) {
+               console.log(components)
+               let fid = Fingerprint2.x64hash128(components.join(''), 31)
+               console.log(fid)
+               __gMetrics._metrics(fid)
+            })  
+         }, 500)
+     }
 
    }//()
 
@@ -51,7 +64,7 @@ class __gMetrics {
     *  Also used for RUM
     *  and AMP: reports DOM ready relative to start
     */
-   static _metrics(fid) { 
+   static _metrics(fid, idelTime?) { 
       var met = {}
       met['fid'] = fid
       met['lang'] = __gMetrics.lang
@@ -60,6 +73,7 @@ class __gMetrics {
       met['h']=window.screen.height
       met['w']=window.screen.width
       met['url']= window.location.href.split('?')[0]
+
       // requestIdleCallback, load time
       // dom time
       // also for error
@@ -70,6 +84,7 @@ class __gMetrics {
 
       // perf trace route
 
+      // percent chance of receiving
 
       if(true) return
       var ajax = new XMLHttpRequest()
@@ -80,7 +95,8 @@ class __gMetrics {
    }
 
    _error(errorObj) {
-      // send locale
+      // is error new
+      
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/error')
       //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
