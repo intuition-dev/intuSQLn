@@ -9,11 +9,13 @@ class __gMetrics {
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
-   private _start = Date.now()
    static _url = 'https://1826820696.rsc.cdn77.org'
 
+   static _start = Date.now()
+   static _dom 
+
    constructor(orgCode) {
-      
+
       window.addEventListener("error", function (e) {
          console.log( e.error.message)
       })
@@ -27,7 +29,11 @@ class __gMetrics {
          return true
       }//
 
-      this._init()
+      document.addEventListener('DOMContentLoaded', function() {
+         __gMetrics._dom  = Date.now()
+         this._init()
+      })
+
    }//()
    
    private _init() {
@@ -56,16 +62,16 @@ class __gMetrics {
             })  
          }, 500)
      }
-
    }//()
+
+   static met = {}
 
    /**
     *  Send browser, referer, fingerprint, ip(for geo), browser
     *  Also used for RUM
     *  and AMP: reports DOM ready relative to start
     */
-   static _metrics(fid, idelTime?) { 
-      var met = {}
+   static _metrics(fid, idleTime?) { 
       met['fid'] = fid
       met['lang'] = __gMetrics.lang
       met['userAgent'] = navigator.userAgent
@@ -73,9 +79,12 @@ class __gMetrics {
       met['h']=window.screen.height
       met['w']=window.screen.width
       met['url']= window.location.href.split('?')[0]
+      met['idleTime']= idleTime
+      met['domTime']= __gMetrics._dom 
+      met['startTime']= __gMetrics._start 
 
       // requestIdleCallback, load time
-      // dom time
+   
       // also for error
       // is mobile
       // is tablet
