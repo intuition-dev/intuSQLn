@@ -5,11 +5,8 @@ declare var Fingerprint2 // to compile
  * This will download fingerprint
  */
 class __gMetrics {
-
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
-
    private _start = Date.now()
-
    static _url = 'https://1826820696.rsc.cdn77.org'
 
    constructor(orgCode) {
@@ -32,16 +29,16 @@ class __gMetrics {
    
    private _init() {
       setTimeout(function () {
-         this._addScript(__gMetrics._fingerSrc, this.onLoadedFinger)
+         __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
       },25)
    }
 
-   onLoadedFinger() {
-      var options = {fonts: {extendedJsFonts: false}, excludes: {userAgent: true}}  // audio.timeout (default: 1000)
-
+   static onLoadedFinger() {
       setTimeout(function () {
          Fingerprint2.get(function (components) {
-            console.log(components) // an array of components
+            let fid = Fingerprint2.x64hash128(components.join(''), 31)
+            console.log(fid)
+            __gMetrics._metrics(fid)
          })  
      }, 500)
 
@@ -52,8 +49,13 @@ class __gMetrics {
     *  Also used for RUM
     *  and AMP: reports DOM ready relative to start
     */
-   private _metrics() { 
-      // send locale
+   static _metrics(fid) { 
+      var met = {}
+      met['fid'] = fid
+      met['lang'] = __gMetrics.lang
+
+
+      if(true) return
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
       //ajax.setRequestHeader("Content-Type", "application/json")
@@ -79,7 +81,7 @@ class __gMetrics {
    }
 
    //- eg addScript('bla.js', null, 'api-key', 'key123') when they want you to use the tag: so you can in your own sequence
-   _addScript(src, callback, attr?, attrValue?, id?) {
+   static _addScript(src, callback, attr?, attrValue?, id?) {
       var s = document.createElement('script')
       s.setAttribute('src', src)
       if (attr) s.setAttribute(attr, attrValue)
@@ -88,6 +90,13 @@ class __gMetrics {
       s.async = true // it does it anyway, as the script is async
       document.getElementsByTagName('body')[0].appendChild(s)
    }
+
+   static get lang() {
+      return navigator.language || navigator.userLanguage
+    }
+
    
 }//
+
+new __gMetrics('')
 

@@ -11,8 +11,28 @@ var __gMetrics = (function () {
             console.log(message);
             return true;
         };
+        this._init();
     }
-    __gMetrics.prototype.metrics = function () {
+    __gMetrics.prototype._init = function () {
+        setTimeout(function () {
+            __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger);
+        }, 25);
+    };
+    __gMetrics.onLoadedFinger = function () {
+        setTimeout(function () {
+            Fingerprint2.get(function (components) {
+                var fid = Fingerprint2.x64hash128(components.join(''), 31);
+                console.log(fid);
+                __gMetrics._metrics(fid);
+            });
+        }, 500);
+    };
+    __gMetrics._metrics = function (fid) {
+        var met = {};
+        met['fid'] = fid;
+        met['lang'] = __gMetrics.lang;
+        if (true)
+            return;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url + '/metrics');
         var obj = { a: 'b' };
@@ -29,6 +49,27 @@ var __gMetrics = (function () {
         ajax.open('POST', __gMetrics._url + '/log');
         ajax.send(JSON.stringify(arg));
     };
+    __gMetrics._addScript = function (src, callback, attr, attrValue, id) {
+        var s = document.createElement('script');
+        s.setAttribute('src', src);
+        if (attr)
+            s.setAttribute(attr, attrValue);
+        if (id)
+            s.id = id;
+        if (callback)
+            s.onload = callback;
+        s.async = true;
+        document.getElementsByTagName('body')[0].appendChild(s);
+    };
+    Object.defineProperty(__gMetrics, "lang", {
+        get: function () {
+            return navigator.language || navigator.userLanguage;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._url = 'https://1826820696.rsc.cdn77.org';
     return __gMetrics;
 }());
+new __gMetrics('');
