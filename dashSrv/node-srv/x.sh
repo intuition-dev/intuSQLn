@@ -1,4 +1,4 @@
 clear
 tsc
 
-node metricsRec.js
+node dev1.js

@@ -1,7 +1,7 @@
 
 const perfy = require('perfy')
 
-const Reader = require('@maxmind/geoip2-node').Reader;
+const Reader = require('@maxmind/geoip2-node').Reader
 
 Reader.open('GeoLite2-City.mmdb').then(reader => {
    perfy.start('g')
@@ -12,3 +12,13 @@ Reader.open('GeoLite2-City.mmdb').then(reader => {
   let time = perfy.end('g')
   console.log(time)
 })
+
+export class Geo {
+   //  https://www.npmjs.com/package/@maxmind/geoip2-node
+
+   get() {
+
+   }
+
+
+}
