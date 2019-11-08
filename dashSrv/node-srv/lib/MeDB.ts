@@ -8,14 +8,13 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
 
 export class MeDB extends BaseDBL  {
 
-   writeMetrics(params) {
-      //log.info(Date.now(), params)
+   writeMetrics(fullFinger, params, geo) {
 
       log.info(params)
       
-      if(true) return
+      // pk is assigned by db in this case
+      this.write(`INSERT INTO met( fullFinger,  Date.now(), 
 
-      this.write(`INSERT INTO mon( guid, shard, 
          host, 
          nicR, nicT,
          memFree, memUsed,
@@ -34,6 +33,17 @@ export class MeDB extends BaseDBL  {
          params.cpu,
          params.dt_stamp 
       )
+
+      // check if fullFinger exists
+
+      // fullFinger is PK
+      this.write(`INSERT INTO devices( fullFinger, Date.now()
+            lat, long, cou, sub, post, aso, proxy,
+
+            
+      `
+      )
+
    }//()
 
    constructor() {

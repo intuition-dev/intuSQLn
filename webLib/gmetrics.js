@@ -37,19 +37,15 @@ var __gMetrics = (function () {
         if (window.requestIdleCallback) {
             requestIdleCallback(function () {
                 Fingerprint2.get(function (components) {
-                    console.log(components);
                     var fid = Fingerprint2.x64hash128(components.join(''), 31);
-                    console.log(fid, Date.now());
-                    __gMetrics._metrics(fid);
+                    __gMetrics._metrics(fid, Date.now());
                 });
             });
         }
         else {
             setTimeout(function () {
                 Fingerprint2.get(function (components) {
-                    console.log(components);
                     var fid = Fingerprint2.x64hash128(components.join(''), 31);
-                    console.log(fid);
                     __gMetrics._metrics(fid);
                 });
             }, 400);
@@ -59,22 +55,19 @@ var __gMetrics = (function () {
         var client = new ClientJS();
         __gMetrics.met['fidc'] = client.getFingerprint();
         __gMetrics.met['bro'] = client.getBrowser();
-        __gMetrics.met['device'] = client.getDevice();
         __gMetrics.met['oS'] = client.getOS();
         __gMetrics.met['mobile'] = client.isMobile();
         __gMetrics.met['tz'] = client.getTimeZone();
         __gMetrics.met['lang'] = client.getLanguage();
         __gMetrics.met['ie'] = client.isIE();
-        __gMetrics.met['slang'] = client.getSystemLanguage();
         __gMetrics.met['orgCode'] = __gMetrics._orgCode;
         __gMetrics.met['fid'] = fid;
         __gMetrics.met['referrer'] = document.referrer;
         __gMetrics.met['h'] = window.screen.height;
         __gMetrics.met['w'] = window.screen.width;
         __gMetrics.met['url'] = window.location.href.split('?')[0];
-        __gMetrics.met['idleTime'] = idleTime;
-        __gMetrics.met['domTime'] = __gMetrics._dom;
-        __gMetrics.met['startTime'] = __gMetrics._start;
+        __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
+        __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
         console.log(__gMetrics.met);
     };
     __gMetrics.prototype.sendMet = function () {
