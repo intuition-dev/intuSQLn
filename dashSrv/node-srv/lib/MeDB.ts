@@ -65,24 +65,6 @@ export class MeDB extends BaseDBL  {
       )//
 
    }//()
-
-   _fingeExists(fullFinger) {
-      const rows = this.read(`SELECT fullFinger FROM devices
-         WHERE fullFinger = ?
-         LIMIT 1
-         `, fullFinger)
-      if((!rows) || rows.length!=1 )
-         return false
-      return true
-   }//()
-
-
-   constructor() {
-      super()
-
-      //this.schema()
-   }//()
-
    private schema() {
       this.defCon(process.cwd(), './lib/met.db')
 
@@ -102,8 +84,24 @@ export class MeDB extends BaseDBL  {
       this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
     }
 
-   showLastPerSecond(host?) {
+   _fingeExists(fullFinger) {
+      const rows = this.read(`SELECT fullFinger FROM devices
+         WHERE fullFinger = ?
+         LIMIT 1
+         `, fullFinger)
+      if((!rows) || rows.length!=1 )
+         return false
+      return true
+   }//()
 
+
+   constructor() {
+      super()
+
+      //this.schema()
+   }//()
+
+   showLastPerSecond(host?) {
       const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
          ORDER BY host, dt_stamp DESC 
          LIMIT 60
@@ -125,14 +123,8 @@ export class MeDB extends BaseDBL  {
          
          rows2[seconds]=row
       }//for
-
       //log.info(rows2)
       return rows2
    }//()
-
-   countMon() {
-      const row = this.readOne(`SELECT count(*) as count FROM mon `)
-      log.info(row)
-   }
 
 }//()
