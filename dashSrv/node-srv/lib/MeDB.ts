@@ -8,36 +8,7 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
 
 export class MeDB extends BaseDBL  {
 
-   writeMetrics(row) {
-      
-   }//()
-
-   constructor() {
-      super()
-
-      this.schema()
-   }//()
-
-   private schema() {
-      this.defCon(process.cwd(), '/met.db')
-
-      const exists = this.tableExists('mon')
-      if(exists) return
-
-      log.info('.')
-      // shard is ip for now, should be geocode
-      // dt_stamp is timestamp of last change in GMT
-      this.write(`CREATE TABLE mon( guid, shard, 
-         host, 
-         nicR, nicT,
-         memFree, memUsed,
-         cpu,            
-         dt_stamp DATETIME) `)
-
-      this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
-    }
-
-   ins(params) {
+   writeMetrics(params) {
       //log.info(Date.now(), params)
 
       this.write(`INSERT INTO mon( guid, shard, 
@@ -59,8 +30,32 @@ export class MeDB extends BaseDBL  {
          params.cpu,
          params.dt_stamp 
       )
-
    }//()
+
+   constructor() {
+      super()
+
+      this.schema()
+   }//()
+
+   private schema() {
+      this.defCon(process.cwd(), '/met.db')
+
+      const exists = this.tableExists('met')
+      if(exists) return
+
+      log.info('.')
+      // shard is ip for now, should be geocode
+      // dt_stamp is timestamp of last change in GMT
+      this.write(`CREATE TABLE met( guid, geoLocation, orgCode, ip,
+         fid, lang, userAgent, referrer,
+         h, w, url,
+         idleTime, domTime, startTime 
+
+         dt_stamp DATETIME) `)
+
+      this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
+    }
 
    showLastPerSecond(host?) {
 
