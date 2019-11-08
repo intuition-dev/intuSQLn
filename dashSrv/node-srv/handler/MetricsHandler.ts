@@ -27,7 +27,7 @@ export class MetricsHandler {
 
    // percent chance of receiving
    
-   metrics(req, resp) {// RUM, APM, 
+   metrics1911(req, resp) {// RUM, APM, 
 
       let params = req.body
       log.info(params)

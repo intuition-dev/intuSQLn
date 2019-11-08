@@ -1,11 +1,9 @@
 
-
 import {  ExpressRPC } from "mbake/lib/Serv"
 
 import {  MetricsHandler } from "./handler/MetricsHandler"
 
 const express = require('express');
-
 
 const exp = new ExpressRPC() 
 exp.makeInstance(['*'])
@@ -19,7 +17,7 @@ exp.appInst.use(function(req,resp, next){
    next()
 })
 
-exp.appInst.post('/metrics',  mh.metrics)
+exp.appInst.post('/metrics1911',  mh.metrics1911)
 exp.appInst.post('/error', mh.error)
 exp.appInst.post('/log', mh.log)
 

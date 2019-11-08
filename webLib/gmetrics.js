@@ -21,13 +21,17 @@ var __gMetrics = (function () {
         };
         document.addEventListener('DOMContentLoaded', function () {
             __gMetrics._dom = Date.now();
-            this._init();
+            __gMetrics._init();
         });
     }
-    __gMetrics.prototype._init = function () {
+    __gMetrics._init = function () {
         setTimeout(function () {
+            __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient);
             __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger);
         }, 25);
+    };
+    __gMetrics.onLoadedClient = function () {
+        __gMetrics.steps++;
     };
     __gMetrics.onLoadedFinger = function () {
         if (window.requestIdleCallback) {
@@ -48,14 +52,22 @@ var __gMetrics = (function () {
                     console.log(fid);
                     __gMetrics._metrics(fid);
                 });
-            }, 500);
+            }, 400);
         }
     };
     __gMetrics._metrics = function (fid, idleTime) {
+        var client = new ClientJS();
+        __gMetrics.met['fidc'] = client.getFingerprint();
+        __gMetrics.met['bro'] = client.getBrowser();
+        __gMetrics.met['device'] = client.getDevice();
+        __gMetrics.met['oS'] = client.getOS();
+        __gMetrics.met['mobile'] = client.isMobile();
+        __gMetrics.met['tz'] = client.getTimeZone();
+        __gMetrics.met['lang'] = client.getLanguage();
+        __gMetrics.met['ie'] = client.isIE();
+        __gMetrics.met['slang'] = client.getSystemLanguage();
         __gMetrics.met['orgCode'] = __gMetrics._orgCode;
         __gMetrics.met['fid'] = fid;
-        __gMetrics.met['lang'] = __gMetrics.lang;
-        __gMetrics.met['userAgent'] = navigator.userAgent;
         __gMetrics.met['referrer'] = document.referrer;
         __gMetrics.met['h'] = window.screen.height;
         __gMetrics.met['w'] = window.screen.width;
@@ -64,10 +76,10 @@ var __gMetrics = (function () {
         __gMetrics.met['domTime'] = __gMetrics._dom;
         __gMetrics.met['startTime'] = __gMetrics._start;
         console.log(__gMetrics.met);
-        if (true)
-            return;
+    };
+    __gMetrics.prototype.sendMet = function () {
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url + '/metrics');
+        ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
         console.log('sent', JSON.stringify(__gMetrics.met));
     };
@@ -77,13 +89,15 @@ var __gMetrics = (function () {
         err['type'] = type;
         err['error'] = errorObj;
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url + '/error');
+        ajax.open('POST', __gMetrics._url1 + '/error');
         ajax.send(JSON.stringify(err));
+        console.log(err);
     };
     __gMetrics.prototype.log = function (arg) {
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url + '/log');
+        ajax.open('POST', __gMetrics._url1 + '/log');
         ajax.send(JSON.stringify(arg));
+        console.log(arg);
     };
     __gMetrics._addScript = function (src, callback, attr, attrValue, id) {
         var s = document.createElement('script');
@@ -97,17 +111,11 @@ var __gMetrics = (function () {
         s.async = true;
         document.getElementsByTagName('body')[0].appendChild(s);
     };
-    Object.defineProperty(__gMetrics, "lang", {
-        get: function () {
-            return navigator.language || navigator.userLanguage;
-        },
-        enumerable: true,
-        configurable: true
-    });
     __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
-    __gMetrics._url = 'https://1826820696.rsc.cdn77.org';
+    __gMetrics._url1 = 'https://1826820696.rsc.cdn77.org';
     __gMetrics._start = Date.now();
+    __gMetrics.steps = 0;
     __gMetrics.met = {};
     return __gMetrics;
 }());

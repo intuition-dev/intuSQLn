@@ -2,6 +2,8 @@
 declare var Fingerprint2 // to compile
 declare var userAgent
 declare var requestIdleCallback
+declare var ClientJS
+
 /**
  * This will download fingerprint
  */
@@ -9,7 +11,7 @@ class __gMetrics {
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
-   static _url = 'https://1826820696.rsc.cdn77.org'
+   static _url1 = 'https://1826820696.rsc.cdn77.org'
 
    static _start = Date.now()
    static _dom 
@@ -40,15 +42,22 @@ class __gMetrics {
       // start
       document.addEventListener('DOMContentLoaded', function() {
          __gMetrics._dom  = Date.now()
-         this._init()
+         __gMetrics._init()
       })
    }//()
    
-   private _init() {
+   static _init() {
       setTimeout(function () {
+         __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient)
          __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
       },25)
    }//()
+
+   static steps = 0
+
+   static onLoadedClient() {
+      __gMetrics.steps++
+   }
 
    static onLoadedFinger() {
       if (window.requestIdleCallback) {
@@ -68,7 +77,7 @@ class __gMetrics {
                console.log(fid)
                __gMetrics._metrics(fid)
             })  
-         }, 500)
+         }, 400)
      }//else
    }//()
 
@@ -80,10 +89,20 @@ class __gMetrics {
     *  and AMP: reports DOM ready relative to start
     */
    static _metrics(fid, idleTime?) { 
+      var client = new ClientJS()
+      __gMetrics.met['fidc'] = client.getFingerprint()
+      __gMetrics.met['bro'] = client.getBrowser()
+      __gMetrics.met['device'] = client.getDevice()
+      __gMetrics.met['oS'] = client.getOS()
+      __gMetrics.met['mobile'] = client.isMobile()
+      __gMetrics.met['tz'] = client.getTimeZone()
+      __gMetrics.met['lang'] = client.getLanguage()
+      __gMetrics.met['ie'] = client.isIE()
+
+      __gMetrics.met['slang'] = client.getSystemLanguage()
+
       __gMetrics.met['orgCode']=__gMetrics._orgCode
       __gMetrics.met['fid'] = fid
-      __gMetrics.met['lang'] = __gMetrics.lang
-      __gMetrics.met['userAgent'] = navigator.userAgent
       __gMetrics.met['referrer'] = document.referrer
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width
@@ -91,10 +110,14 @@ class __gMetrics {
       __gMetrics.met['idleTime']= idleTime
       __gMetrics.met['domTime']= __gMetrics._dom 
       __gMetrics.met['startTime']= __gMetrics._start 
- 
+
       console.log(__gMetrics.met)
+
+   }//() 
+
+   sendMet() {
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url + '/metrics')
+      ajax.open('POST', __gMetrics._url1 + '/metrics1911')
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
       console.log('sent', JSON.stringify(__gMetrics.met))
@@ -108,7 +131,7 @@ class __gMetrics {
 
       // is error new
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url + '/error')
+      ajax.open('POST', __gMetrics._url1 + '/error')
       ajax.send(JSON.stringify(err))
       console.log(err)
    }
@@ -116,7 +139,7 @@ class __gMetrics {
    log(arg) {
       // send locale
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url + '/log')
+      ajax.open('POST', __gMetrics._url1 + '/log')
       ajax.send(JSON.stringify(arg))
       console.log(arg)
    }
@@ -132,9 +155,6 @@ class __gMetrics {
       document.getElementsByTagName('body')[0].appendChild(s)
    }
 
-   static get lang() {
-      return navigator.language || navigator.userLanguage
-    }
 }//
 
 new __gMetrics('xxx')
