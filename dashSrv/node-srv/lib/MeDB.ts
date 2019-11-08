@@ -11,6 +11,10 @@ export class MeDB extends BaseDBL  {
    writeMetrics(params) {
       //log.info(Date.now(), params)
 
+      log.info(params)
+      
+      if(true) return
+
       this.write(`INSERT INTO mon( guid, shard, 
          host, 
          nicR, nicT,
@@ -35,11 +39,11 @@ export class MeDB extends BaseDBL  {
    constructor() {
       super()
 
-      this.schema()
+      //this.schema()
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/met.db')
+      this.defCon(process.cwd(), './lib/met.db')
 
       const exists = this.tableExists('met')
       if(exists) return

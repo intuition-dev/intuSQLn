@@ -1,4 +1,5 @@
 
+
 import {  ExpressRPC } from "mbake/lib/Serv"
 
 import {  MetricsHandler } from "./handler/MetricsHandler"
@@ -9,9 +10,7 @@ const express = require('express');
 const exp = new ExpressRPC() 
 exp.makeInstance(['*'])
 
-const mh = new MetricsHandler('')
-
-//exp.appInst.use(express.urlencoded({extended : true}))
+const mh = new MetricsHandler()
 
 exp.appInst.use(express.json( {type: '*/*'} ) )
 

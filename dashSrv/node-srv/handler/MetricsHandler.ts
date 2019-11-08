@@ -12,8 +12,9 @@ log.info('hand')
 export class MetricsHandler {
   
    _db:MeDB
-   constructor(db) {
-      this._db = db
+   constructor() {
+      this._db =  new MeDB()
+      
    }
 
    // also for error
@@ -31,6 +32,8 @@ export class MetricsHandler {
       let params = req.body
       log.info(params)
       resp.send('OK')
+
+      this._db.writeMetrics(params)
 
       //this._db.
          
