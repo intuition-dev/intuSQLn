@@ -67,7 +67,7 @@ class __gMetrics {
                __gMetrics._metrics(fid)
             })  
          }, 500)
-     }
+     }//else
    }//()
 
    static met = {}
@@ -137,7 +137,6 @@ class __gMetrics {
    static get lang() {
       return navigator.language || navigator.userLanguage
     }
-   
 }//
 
 new __gMetrics('')
