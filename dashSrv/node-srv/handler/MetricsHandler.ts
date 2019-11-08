@@ -43,7 +43,7 @@ export class MetricsHandler {
       
       const geo = this._geo.get(ip)
 
-      this._db.writeMetrics(fullFinger, params, geo)
+      this._db.writeMetrics(fullFinger, params, ip, geo)
 
       resp.send('OK')
          
