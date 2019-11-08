@@ -15,25 +15,24 @@ class __gMetrics {
    static _dom 
 
    constructor(orgCode) {
-
+      // 
       window.addEventListener("error", function (e) {
          console.log( e.error.message)
       })
       window.addEventListener('unhandledrejection', function (e) {
          console.log( e.reason.message)
        })
-
       window.onerror = function(message, source, lineno, colno, error) {
          console.log(message)
 
          return true
       }//
 
+      // start
       document.addEventListener('DOMContentLoaded', function() {
          __gMetrics._dom  = Date.now()
          this._init()
       })
-
    }//()
    
    private _init() {
@@ -82,8 +81,6 @@ class __gMetrics {
       __gMetrics.met['idleTime']= idleTime
       __gMetrics.met['domTime']= __gMetrics._dom 
       __gMetrics.met['startTime']= __gMetrics._start 
-
-      // requestIdleCallback, load time
    
       // also for error
       // is mobile
@@ -99,8 +96,8 @@ class __gMetrics {
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
       //ajax.setRequestHeader("Content-Type", "application/json")
-      ajax.send(JSON.stringify(met) )
-      console.log('sent', JSON.stringify(met))
+      ajax.send(JSON.stringify(__gMetrics.met) )
+      console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
    _error(errorObj) {
@@ -134,7 +131,6 @@ class __gMetrics {
    static get lang() {
       return navigator.language || navigator.userLanguage
     }
-
    
 }//
 
