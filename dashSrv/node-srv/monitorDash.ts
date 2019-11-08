@@ -4,10 +4,10 @@ const URL = require('url')
 // from mbake
 import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
 
-import { MDB } from "./lib/MDB"
+import { MeDB } from "./lib/MeDB"
 import { DashHandler } from "./handler/DashHandler"
 
-const m = new MDB()
+const m = new MeDB()
 
 m.showLastPerSecond()
 
@@ -20,7 +20,7 @@ dashSrv.routeRPC('monitor', 'monitor', (req, res) => {
    const params = URL.parse(req.url, true).query
    params['ip'] = req.ip // you may need req.ips
    
-   m.ins(params)
+   //m.ins(params)
 
    handler.ret(res, 'OK', 0, 0)
 })

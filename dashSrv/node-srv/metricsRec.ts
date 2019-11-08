@@ -9,7 +9,7 @@ const express = require('express');
 const exp = new ExpressRPC() 
 exp.makeInstance(['*'])
 
-const mh = new MetricsHandler()
+const mh = new MetricsHandler('')
 
 //exp.appInst.use(express.urlencoded({extended : true}))
 

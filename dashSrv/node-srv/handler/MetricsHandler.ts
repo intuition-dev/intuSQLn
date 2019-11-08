@@ -1,4 +1,4 @@
-import { MDB } from "../lib/MDB"
+import { MeDB } from "../lib/MeDB"
 
 const URL = require('url')
 
@@ -11,7 +11,7 @@ log.info('hand')
 
 export class MetricsHandler {
   
-   _db:MDB
+   _db:MeDB
    constructor(db) {
       this._db = db
    }
@@ -32,7 +32,7 @@ export class MetricsHandler {
       log.info(params)
       resp.send('OK')
 
-      this._db.
+      //this._db.
          
    }//()
    

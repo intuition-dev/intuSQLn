@@ -1,6 +1,6 @@
 import { BaseRPCMethodHandler } from 'mbake/lib/Serv'
 
-import { MDB } from '../lib/MDB'
+import { MeDB } from '../lib/MeDB'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
@@ -9,7 +9,7 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "Metrics ha
 
 export class DashHandler extends BaseRPCMethodHandler {
  
-   mdb:MDB
+   mdb:MeDB
 
    constructor(mdb) {
       super()
