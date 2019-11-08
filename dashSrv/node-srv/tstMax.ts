@@ -3,7 +3,6 @@ const perfy = require('perfy')
 
 const Reader = require('@maxmind/geoip2-node').Reader;
 
-
 Reader.open('GeoLite2-City.mmdb').then(reader => {
    perfy.start('g')
 

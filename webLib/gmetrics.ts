@@ -91,19 +91,8 @@ class __gMetrics {
       __gMetrics.met['idleTime']= idleTime
       __gMetrics.met['domTime']= __gMetrics._dom 
       __gMetrics.met['startTime']= __gMetrics._start 
-   
-      // also for error
-      // is mobile
-      // is tablet
-      // ip, zip, country
-      // do seo search for title via api
-
-      // perf trace route
-
-      // percent chance of receiving
-
+ 
       console.log(__gMetrics.met)
-      if(true) return
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
       //ajax.setRequestHeader("Content-Type", "application/json")
@@ -121,6 +110,7 @@ class __gMetrics {
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/error')
       ajax.send(JSON.stringify(err))
+      console.log(err)
    }
 
    log(arg) {
@@ -128,6 +118,7 @@ class __gMetrics {
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/log')
       ajax.send(JSON.stringify(arg))
+      console.log(arg)
    }
 
    //- eg addScript('bla.js', null, 'api-key', 'key123') when they want you to use the tag: so you can in your own sequence

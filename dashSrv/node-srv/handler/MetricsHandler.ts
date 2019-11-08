@@ -9,7 +9,17 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "Metrics ha
 log.info('hand')
 
 export class MetricsHandler {
+  
+   // also for error
+   // is mobile
+   // is tablet
+   // ip, zip, country
+   // do seo search for title via api
 
+   // perf trace route
+
+   // percent chance of receiving
+   
    metrics(req, resp) {// RUM, APM, 
       //locale
 
@@ -29,7 +39,6 @@ export class MetricsHandler {
    }//()
    
    log(req, resp) {
-
       resp.send('OK')
 
       let params = req.body

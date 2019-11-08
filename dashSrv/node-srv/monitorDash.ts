@@ -1,7 +1,6 @@
 
 const URL = require('url')
 
-
 // from mbake
 import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
 
@@ -29,6 +28,5 @@ dashSrv.routeRPC('monitor', 'monitor', (req, res) => {
 // dash handler
 const dashH = new DashHandler(m)
 dashSrv.routeRPC('dash', 'dash', dashH.handleRPC.bind(dashH) )
-
 
 dashSrv.listen(8888)
