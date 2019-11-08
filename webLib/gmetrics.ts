@@ -36,6 +36,7 @@ class __gMetrics {
    static onLoadedFinger() {
       setTimeout(function () {
          Fingerprint2.get(function (components) {
+            console.log(components)
             let fid = Fingerprint2.x64hash128(components.join(''), 31)
             console.log(fid)
             __gMetrics._metrics(fid)
@@ -53,8 +54,9 @@ class __gMetrics {
       var met = {}
       met['fid'] = fid
       met['lang'] = __gMetrics.lang
+      met['userAgent'] = navigator.userAgent
 
-
+      
       if(true) return
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/metrics')
