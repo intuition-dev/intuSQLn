@@ -18,13 +18,20 @@ class __gMetrics {
       // 
       window.addEventListener("error", function (e) {
          console.log( e.error.message)
+         __gMetrics._error('error',e)
       })
       window.addEventListener('unhandledrejection', function (e) {
          console.log( e.reason.message)
+         __gMetrics._error('unhandled', e)
        })
       window.onerror = function(message, source, lineno, colno, error) {
          console.log(message)
-
+         var e = {}
+         e['message']=message
+         e['source']=source
+         e['lineno']=lineno
+         e['error']=error
+         __gMetrics._error('on', e)
          return true
       }//
 
@@ -100,9 +107,8 @@ class __gMetrics {
       console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
-   _error(errorObj) {
+   static _error(type, errorObj) {
       // is error new
-      
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url + '/error')
       //ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
