@@ -9,38 +9,44 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
 export class MeDB extends BaseDBL  {
 
    writeMetrics(fullFinger, params, geo) {
+      const date = new Date().toISOString()
 
       log.info(params)
       
+      let referrerLocalFlag:boolean
+      let priorDateTimeDiffSec:number
+
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
-      this.write(`INSERT INTO met( fullFinger,  Date.now(), orgCode
+      this.write(`INSERT INTO met(  fullFinger, dateTime, orgCode
          url, referrer, domTime, idleTime
-         referrerLocalFlag, priorDateTimeDiff )
+         referrerLocalFlag, priorDateTimeDiffSec )
             VALUES
-         ( ?,?,
-         ?,?,?,
-         ?,?,?,
-         ? )`
+         ( ?,?,?,
+          ?,?,?,?,
+          ?,?
+         )`
          ,
-         params.guid, params.ip,
-         params.host,
-         params.nicR, params.nicT,
-         params.memFree, params.memUsed,
-         params.cpu,
-         params.dt_stamp 
+         fullFinger, date, params.orgCode,
+         params.url, params.referre, params.domTime, params.idleTime,
+         referrerLocalFlag, priorDateTimeDiffSec
       )
 
       // check if fullFinger exists
 
       // fullFinger is PK
-      this.write(`INSERT INTO devices( fullFinger, Date.now()
+      this.write(`INSERT INTO devices( fullFinger, 
             lat, long, cou, sub, post, aso, proxy,
             bro, os, mobile, tz, lang, ie, 
-            h, w)
+            h, w, dateTime)
                VALUES
-         ( ?,?,
-         `
+         ( ?,
+          ?,?,?, ?,?,?,?,
+          ?,?,?, ?,?,?,
+          ?,?,?
+         )`
+         ,
+         
       )
 
    }//()
