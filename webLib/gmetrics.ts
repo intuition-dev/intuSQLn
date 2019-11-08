@@ -72,16 +72,16 @@ class __gMetrics {
     *  and AMP: reports DOM ready relative to start
     */
    static _metrics(fid, idleTime?) { 
-      met['fid'] = fid
-      met['lang'] = __gMetrics.lang
-      met['userAgent'] = navigator.userAgent
-      met['referrer'] = document.referrer
-      met['h']=window.screen.height
-      met['w']=window.screen.width
-      met['url']= window.location.href.split('?')[0]
-      met['idleTime']= idleTime
-      met['domTime']= __gMetrics._dom 
-      met['startTime']= __gMetrics._start 
+      __gMetrics.met['fid'] = fid
+      __gMetrics.met['lang'] = __gMetrics.lang
+      __gMetrics.met['userAgent'] = navigator.userAgent
+      __gMetrics.met['referrer'] = document.referrer
+      __gMetrics.met['h']=window.screen.height
+      __gMetrics.met['w']=window.screen.width
+      __gMetrics.met['url']= window.location.href.split('?')[0]
+      __gMetrics.met['idleTime']= idleTime
+      __gMetrics.met['domTime']= __gMetrics._dom 
+      __gMetrics.met['startTime']= __gMetrics._start 
 
       // requestIdleCallback, load time
    
