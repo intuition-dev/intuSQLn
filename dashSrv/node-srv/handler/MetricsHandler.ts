@@ -35,9 +35,10 @@ export class MetricsHandler {
       
       log.info(params)
 
-      // ip + 2 fingers
+      // ip + 2 fingers + orgCode
       const ip = req.connection.remoteAddress
-      let str:string = params.fid + params.fidc + ip
+      const orgCode = params.orgCode
+      let str:string = orgCode + params.fid + params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
       const geo = this._geo.get(ip)
@@ -45,7 +46,6 @@ export class MetricsHandler {
       this._db.writeMetrics(fullFinger, params, geo)
 
       resp.send('OK')
-
          
    }//()
    

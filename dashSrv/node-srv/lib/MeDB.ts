@@ -13,14 +13,11 @@ export class MeDB extends BaseDBL  {
       log.info(params)
       
       // pk is assigned by db in this case
-      this.write(`INSERT INTO met( fullFinger,  Date.now(), 
-
-         host, 
-         nicR, nicT,
-         memFree, memUsed,
-         cpu,            
-         dt_stamp) 
-               VALUES
+      // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
+      this.write(`INSERT INTO met( fullFinger,  Date.now(), orgCode
+         url, referrer, domTime, idleTime
+         referrerLocalFlag, priorDateTimeDiff )
+            VALUES
          ( ?,?,
          ?,?,?,
          ?,?,?,
@@ -39,9 +36,11 @@ export class MeDB extends BaseDBL  {
       // fullFinger is PK
       this.write(`INSERT INTO devices( fullFinger, Date.now()
             lat, long, cou, sub, post, aso, proxy,
-
-            
-      `
+            bro, os, mobile, tz, lang, ie, 
+            h, w)
+               VALUES
+         ( ?,?,
+         `
       )
 
    }//()

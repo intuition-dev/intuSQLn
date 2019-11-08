@@ -88,7 +88,7 @@ class __gMetrics {
       var client = new ClientJS()
       __gMetrics.met['fidc'] = client.getFingerprint()
       __gMetrics.met['bro'] = client.getBrowser()
-      __gMetrics.met['oS'] = client.getOS()
+      __gMetrics.met['os'] = client.getOS()
       __gMetrics.met['mobile'] = client.isMobile()
       __gMetrics.met['tz'] = client.getTimeZone()
       __gMetrics.met['lang'] = client.getLanguage()
