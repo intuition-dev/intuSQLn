@@ -51,7 +51,7 @@ export class MeDB extends BaseDBL  {
       // check if fullFinger exists
 
       // fullFinger is PK
-      this.write(`INSERT INTO devices( fullFinger, ip,
+      this.write(`INSERT INTO device( fullFinger, ip,
             lat, long, cou, sub, post, aso, proxy,
             bro, os, mobile, tz, lang, ie, 
             h, w, dateTime)
@@ -72,19 +72,20 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('.')
 
-      this.write(`CREATE TABLE met( fullFinger, dateTime DATETIME, orgCode
+      this.write(`CREATE TABLE met( fullFinger TEXT, dateTime DATETIME, orgCode
             url, referrer, domTime, idleTime
-            referrerLocalFlag, priorDateTimeDiff
+            referrerLocalFlag, priorDateTimeDiff INT
          ) `)
 
-      this.write(`CREATE TABLE devices( fullFinger, ip,
+      this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, cou, sub, post, aso, proxy,
             bro, os, mobile, tz, lang, ie, 
             h, w, dateTime DATETIME
-         ) `)
+         ) WITHOUT ROWID `)
 
 
-      this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
+      this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
+      this.write(`CREATE INDEX dev_pl ON device (fullFinger)`)
 
     }
 
