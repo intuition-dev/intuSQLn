@@ -66,6 +66,9 @@ export class MeDB extends BaseDBL  {
 
    }//()
    private schema() {
+
+      // SEO
+      
       this.defCon(process.cwd(), './lib/met.db')
 
       const exists = this.tableExists('met')
@@ -76,7 +79,6 @@ export class MeDB extends BaseDBL  {
             url, referrer, domTime, idleTime
             referrerLocalFlag, priorDateTimeDiff INT
          ) `)
-
       this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, cou, sub, post, aso, proxy,
             bro, os, mobile, tz, lang, ie, 
@@ -85,9 +87,7 @@ export class MeDB extends BaseDBL  {
 
 
       this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
-      this.write(`CREATE INDEX dev_pl ON device (fullFinger)`)
-
-    }
+    }//()
 
    _fingeExists(fullFinger) {
       const rows = this.read(`SELECT fullFinger FROM devices
@@ -106,30 +106,23 @@ export class MeDB extends BaseDBL  {
       //this.schema()
    }//()
 
-   showLastPerSecond(host?) {
-      const rows = this.read(`SELECT datetime(dt_stamp, 'localtime') as local, * FROM mon
-         ORDER BY host, dt_stamp DESC 
+   showRecentUsers(orgCode, cou) {
+      const rows = this.read(`SELECT DISTINCT fullFinger FROM met
+         ORDER BY dateTime DESC 
          LIMIT 60
          `)
+      // for each finger, get metrics and country
 
-      const sz = rows.length
 
-      //first pass to get seconds, min and max
-      let i
-      const rows2 = {}
-      for(i = sz -1; i >= 0; i-- ) {
-         const row = rows[i]
-         let date = new Date(row['local'])
-         let seconds = Math.round(date.getTime() /1000)
-         
-         delete row['dt_stamp']
-         delete row['guid']
-         delete row['shard']
-         
-         rows2[seconds]=row
-      }//for
-      //log.info(rows2)
-      return rows2
    }//()
+
+   showPerf(){ // average performance groped by time and country
+
+   }
+
+   showMap(){}
+   showRef(){}
+   showRUMPath(){}
+   showRPM(){}
 
 }//()
