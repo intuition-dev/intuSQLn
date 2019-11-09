@@ -68,12 +68,11 @@ export class MeDB extends BaseDBL  {
    private schema() {
 
       // SEO
-      
-      this.defCon(process.cwd(), './lib/met.db')
+      this.defCon(process.cwd(), '/db/met.db')
 
       const exists = this.tableExists('met')
       if(exists) return
-      log.info('.')
+      log.info('schema')
 
       this.write(`CREATE TABLE met( fullFinger TEXT, dateTime DATETIME, orgCode
             url, referrer, domTime, idleTime
@@ -103,7 +102,7 @@ export class MeDB extends BaseDBL  {
    constructor() {
       super()
 
-      //this.schema()
+      this.schema()
    }//()
 
    showRecentUsers(orgCode, cou) {
