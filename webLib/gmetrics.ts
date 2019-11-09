@@ -100,6 +100,7 @@ class __gMetrics {
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width
       __gMetrics.met['url']= window.location.href.split('?')[0]
+      //__gMetrics.met['title']= document.title
       __gMetrics.met['idleTime']= idleTime - __gMetrics._start 
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
