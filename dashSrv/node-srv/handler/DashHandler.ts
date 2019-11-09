@@ -1,6 +1,6 @@
 import { BaseRPCMethodHandler } from 'mbake/lib/Serv'
 
-import { MeDB } from '../lib/MeDB'
+import { MeDB } from '../db/MeDB'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
@@ -18,7 +18,7 @@ export class DashHandler extends BaseRPCMethodHandler {
 
    dash(resp, params) {
 
-      let ret = this.mdb.showLastPerSecond()
+      let ret 
 
       log.info(Object.keys( ret))
 

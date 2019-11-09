@@ -4,12 +4,11 @@ const URL = require('url')
 // from mbake
 import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
 
-import { MeDB } from "./lib/MeDB"
+import { MeDB } from "./db/MeDB"
 import { DashHandler } from "./handler/DashHandler"
 
 const m = new MeDB()
 
-m.showLastPerSecond()
 
 const dashSrv = new ExpressRPC()
 dashSrv.makeInstance(['*'])

@@ -1,4 +1,4 @@
-import { MeDB } from "../lib/MeDB"
+import { MeDB } from "../db/MeDB"
 import { Geo } from "../gdb/Geo"
 
 const bunyan = require('bunyan')

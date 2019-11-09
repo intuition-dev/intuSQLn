@@ -1,10 +1,9 @@
 
 const URL = require('url')
 
-import { MeDB } from "./lib/MeDB"
+import { MeDB } from "./db/MeDB"
 
 import { DashHandler } from "./handler/DashHandler"
 
 const m = new MeDB()
 
-m.showLastPerSecond()
