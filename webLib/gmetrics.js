@@ -2,12 +2,12 @@ var __gMetrics = (function () {
     function __gMetrics(orgCode) {
         __gMetrics._orgCode = orgCode;
         window.addEventListener("error", function (e) {
-            console.log(e.error.message);
-            __gMetrics._error('error', e);
+            console.log(e.error);
+            __gMetrics._error('error', e.error);
         });
         window.addEventListener('unhandledrejection', function (e) {
-            console.log(e.reason.message);
-            __gMetrics._error('unhandled', e);
+            console.log(e);
+            __gMetrics._error('unhandled', e.reason);
         });
         window.onerror = function (message, source, lineno, colno, error) {
             console.log(message);
@@ -84,11 +84,12 @@ var __gMetrics = (function () {
     };
     __gMetrics._error = function (type, errorObj) {
         var err = {};
+        err['orgCode'] = __gMetrics._orgCode;
         err['met'] = __gMetrics.met;
         err['type'] = type;
         err['error'] = errorObj;
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url1 + '/error');
+        ajax.open('POST', __gMetrics._url1 + '/error1911');
         ajax.send(JSON.stringify(err));
         console.log(err);
     };
@@ -119,4 +120,3 @@ var __gMetrics = (function () {
     __gMetrics.met = {};
     return __gMetrics;
 }());
-new __gMetrics('xxx');

@@ -1,10 +1,13 @@
 head
    script(src='gmetrics.js')
 
+   script.
+      new __gMetrics('xxx-xxx')
+      console.info('pg')
+
+      throw new Error('oh oh')
+
    link(rel='stylesheet', href='https://cdn.jsdelivr.net/gh/intuition-dev/intuDS@v1.0.4/src/css/main.css')
 
-   script.
-      console.info('pg')
-      
 body
    p oh hi

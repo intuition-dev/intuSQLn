@@ -28,8 +28,6 @@ export class MetricsHandler {
 
       let params = req.body
       
-      //log.info(params)
-
       // ip + 2 fingers + orgCode
       let ip = req.connection.remoteAddress
       const orgCode = params.orgCode
@@ -50,11 +48,19 @@ export class MetricsHandler {
    
    error(req, resp) {
 
-      resp.send('OK')
+      let err = req.body
 
-      let params = req.body
-      log.info(params)
-         
+      let orgCode = err['orgCode'] 
+      let met = err['met'] 
+      let type = err['type']
+      let error = err['error']
+      
+      met = JSON.stringify(met)
+      error = JSON.stringify(error)
+
+      MetricsHandler._db.writeError(orgCode, met, type, error)
+      resp.send('OK')
+      
    }//()
    
    log(req, resp) {

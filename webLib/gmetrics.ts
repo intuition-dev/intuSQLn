@@ -22,12 +22,12 @@ class __gMetrics {
    constructor(orgCode) {
       __gMetrics._orgCode = orgCode
       window.addEventListener("error", function (e) {
-         console.log( e.error.message)
-         __gMetrics._error('error',e)
+         console.log( e.error)
+         __gMetrics._error('error',e.error)
       })
       window.addEventListener('unhandledrejection', function (e) {
-         console.log( e.reason.message)
-         __gMetrics._error('unhandled', e)
+         console.log( e)
+         __gMetrics._error('unhandled', e.reason)
        })
       window.onerror = function(message, source, lineno, colno, error) {
          console.log(message)
@@ -123,13 +123,14 @@ class __gMetrics {
 
    static _error(type, errorObj) {
       var err  = {}
+      err['orgCode'] = __gMetrics._orgCode
       err['met']= __gMetrics.met
       err['type']= type
       err['error']= errorObj
 
       // is error new
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url1 + '/error')
+      ajax.open('POST', __gMetrics._url1 + '/error1911')
       ajax.send(JSON.stringify(err))
       console.log(err)
    }
@@ -142,7 +143,7 @@ class __gMetrics {
       console.log(arg)
    }
 
-   //- eg addScript('bla.js', null, 'api-key', 'key123') when they want you to use the tag: so you can in your own sequence
+   //- eg addScript('bla.js', null, 'api-key', 'key123') 
    static _addScript(src, callback, attr?, attrValue?, id?) {
       var s = document.createElement('script')
       s.setAttribute('src', src)
@@ -151,9 +152,7 @@ class __gMetrics {
       if (callback) s.onload = callback
       s.async = true // it does it anyway, as the script is async
       document.getElementsByTagName('body')[0].appendChild(s)
-   }
+   }//()
 
 }//
-
-new __gMetrics('xxx')
 
