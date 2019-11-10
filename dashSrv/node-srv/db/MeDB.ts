@@ -26,10 +26,16 @@ export class MeDB extends BaseDBL  {
    writeMetrics(fullFinger, params, ip, geo) {
       const date = new Date().toISOString()
 
-      log.info(params)
+      //log.info(params)
       
+      // sameDomain
       let referrerLocalFlag:number = 0
-      let priorDateTimeDiff:number = 0
+      const refDomain = MeDB. getHostName(params.referrer)
+      const curDomain = MeDB. getHostName(params.referrer)      
+      if(curDomain==refDomain)
+         referrerLocalFlag = 1
+
+      let priorDateTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, date)
 
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
@@ -44,11 +50,13 @@ export class MeDB extends BaseDBL  {
          )`
          ,
          fullFinger, date, params.orgCode,
-         params.url, params.referre, params.domTime, params.idleTime,
+         params.url, params.referrer, params.domTime, params.idleTime,
          referrerLocalFlag, priorDateTimeDiff
       )
    
       // check if fullFinger exists
+      if(MeDB._fingeExists(fullFinger, this))
+      return
 
       // fullFinger is PK
       this.write(`INSERT INTO device( fullFinger, ip,
@@ -93,8 +101,8 @@ export class MeDB extends BaseDBL  {
       this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
     }//()
 
-   _fingeExists(fullFinger) {
-      const rows = this.read(`SELECT fullFinger FROM devices
+   static _fingeExists(fullFinger, ctx:BaseDBL) {
+      const rows = ctx.read(`SELECT fullFinger FROM device
          WHERE fullFinger = ?
          LIMIT 1
          `, fullFinger)
@@ -103,6 +111,15 @@ export class MeDB extends BaseDBL  {
       return true
    }//()
 
+static getHostName(url) {
+   var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+   if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+   return match[2];
+   }
+   else {
+       return null;
+   }
+}
 
    constructor() {
       super()

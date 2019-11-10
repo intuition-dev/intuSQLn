@@ -28,7 +28,7 @@ export class MetricsHandler {
 
       let params = req.body
       
-      log.info(params)
+      //log.info(params)
 
       // ip + 2 fingers + orgCode
       let ip = req.connection.remoteAddress
