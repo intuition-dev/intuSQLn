@@ -19,17 +19,13 @@ export class MetricsHandler {
    
    }
 
-   // also for error
-   // is mobile
-   // is tablet
-   // ip, zip, country
    // do seo search for title via api
 
    // perf trace route
 
    // percent chance of receiving
    
-   metrics1911(req, resp) {// RUM, APM, 
+   async metrics1911(req, resp) {// RUM, APM, 
 
       let params = req.body
       
@@ -41,7 +37,7 @@ export class MetricsHandler {
       let str:string = orgCode + params.fid + params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
-      const geo = this._geo.get(ip)
+      const geo = await this._geo.get(ip)
 
       this._db.writeMetrics(fullFinger, params, ip, geo)
 

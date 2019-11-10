@@ -34,8 +34,8 @@ export class MeDB extends BaseDBL  {
 
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
-      this.write(`INSERT INTO met(  fullFinger, dateTime, orgCode
-         url, referrer, domTime, idleTime
+      this.write(`INSERT INTO met( fullFinger, dateTime, orgCode,
+         url, referrer, domTime, idleTime,
          referrerLocalFlag, priorDateTimeDiff )
             VALUES
          ( ?,?,?,
@@ -62,6 +62,10 @@ export class MeDB extends BaseDBL  {
           ?,?,?
          )`
          ,
+            fullFinger, ip, 
+            geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
+            params.
+
       )//
 
    }//()
