@@ -89,7 +89,7 @@ export class MeDB extends BaseDBL  {
       this.write(`INSERT INTO error( orgCode, dateTime, ip,
          ehash, error, type )
          VALUES
-      ( ?, ?, ?
+      ( ?, ?, ?,
          ?,?,?
       )`
       ,
@@ -99,7 +99,6 @@ export class MeDB extends BaseDBL  {
 
    }//()
    getErrors(){}//  by orgCode,  date
-
 
    private schema() {
 
