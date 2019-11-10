@@ -11,7 +11,8 @@ class __gMetrics {
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
-   static _url1 = 'https://1826820696.rsc.cdn77.org'
+   static _url0 = 'https://1826820696.rsc.cdn77.org'
+   static _url1 = 'http://localhost:3000'
 
    static _start = Date.now()
    static _dom 
@@ -105,10 +106,10 @@ class __gMetrics {
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
       console.log(__gMetrics.met)
-
+      __gMetrics.sendMet()
    }//() 
 
-   sendMet() {
+   static sendMet() {
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/metrics1911')
       //ajax.setRequestHeader("Content-Type", "application/json")

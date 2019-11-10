@@ -1,5 +1,4 @@
 
-
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
 const formatOut = bformat({ outputMode: 'short' })
@@ -26,6 +25,7 @@ export class Geo {
    static cityReader = Reader.openBuffer(Geo.cityBuffer, options)
 
    get(ip:string) {
+      
       const aresp = Geo.asnReader.asn(ip)
       const ctresp = Geo.cityReader.city(ip)
       

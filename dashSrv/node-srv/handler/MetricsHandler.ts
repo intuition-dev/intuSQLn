@@ -11,12 +11,11 @@ const hash = require("murmurhash3js")
 
 export class MetricsHandler {
   
-   _geo: Geo
-   _db:MeDB
+   static _geo: Geo
+   static _db:MeDB
    constructor() {
-      this._db =  new MeDB()
-      this._geo = new Geo()
-   
+      MetricsHandler._db =  new MeDB()
+      MetricsHandler._geo = new Geo()
    }
 
    // do seo search for title via api
@@ -32,15 +31,19 @@ export class MetricsHandler {
       log.info(params)
 
       // ip + 2 fingers + orgCode
-      const ip = req.connection.remoteAddress
+      let ip = req.connection.remoteAddress
       const orgCode = params.orgCode
       let str:string = orgCode + params.fid + params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
-      const geo = await this._geo.get(ip)
+      try {
+      ip = '64.78.253.68'
+      const geo = await MetricsHandler._geo.get(ip)
 
-      this._db.writeMetrics(fullFinger, params, ip, geo)
-
+      MetricsHandler._db.writeMetrics(fullFinger, params, ip, geo)
+      } catch(err) {
+         log.warn(err)
+      }
       resp.send('OK')
          
    }//()

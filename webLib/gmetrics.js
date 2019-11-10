@@ -55,7 +55,7 @@ var __gMetrics = (function () {
         var client = new ClientJS();
         __gMetrics.met['fidc'] = client.getFingerprint();
         __gMetrics.met['bro'] = client.getBrowser();
-        __gMetrics.met['oS'] = client.getOS();
+        __gMetrics.met['os'] = client.getOS();
         __gMetrics.met['mobile'] = client.isMobile();
         __gMetrics.met['tz'] = client.getTimeZone();
         __gMetrics.met['lang'] = client.getLanguage();
@@ -69,8 +69,9 @@ var __gMetrics = (function () {
         __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
         console.log(__gMetrics.met);
+        __gMetrics.sendMet();
     };
-    __gMetrics.prototype.sendMet = function () {
+    __gMetrics.sendMet = function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
@@ -106,7 +107,8 @@ var __gMetrics = (function () {
     };
     __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
-    __gMetrics._url1 = 'https://1826820696.rsc.cdn77.org';
+    __gMetrics._url0 = 'https://1826820696.rsc.cdn77.org';
+    __gMetrics._url1 = 'http://localhost:3000';
     __gMetrics._start = Date.now();
     __gMetrics.steps = 0;
     __gMetrics.met = {};
