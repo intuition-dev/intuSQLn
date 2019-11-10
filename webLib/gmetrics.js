@@ -1,21 +1,14 @@
 var __gMetrics = (function () {
     function __gMetrics(orgCode) {
         __gMetrics._orgCode = orgCode;
-        window.addEventListener("error", function (e) {
-            console.log(e.error);
-            __gMetrics._error('error', e.error);
-        });
         window.addEventListener('unhandledrejection', function (e) {
-            console.log(e);
             __gMetrics._error('unhandled', e.reason);
         });
-        window.onerror = function (message, source, lineno, colno, error) {
-            console.log(message);
+        window.onerror = function (message, source, lineno) {
             var e = {};
             e['message'] = message;
             e['source'] = source;
             e['lineno'] = lineno;
-            e['error'] = error;
             __gMetrics._error('on', e);
             return true;
         };
@@ -48,7 +41,7 @@ var __gMetrics = (function () {
                     var fid = Fingerprint2.x64hash128(components.join(''), 31);
                     __gMetrics._metrics(fid);
                 });
-            }, 400);
+            }, 200);
         }
     };
     __gMetrics._metrics = function (fid, idleTime) {
@@ -74,7 +67,6 @@ var __gMetrics = (function () {
         __gMetrics.met['url'] = window.location.href.split('?')[0];
         __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
-        __gMetrics.sendMet();
     };
     __gMetrics.sendMet = function () {
         var ajax = new XMLHttpRequest();
@@ -85,13 +77,15 @@ var __gMetrics = (function () {
     __gMetrics._error = function (type, errorObj) {
         var err = {};
         err['orgCode'] = __gMetrics._orgCode;
-        err['met'] = __gMetrics.met;
         err['type'] = type;
         err['error'] = errorObj;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
-        ajax.send(JSON.stringify(err));
-        console.log(err);
+        setTimeout(function () {
+            err['met'] = __gMetrics.met;
+            ajax.send(JSON.stringify(err));
+            console.log(err.error);
+        }, 250);
     };
     __gMetrics.prototype.log = function (arg) {
         var ajax = new XMLHttpRequest();

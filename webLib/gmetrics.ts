@@ -4,6 +4,7 @@ declare var userAgent
 declare var requestIdleCallback
 declare var ClientJS
 
+
 /**
  * This will download fingerprint
  */
@@ -21,21 +22,15 @@ class __gMetrics {
 
    constructor(orgCode) {
       __gMetrics._orgCode = orgCode
-      window.addEventListener("error", function (e) {
-         console.log( e.error)
-         __gMetrics._error('error',e.error)
-      })
+      
       window.addEventListener('unhandledrejection', function (e) {
-         console.log( e)
          __gMetrics._error('unhandled', e.reason)
        })
-      window.onerror = function(message, source, lineno, colno, error) {
-         console.log(message)
+      window.onerror = function(message, source, lineno) {
          var e = {}
          e['message']=message
          e['source']=source
          e['lineno']=lineno
-         e['error']=error
          __gMetrics._error('on', e)
          return true
       }//
@@ -74,7 +69,7 @@ class __gMetrics {
                let fid = Fingerprint2.x64hash128(components.join(''), 31)
                __gMetrics._metrics(fid)
             })  
-         }, 400)
+         }, 200)
      }//else
    }//()
 
@@ -109,7 +104,7 @@ class __gMetrics {
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
       //console.log(__gMetrics.met)
-      __gMetrics.sendMet()
+      //__gMetrics.sendMet()
    }//() 
 
    static sendMet() {
@@ -122,18 +117,21 @@ class __gMetrics {
    }
 
    static _error(type, errorObj) {
-      var err  = {}
+      var err:any  = {}
       err['orgCode'] = __gMetrics._orgCode
-      err['met']= __gMetrics.met
       err['type']= type
       err['error']= errorObj
 
-      // is error new
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/error1911')
-      ajax.send(JSON.stringify(err))
-      console.log(err)
-   }
+      
+      //set timeout so metrics maybe?
+      setTimeout(function () {
+         err['met']= __gMetrics.met
+         ajax.send(JSON.stringify(err))
+         console.log(err.error)
+      },250)
+   }//()
 
    log(arg) {
       // send locale

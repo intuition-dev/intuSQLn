@@ -5,6 +5,8 @@ const bformat = require('bunyan-format')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "DB"})
 
+const hash = require("murmurhash3js")
+
 export class MeDB extends BaseDBL  {
 
    static MAXINT:number = 9223372036854775807 
@@ -77,12 +79,17 @@ export class MeDB extends BaseDBL  {
      )//
       
    }//()
-
-   writeError(orgCode, met, type, error) {
+   
+   writeError(orgCode, ip, met:string, type, error:string) {
       const date = new Date().toISOString()
 
-      console.log(met)
-      console.log(error)
+      log.info(type)
+      log.info( met)
+      log.info(error)
+
+      const ehash:string = hash.x64.hash128(error+ip+orgCode)
+
+      // is error new
 
    }//()
 
@@ -96,10 +103,17 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('schema')
 
+      this.write(`CREATE TABLE error( orgCode, dateTime TEXT,
+            ehash, error, met, type 
+         ) `)
+      this.write(`CREATE INDEX error_ehash ON error(ehash)`)
+      this.write(`CREATE INDEX error_ehash ON error(orgCode, dateTime DESC)`)
+
       this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, orgCode,
             url, referrer, domTime, idleTime,
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
+      this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
          
       this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, cou, sub, post, aso, proxy,
@@ -107,7 +121,6 @@ export class MeDB extends BaseDBL  {
             h, w, dateTime TEXT
          ) WITHOUT ROWID `)
 
-      this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
     }//()
 
    static _fingeExists(fullFinger, ctx:BaseDBL) {

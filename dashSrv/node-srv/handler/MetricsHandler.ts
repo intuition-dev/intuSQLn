@@ -46,7 +46,9 @@ export class MetricsHandler {
          
    }//()
    
-   error(req, resp) {
+   error1911(req, resp) {
+
+      let ip = req.connection.remoteAddress
 
       let err = req.body
 
@@ -58,7 +60,7 @@ export class MetricsHandler {
       met = JSON.stringify(met)
       error = JSON.stringify(error)
 
-      MetricsHandler._db.writeError(orgCode, met, type, error)
+      MetricsHandler._db.writeError(orgCode, ip, met, type, error)
       resp.send('OK')
       
    }//()
