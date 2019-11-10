@@ -4,7 +4,7 @@ import { BaseDBL } from 'mbake/lib/BaseDBL'
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
 const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "DB"})
 
 export class MeDB extends BaseDBL  {
 
@@ -27,13 +27,14 @@ export class MeDB extends BaseDBL  {
    writeMetrics(fullFinger, params, ip, geo) {
       const date = new Date().toISOString()
 
-      log.info(params)
+      log.info(geo)
       
-      let referrerLocalFlag:boolean
-      let priorDateTimeDiff:number
+      let referrerLocalFlag:number = 0
+      let priorDateTimeDiff:number = 0
 
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
+      
       this.write(`INSERT INTO met( fullFinger, dateTime, orgCode,
          url, referrer, domTime, idleTime,
          referrerLocalFlag, priorDateTimeDiff )
@@ -47,10 +48,13 @@ export class MeDB extends BaseDBL  {
          params.url, params.referre, params.domTime, params.idleTime,
          referrerLocalFlag, priorDateTimeDiff
       )
-
+   
       // check if fullFinger exists
 
       // fullFinger is PK
+
+
+
       this.write(`INSERT INTO device( fullFinger, ip,
             lat, long, cou, sub, post, aso, proxy,
             bro, os, mobile, tz, lang, ie, 
@@ -67,7 +71,7 @@ export class MeDB extends BaseDBL  {
          params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
          params.h, params.w, date
       )//
-
+      
    }//()
    private schema() {
 
@@ -78,14 +82,15 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('schema')
 
-      this.write(`CREATE TABLE met( fullFinger TEXT, dateTime DATETIME, orgCode
-            url, referrer, domTime, idleTime
-            referrerLocalFlag, priorDateTimeDiff INT
+      this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, orgCode,
+            url, referrer, domTime, idleTime,
+            referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
+         
       this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, cou, sub, post, aso, proxy,
-            bro, os, mobile, tz, lang, ie, 
-            h, w, dateTime DATETIME
+            bro, os, mobile, tz, lang, ie INTEGER, 
+            h, w, dateTime TEXT
          ) WITHOUT ROWID `)
 
       this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)

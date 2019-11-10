@@ -28,7 +28,7 @@ export class DB extends BaseDBL  {
          nicR, nicT,
          memFree, memUsed,
          cpu,            
-         dt_stamp DATETIME) `)
+         dt_stamp TEXT) `)
 
       this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
     }

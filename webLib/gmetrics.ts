@@ -51,7 +51,7 @@ class __gMetrics {
       setTimeout(function () {
          __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient)
          __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
-      },25)
+      },51)
    }//()
 
    static steps = 0
@@ -93,7 +93,8 @@ class __gMetrics {
       __gMetrics.met['mobile'] = client.isMobile()
       __gMetrics.met['tz'] = client.getTimeZone()
       __gMetrics.met['lang'] = client.getLanguage()
-      __gMetrics.met['ie'] = client.isIE()
+      if(client.isIE()) __gMetrics.met['ie'] = 1
+         else __gMetrics.met['ie'] = 0
 
       __gMetrics.met['orgCode']=__gMetrics._orgCode
       __gMetrics.met['fid'] = fid
@@ -105,7 +106,7 @@ class __gMetrics {
       __gMetrics.met['idleTime']= idleTime - __gMetrics._start 
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
-      console.log(__gMetrics.met)
+      //console.log(__gMetrics.met)
       __gMetrics.sendMet()
    }//() 
 
@@ -114,7 +115,8 @@ class __gMetrics {
       ajax.open('POST', __gMetrics._url1 + '/metrics1911')
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
-      console.log('sent', JSON.stringify(__gMetrics.met))
+      console.log('sentMet')
+      //console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
    static _error(type, errorObj) {

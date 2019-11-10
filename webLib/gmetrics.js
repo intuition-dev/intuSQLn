@@ -28,7 +28,7 @@ var __gMetrics = (function () {
         setTimeout(function () {
             __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient);
             __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger);
-        }, 25);
+        }, 51);
     };
     __gMetrics.onLoadedClient = function () {
         __gMetrics.steps++;
@@ -59,7 +59,10 @@ var __gMetrics = (function () {
         __gMetrics.met['mobile'] = client.isMobile();
         __gMetrics.met['tz'] = client.getTimeZone();
         __gMetrics.met['lang'] = client.getLanguage();
-        __gMetrics.met['ie'] = client.isIE();
+        if (client.isIE())
+            __gMetrics.met['ie'] = 1;
+        else
+            __gMetrics.met['ie'] = 0;
         __gMetrics.met['orgCode'] = __gMetrics._orgCode;
         __gMetrics.met['fid'] = fid;
         __gMetrics.met['referrer'] = document.referrer;
@@ -68,14 +71,13 @@ var __gMetrics = (function () {
         __gMetrics.met['url'] = window.location.href.split('?')[0];
         __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
-        console.log(__gMetrics.met);
         __gMetrics.sendMet();
     };
     __gMetrics.sendMet = function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
-        console.log('sent', JSON.stringify(__gMetrics.met));
+        console.log('sentMet');
     };
     __gMetrics._error = function (type, errorObj) {
         var err = {};

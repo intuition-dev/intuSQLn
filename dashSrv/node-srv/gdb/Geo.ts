@@ -25,7 +25,7 @@ export class Geo {
    static cityReader = Reader.openBuffer(Geo.cityBuffer, options)
 
    get(ip:string) {
-      
+
       const aresp = Geo.asnReader.asn(ip)
       const ctresp = Geo.cityReader.city(ip)
       
@@ -49,7 +49,7 @@ export class Geo {
 
       geo['sub']= ctresp.subdivisions[0].isoCode
 
-      console.log(geo)
+      log.trace(geo)
       return geo
    }//()
 

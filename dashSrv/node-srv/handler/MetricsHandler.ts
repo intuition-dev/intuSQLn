@@ -4,7 +4,7 @@ import { Geo } from "../gdb/Geo"
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
 const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "Metrics handler"})
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "MetricsHandler"})
 
 log.info('hand')
 const hash = require("murmurhash3js")
