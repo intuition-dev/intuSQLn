@@ -104,7 +104,7 @@ class __gMetrics {
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
       //console.log(__gMetrics.met)
-      //__gMetrics.sendMet()
+      __gMetrics.sendMet()
    }//() 
 
    static sendMet() {
@@ -127,10 +127,9 @@ class __gMetrics {
       
       //set timeout so metrics maybe?
       setTimeout(function () {
-         err['met']= __gMetrics.met
          ajax.send(JSON.stringify(err))
          console.log(err.error)
-      },250)
+      },1)
    }//()
 
    log(arg) {

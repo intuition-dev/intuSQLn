@@ -67,6 +67,7 @@ var __gMetrics = (function () {
         __gMetrics.met['url'] = window.location.href.split('?')[0];
         __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
+        __gMetrics.sendMet();
     };
     __gMetrics.sendMet = function () {
         var ajax = new XMLHttpRequest();
@@ -82,10 +83,9 @@ var __gMetrics = (function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
         setTimeout(function () {
-            err['met'] = __gMetrics.met;
             ajax.send(JSON.stringify(err));
             console.log(err.error);
-        }, 250);
+        }, 1);
     };
     __gMetrics.prototype.log = function (arg) {
         var ajax = new XMLHttpRequest();

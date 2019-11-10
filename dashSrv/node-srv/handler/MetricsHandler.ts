@@ -43,7 +43,6 @@ export class MetricsHandler {
          log.warn(err)
       }
       resp.send('OK')
-         
    }//()
    
    error1911(req, resp) {
@@ -53,16 +52,13 @@ export class MetricsHandler {
       let err = req.body
 
       let orgCode = err['orgCode'] 
-      let met = err['met'] 
       let type = err['type']
       let error = err['error']
       
-      met = JSON.stringify(met)
       error = JSON.stringify(error)
 
-      MetricsHandler._db.writeError(orgCode, ip, met, type, error)
+      MetricsHandler._db.writeError(orgCode, ip, type, error)
       resp.send('OK')
-      
    }//()
    
    log(req, resp) {
@@ -70,7 +66,6 @@ export class MetricsHandler {
 
       let params = req.body
       log.info(params)
-         
    }//()
 
-}
+}//class

@@ -80,14 +80,13 @@ export class MeDB extends BaseDBL  {
       
    }//()
    
-   writeError(orgCode, ip, met:string, type, error:string) {
+   writeError(orgCode, ip, type, error:string) {
       const date = new Date().toISOString()
 
       log.info(type)
-      log.info( met)
       log.info(error)
 
-      const ehash:string = hash.x64.hash128(error+ip+orgCode)
+      const ehash:string = hash.x64.hash128(error+orgCode)
 
       // is error new
 
@@ -103,11 +102,11 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('schema')
 
-      this.write(`CREATE TABLE error( orgCode, dateTime TEXT,
-            ehash, error, met, type 
+      this.write(`CREATE TABLE error( orgCode, dateTime TEXT, ip,
+            ehash, error, type 
          ) `)
       this.write(`CREATE INDEX error_ehash ON error(ehash)`)
-      this.write(`CREATE INDEX error_ehash ON error(orgCode, dateTime DESC)`)
+      this.write(`CREATE INDEX error_desc ON error(orgCode, dateTime DESC)`)
 
       this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, orgCode,
             url, referrer, domTime, idleTime,
@@ -120,6 +119,7 @@ export class MeDB extends BaseDBL  {
             bro, os, mobile, tz, lang, ie INTEGER, 
             h, w, dateTime TEXT
          ) WITHOUT ROWID `)
+      this.write(`CREATE INDEX device_ip ON device(ip, dateTime DESC)`)
 
     }//()
 
