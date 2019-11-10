@@ -62,10 +62,10 @@ export class MeDB extends BaseDBL  {
           ?,?,?
          )`
          ,
-            fullFinger, ip, 
-            geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
-            params.
-
+         fullFinger, ip, 
+         geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
+         params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
+         params.h, params.w, date
       )//
 
    }//()
@@ -87,7 +87,6 @@ export class MeDB extends BaseDBL  {
             bro, os, mobile, tz, lang, ie, 
             h, w, dateTime DATETIME
          ) WITHOUT ROWID `)
-
 
       this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
     }//()
@@ -115,7 +114,6 @@ export class MeDB extends BaseDBL  {
          LIMIT 60
          `)
       // for each finger, get metrics and country
-
 
    }//()
 

@@ -6,3 +6,9 @@ import { MeDB } from "./db/MeDB"
 
 
 const db = new MeDB()
+
+
+import { DashHandler } from "./handler/DashHandler"
+
+const m = new MeDB()
+

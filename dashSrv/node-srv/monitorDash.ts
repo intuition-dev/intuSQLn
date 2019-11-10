@@ -9,7 +9,6 @@ import { DashHandler } from "./handler/DashHandler"
 
 const m = new MeDB()
 
-
 const dashSrv = new ExpressRPC()
 dashSrv.makeInstance(['*'])
 
