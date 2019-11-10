@@ -42,7 +42,9 @@ export class Geo {
          ctresp.traits.isLegitimateProxy || 
          ctresp.traits.isPublicProxy ||
          ctresp.traits.isTorExitNode
-      geo['proxy']= proxy
+      if(proxy)
+         geo['proxy']= 1
+      else geo['proxy']= 0
 
       geo['lat']= ctresp.location.latitude
       geo['long']= ctresp.location.longitude
