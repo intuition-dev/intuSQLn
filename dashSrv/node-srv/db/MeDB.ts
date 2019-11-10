@@ -83,14 +83,22 @@ export class MeDB extends BaseDBL  {
    writeError(orgCode, ip, type, error:string) {
       const date = new Date().toISOString()
 
-      log.info(type)
-      log.info(error)
-
       const ehash:string = hash.x64.hash128(error+orgCode)
 
       // is error new
+      this.write(`INSERT INTO error( orgCode, dateTime, ip,
+         ehash, error, type )
+         VALUES
+      ( ?, ?, ?
+         ?,?,?
+      )`
+      ,
+         orgCode, date, ip,
+         ehash, error, type
+      )//
 
    }//()
+   getErrors(){}//  by orgCode,  date
 
 
    private schema() {
