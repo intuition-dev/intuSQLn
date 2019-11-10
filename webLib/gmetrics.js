@@ -56,7 +56,10 @@ var __gMetrics = (function () {
         __gMetrics.met['fidc'] = client.getFingerprint();
         __gMetrics.met['bro'] = client.getBrowser();
         __gMetrics.met['os'] = client.getOS();
-        __gMetrics.met['mobile'] = client.isMobile();
+        if (client.isMobile())
+            __gMetrics.met['mobile'] = 1;
+        else
+            __gMetrics.met['mobile'] = 0;
         __gMetrics.met['tz'] = client.getTimeZone();
         __gMetrics.met['lang'] = client.getLanguage();
         if (client.isIE())

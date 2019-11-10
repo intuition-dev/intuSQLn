@@ -26,7 +26,7 @@ export class MeDB extends BaseDBL  {
    writeMetrics(fullFinger, params, ip, geo) {
       const date = new Date().toISOString()
 
-      log.info(geo)
+      log.info(params)
       
       let referrerLocalFlag:number = 0
       let priorDateTimeDiff:number = 0
@@ -51,25 +51,23 @@ export class MeDB extends BaseDBL  {
       // check if fullFinger exists
 
       // fullFinger is PK
-
-
-
       this.write(`INSERT INTO device( fullFinger, ip,
-            lat, long, cou, sub, post, aso, proxy,
-            bro, os, mobile, tz, lang, ie, 
-            h, w, dateTime)
-               VALUES
-         ( ?, ?,
-          ?,?,?, ?,?,?,?,
-          ?,?,?, ?,?,?,
-          ?,?,?
-         )`
-         ,
-         fullFinger, ip, 
-         geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
-         params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
-         params.h, params.w, date
-      )//
+         lat, long, cou, sub, post, aso, proxy,
+         bro, os, mobile, tz, lang, ie, 
+         h, w, dateTime)
+            VALUES
+      ( ?, ?,
+       ?,?,?, ?,?,?,?,
+       ?,?,?, ?,?,?,
+       ?,?,?
+      )`
+      ,
+      fullFinger, ip, 
+      geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
+      params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
+      params.h, params.w, date
+     )//
+     
       
    }//()
    private schema() {
