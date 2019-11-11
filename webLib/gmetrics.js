@@ -1,4 +1,7 @@
-var __gMetrics = (function () {
+/**
+ * This will download fingerprint
+ */
+var __gMetrics = /** @class */ (function () {
     function __gMetrics(orgCode) {
         __gMetrics._orgCode = orgCode;
         window.addEventListener('unhandledrejection', function (e) {
@@ -11,18 +14,19 @@ var __gMetrics = (function () {
             e['lineno'] = lineno;
             __gMetrics._error('on', e);
             return true;
-        };
+        }; //
+        // start
         document.addEventListener('DOMContentLoaded', function () {
             __gMetrics._dom = Date.now();
             __gMetrics._init();
         });
-    }
+    } //()
     __gMetrics._init = function () {
         setTimeout(function () {
             __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient);
             __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger);
         }, 51);
-    };
+    }; //()
     __gMetrics.onLoadedClient = function () {
         __gMetrics.steps++;
     };
@@ -42,8 +46,13 @@ var __gMetrics = (function () {
                     __gMetrics._metrics(fid);
                 });
             }, 200);
-        }
-    };
+        } //else
+    }; //()
+    /**
+     *  Send browser, referer, fingerprint, ip(for geo), browser
+     *  Also used for RUM
+     *  and AMP: reports DOM ready relative to start
+     */
     __gMetrics._metrics = function (fid, idleTime) {
         var client = new ClientJS();
         __gMetrics.met['fidc'] = client.getFingerprint();
@@ -65,15 +74,19 @@ var __gMetrics = (function () {
         __gMetrics.met['h'] = window.screen.height;
         __gMetrics.met['w'] = window.screen.width;
         __gMetrics.met['url'] = window.location.href.split('?')[0];
+        //__gMetrics.met['title']= document.title
         __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
+        //console.log(__gMetrics.met)
         __gMetrics.sendMet();
-    };
+    }; //() 
     __gMetrics.sendMet = function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
+        //ajax.setRequestHeader("Content-Type", "application/json")
         ajax.send(JSON.stringify(__gMetrics.met));
         console.log('sentMet');
+        //console.log('sent', JSON.stringify(__gMetrics.met))
     };
     __gMetrics._error = function (type, errorObj) {
         var err = {};
@@ -82,17 +95,20 @@ var __gMetrics = (function () {
         err['error'] = errorObj;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
+        //set timeout so metrics maybe?
         setTimeout(function () {
             ajax.send(JSON.stringify(err));
             console.log(err.error);
         }, 1);
-    };
+    }; //()
     __gMetrics.prototype.log = function (arg) {
+        // send locale
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/log');
         ajax.send(JSON.stringify(arg));
         console.log(arg);
     };
+    //- eg addScript('bla.js', null, 'api-key', 'key123') 
     __gMetrics._addScript = function (src, callback, attr, attrValue, id) {
         var s = document.createElement('script');
         s.setAttribute('src', src);
@@ -102,9 +118,9 @@ var __gMetrics = (function () {
             s.id = id;
         if (callback)
             s.onload = callback;
-        s.async = true;
+        s.async = true; // it does it anyway, as the script is async
         document.getElementsByTagName('body')[0].appendChild(s);
-    };
+    }; //()
     __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
     __gMetrics._url1 = 'https://1826820696.rsc.cdn77.org';
@@ -113,4 +129,5 @@ var __gMetrics = (function () {
     __gMetrics.steps = 0;
     __gMetrics.met = {};
     return __gMetrics;
-}());
+}()); //
+//# sourceMappingURL=gmetrics.js.map
