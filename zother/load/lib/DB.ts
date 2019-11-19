@@ -18,7 +18,7 @@ export class DB extends BaseDBL  {
    fastCon(path,  fn) {
       this._fn = path + fn
       log.info(this._fn)
-      this._db = new BaseDBL.Database(this._fn, {memory:true})
+      this._db = new BaseDBL.Database(this._fn)//, {memory:true})
 
       this._db.pragma('cache_size = 50000')
       log.info(this._db.pragma('cache_size', { simple: true }))
@@ -51,7 +51,7 @@ export class DB extends BaseDBL  {
          cpu,            
          dt_stamp TEXT) `)
 
-      this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
+      //this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`)
     }
 
    ins(params) {
@@ -109,11 +109,6 @@ export class DB extends BaseDBL  {
 
    countMon() {
       const row = this.readOne(`SELECT count(*) as count FROM mon `)
-      log.info(row)
-   }
-
-   memory() {
-      const row = this.readOne(`SELECT sqlite3_memory_used()`)
       log.info(row)
    }
 

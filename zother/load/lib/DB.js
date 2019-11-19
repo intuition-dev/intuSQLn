@@ -13,7 +13,7 @@ class DB extends BaseDBL_1.BaseDBL {
     fastCon(path, fn) {
         this._fn = path + fn;
         log.info(this._fn);
-        this._db = new BaseDBL_1.BaseDBL.Database(this._fn, { memory: true });
+        this._db = new BaseDBL_1.BaseDBL.Database(this._fn);
         this._db.pragma('cache_size = 50000');
         log.info(this._db.pragma('cache_size', { simple: true }));
         this._db.pragma('synchronous=OFF');
@@ -36,7 +36,6 @@ class DB extends BaseDBL_1.BaseDBL {
          memFree, memUsed,
          cpu,            
          dt_stamp TEXT) `);
-        this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`);
     }
     ins(params) {
         this.write(`INSERT INTO mon( guid, shard, 
