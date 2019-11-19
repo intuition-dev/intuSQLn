@@ -1,4 +1,4 @@
-import { BaseDBL } from 'mbake/lib/BaseDBL'
+import { BaseDBL } from 'mbakex/lib/BaseDBL'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
