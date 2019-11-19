@@ -25,7 +25,7 @@ export class LoadGen {
         await db.countMon()
         
         var result = perfy.end('loop')
-        log.info(result.time) // 4.3
+        log.info(result.time) // 50s for 1 million 
 
     }//()
 

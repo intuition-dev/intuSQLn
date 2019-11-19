@@ -18,7 +18,7 @@ export class DB extends BaseDBL  {
    fastCon(path,  fn) {
       this._fn = path + fn
       log.info(this._fn)
-      this._db = new BaseDBL.Database(this._fn)
+      this._db = new BaseDBL.Database(this._fn, {memory:true})
 
       this._db.pragma('cache_size = 50000')
       log.info(this._db.pragma('cache_size', { simple: true }))
