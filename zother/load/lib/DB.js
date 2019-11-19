@@ -4,19 +4,28 @@ const bunyan = require('bunyan');
 const bformat = require('bunyan-format');
 const formatOut = bformat({ outputMode: 'short' });
 const log = bunyan.createLogger({ src: true, stream: formatOut, name: "some name" });
-const BaseDBL_1 = require("mbake/lib/BaseDBL");
+const BaseDBL_1 = require("mbakex/lib/BaseDBL");
 class DB extends BaseDBL_1.BaseDBL {
     constructor() {
         super();
         this.schema();
     }
-    async backup(newName) {
-        await this._db.backup(newName, { progress({ totalPages: t, remainingPages: r }) {
-                console.log(r);
-            } });
+    fastCon(path, fn) {
+        this._fn = path + fn;
+        log.info(this._fn);
+        this._db = new BaseDBL_1.BaseDBL.Database(this._fn);
+        this._db.pragma('cache_size = 50000');
+        log.info(this._db.pragma('cache_size', { simple: true }));
+        this._db.pragma('synchronous=OFF');
+        this._db.pragma('count_changes=OFF');
+        this._db.pragma('journal_mode=MEMORY');
+        this._db.pragma('temp_store=MEMORY');
+        this._db.pragma('locking_mode=EXCLUSIVE');
+        log.info(this._db.pragma('locking_mode', { simple: true }));
+        this._db.pragma('automatic_index=false');
     }
     schema() {
-        this.defCon(process.cwd(), '/aa.db');
+        this.fastCon(process.cwd(), '/aa.db');
         const exists = this.tableExists('mon');
         if (exists)
             return;
@@ -26,7 +35,7 @@ class DB extends BaseDBL_1.BaseDBL {
          nicR, nicT,
          memFree, memUsed,
          cpu,            
-         dt_stamp DATETIME) `);
+         dt_stamp TEXT) `);
         this.write(`CREATE INDEX mon_dt_stamp ON mon (host, dt_stamp DESC)`);
     }
     ins(params) {

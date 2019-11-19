@@ -14,8 +14,29 @@ export class DB extends BaseDBL  {
       this.schema()
    }//()
 
+
+   fastCon(path,  fn) {
+      this._fn = path + fn
+      log.info(this._fn)
+      this._db = new BaseDBL.Database(this._fn)
+
+      this._db.pragma('cache_size = 50000')
+      log.info(this._db.pragma('cache_size', { simple: true }))
+
+      this._db.pragma('synchronous=OFF')
+      this._db.pragma('count_changes=OFF')
+      this._db.pragma('journal_mode=MEMORY')
+      this._db.pragma('temp_store=MEMORY')
+
+      this._db.pragma('locking_mode=EXCLUSIVE')
+      log.info(this._db.pragma('locking_mode', { simple: true }))
+
+      this._db.pragma('automatic_index=false')
+   }
+
+
    private schema() {
-      this.defCon(process.cwd(), '/aa.db')
+      this.fastCon(process.cwd(), '/aa.db')
 
       const exists = this.tableExists('mon')
       if(exists) return

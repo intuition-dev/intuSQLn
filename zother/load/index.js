@@ -1,5 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const DB_1 = require("./lib/DB");
-const db = new DB_1.DB();
-db.backup('n.db');
+const LoadGen_1 = require("./lib/LoadGen");
+new LoadGen_1.LoadGen().run();

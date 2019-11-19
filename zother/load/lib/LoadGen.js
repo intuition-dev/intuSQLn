@@ -16,11 +16,10 @@ class LoadGen {
         do {
             i++;
             await this.single();
-        } while (i < 100 * 1000);
+        } while (i < 1000 * 1000);
         await db.countMon();
         var result = perfy.end('loop');
         log.info(result.time);
-        process.exit();
     }
     async single() {
         const send = {
