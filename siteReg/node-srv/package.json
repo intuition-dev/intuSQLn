@@ -7,7 +7,7 @@
     "node": ">=13.1.0"
   },
   "dependencies": {
-    "mbake": ">=6.10.19"
+   "mbakex": ">=1.11.5"
 
   },
   "devDependencies": {

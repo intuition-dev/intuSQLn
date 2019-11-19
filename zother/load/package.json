@@ -1,33 +1,29 @@
 {
-   "name": "load-gen",
-   "author": "MetaBake LLC",
- 
-   "private": true,
- 
-   "version": "0.10.15",
-   "description": "load gen",
-   "bin": {
-       "gagent": "mbake.js"
-   },
-   "license": "LGPL-3.0-only",
- 
-   "homepage": "http://www.INTUITION.DEV",
-   "repository": {
-       "type": "git",
-       "url": "http://git.mbake.org"
-   },
-   "keywords": [
-       "load gen"
-   ],
-   "engines": {
-      "node": ">=13.1.0"
-   },
+  "name": "load-gen",
+  "author": "MetaBake LLC",
+  "private": true,
+  "version": "0.10.15",
+  "description": "load gen",
+  "bin": {
+    "gagent": "mbake.js"
+  },
+  "license": "LGPL-3.0-only",
+  "homepage": "http://www.INTUITION.DEV",
+  "repository": {
+    "type": "git",
+    "url": "http://git.mbake.org"
+  },
+  "keywords": [
+    "load gen"
+  ],
+  "engines": {
+    "node": ">=13.1.0"
+  },
   "dependencies": {
     "faker": ">=4.1.0",
-    "mbake": ">=6.10.15"
-
+    "mbakex": ">=1.11.5"
   },
   "devDependencies": {
-    "@types/node": ">=12.11.7"
+    "@types/node": ">=12.12.10"
   }
 }
