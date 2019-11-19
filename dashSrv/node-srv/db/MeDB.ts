@@ -1,4 +1,5 @@
 import { BaseDBL } from 'mbakex/lib/BaseDBL'
+import { Geo } from '../gdb/Geo'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
@@ -10,7 +11,12 @@ const hash = require("murmurhash3js")
 export class MeDB extends BaseDBL  {
 
    static MAXINT:number = 9223372036854775807 
+   static _geo: any
 
+   constrcutor() {
+      MeDB._geo = new Geo()
+ 
+   }
    _getPriorDateTimeDiff(fullFinger, curDate) {
       const rows = this.read(`SELECT dateTime FROM met
          WHERE fullFinger = ?
@@ -25,11 +31,9 @@ export class MeDB extends BaseDBL  {
       return delta 
    }//()
 
-   writeMetrics(fullFinger, params, ip, geo) {
+   async writeMetrics(fullFinger, params, ip) {
       const date = new Date().toISOString()
 
-      //log.info(params)
-      
       // sameDomain
       let referrerLocalFlag:number = 0
       const refDomain = MeDB. getHostName(params.referrer)
@@ -39,6 +43,8 @@ export class MeDB extends BaseDBL  {
 
       let priorDateTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, date)
 
+      log.info(priorDateTimeDiff, params)
+      
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
       
@@ -59,6 +65,9 @@ export class MeDB extends BaseDBL  {
       // check if fullFinger exists
       if(MeDB._fingeExists(fullFinger, this))
       return
+
+      // dev only ip = '64.78.253.68'
+      const geo = await MeDB._geo.get(ip)
 
       // fullFinger is PK
       this.write(`INSERT INTO device( fullFinger, ip,

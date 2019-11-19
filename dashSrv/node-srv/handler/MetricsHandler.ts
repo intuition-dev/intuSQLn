@@ -1,5 +1,4 @@
 import { MeDB } from "../db/MeDB"
-import { Geo } from "../gdb/Geo"
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format')  
@@ -11,11 +10,9 @@ const hash = require("murmurhash3js")
 
 export class MetricsHandler {
   
-   static _geo: Geo
    static _db:MeDB
    constructor() {
       MetricsHandler._db =  new MeDB()
-      MetricsHandler._geo = new Geo()
    }
 
    // do seo search for title via api
@@ -35,10 +32,7 @@ export class MetricsHandler {
       const fullFinger:string = hash.x64.hash128(str)
       
       try {
-      ip = '64.78.253.68'
-      const geo = await MetricsHandler._geo.get(ip)
-
-      MetricsHandler._db.writeMetrics(fullFinger, params, ip, geo)
+         MetricsHandler._db.writeMetrics(fullFinger, params, ip)
       } catch(err) {
          log.warn(err)
       }
