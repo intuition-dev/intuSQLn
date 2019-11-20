@@ -11,11 +11,11 @@ class __gMetrics {
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
-   static _url02 = 'https://1826820696.rsc.cdn77.org'
+   static _url1 = 'https://1026491782.rsc.cdn77.org'
 
-   static _url1 = 'http://localhost:3000'
+   static _url01 = 'http://localhost:3000'
 
-   static _url01 = 'http://185.105.7.112:3000'
+   static _url3 = 'http://185.105.7.112:3000'
 
 
    static _start = Date.now()

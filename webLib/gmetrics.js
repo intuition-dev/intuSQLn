@@ -107,9 +107,9 @@ var __gMetrics = (function () {
     };
     __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
-    __gMetrics._url02 = 'https://1826820696.rsc.cdn77.org';
-    __gMetrics._url1 = 'http://localhost:3000';
-    __gMetrics._url01 = 'http://185.105.7.112:3000';
+    __gMetrics._url1 = 'https://1026491782.rsc.cdn77.org';
+    __gMetrics._url01 = 'http://localhost:3000';
+    __gMetrics._url3 = 'http://185.105.7.112:3000';
     __gMetrics._start = Date.now();
     __gMetrics.steps = 0;
     __gMetrics.met = {};
