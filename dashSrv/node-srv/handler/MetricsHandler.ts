@@ -35,6 +35,9 @@ export class MetricsHandler {
       const fullFinger:string = hash.x64.hash128(str)
       
       try {
+         // local only
+         // ip = '64.78.253.68'
+
          MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
          log.warn(err)

@@ -1,6 +1,5 @@
 var __gMetrics = (function () {
-    function __gMetrics(orgCode) {
-        __gMetrics._orgCode = orgCode;
+    function __gMetrics() {
         window.addEventListener('unhandledrejection', function (e) {
             __gMetrics._error('unhandled', e.reason);
         });
@@ -46,6 +45,7 @@ var __gMetrics = (function () {
     };
     __gMetrics._metrics = function (fid, idleTime) {
         var client = new ClientJS();
+        __gMetrics.met['domain'] = window.location.href;
         __gMetrics.met['fidc'] = client.getFingerprint();
         __gMetrics.met['bro'] = client.getBrowser();
         __gMetrics.met['os'] = client.getOS();
@@ -59,7 +59,6 @@ var __gMetrics = (function () {
             __gMetrics.met['ie'] = 1;
         else
             __gMetrics.met['ie'] = 0;
-        __gMetrics.met['orgCode'] = __gMetrics._orgCode;
         __gMetrics.met['fid'] = fid;
         __gMetrics.met['referrer'] = document.referrer;
         __gMetrics.met['h'] = window.screen.height;
@@ -77,9 +76,9 @@ var __gMetrics = (function () {
     };
     __gMetrics._error = function (type, errorObj) {
         var err = {};
-        err['orgCode'] = __gMetrics._orgCode;
         err['type'] = type;
         err['error'] = errorObj;
+        err['domain'] = window.location.href;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
         setTimeout(function () {
@@ -88,10 +87,13 @@ var __gMetrics = (function () {
         }, 1);
     };
     __gMetrics.prototype.log = function (arg) {
+        var extra = {};
+        extra['domain'] = window.location.href;
+        extra['arg'] = arg;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/log');
-        ajax.send(JSON.stringify(arg));
-        console.log(arg);
+        ajax.send(JSON.stringify(extra));
+        console.log(extra);
     };
     __gMetrics._addScript = function (src, callback, attr, attrValue, id) {
         var s = document.createElement('script');
@@ -115,3 +117,4 @@ var __gMetrics = (function () {
     __gMetrics.met = {};
     return __gMetrics;
 }());
+new __gMetrics();

@@ -71,7 +71,6 @@ export class MeDB extends BaseDBL  {
       if(MeDB._fingeExists(fullFinger, this))
       return
 
-      // dev only: ip = '64.78.253.68'
       const geo:any = await MeDB._geo.get(ip)
 
       // fullFinger is PK
