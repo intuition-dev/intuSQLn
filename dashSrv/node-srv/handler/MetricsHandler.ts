@@ -1,4 +1,5 @@
 import { MeDB } from "../db/MeDB"
+import { Utils } from "../db/Utils"
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -25,15 +26,16 @@ export class MetricsHandler {
 
       let params = req.body
       
-      // ip + 2 fingers + orgCode
+      // ip + 2 fingers
       let ip = req.connection.remoteAddress
       const fullDomain = params.domain
+      let domain:string = fullDomain.replace('http://','').replace('https://','').split(/[/?#]/)[0]
 
       let str:string =  params.fid + params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
       try {
-         MetricsHandler._db.writeMetrics(fullFinger, params, ip)
+         MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
          log.warn(err)
       }
@@ -43,17 +45,17 @@ export class MetricsHandler {
    error1911(req, resp) {
 
       let ip = req.connection.remoteAddress
-
       let err = req.body
 
       const fullDomain = err.domain
+      let domain:string = Utils.getDomain(fullDomain)
 
       let type = err['type']
       let error = err['error']
       
       error = JSON.stringify(error)
 
-      MetricsHandler._db.writeError(fullDomain, ip, type, error)
+      MetricsHandler._db.writeError(domain, ip, type, error)
       resp.send('OK')
    }//()
    
@@ -62,6 +64,7 @@ export class MetricsHandler {
 
       let params = req.body
       const fullDomain = params.domain
+      let domain:string = Utils.getDomain(fullDomain)
 
       log.info(params)
    }//()

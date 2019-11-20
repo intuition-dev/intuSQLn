@@ -1,5 +1,6 @@
 import { BaseDBL } from 'mbakex/lib/BaseDBL'
 import { Geo } from '../gdb/Geo'
+import { Utils } from './Utils'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -34,14 +35,15 @@ export class MeDB extends BaseDBL  {
       return delta 
    }//()
 
-   async writeMetrics(fullFinger, params, ip) {
+   async writeMetrics(domain, fullFinger, params, ip) {
       const date = new Date().toISOString()
 
       // sameDomain
       let referrerLocalFlag:number = 0
-      const refDomain = MeDB. getHostName(params.referrer)
-      const curDomain = MeDB. getHostName(params.referrer)      
-      if(curDomain==refDomain)
+      const refHost = Utils.getHostname(params.referrer)
+      const curHost = Utils.getHostname(params.referrer)      
+
+      if(curHost==refHost)
          referrerLocalFlag = 1
 
       let priorDateTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, date)
@@ -51,7 +53,7 @@ export class MeDB extends BaseDBL  {
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
       
-      this.write(`INSERT INTO met( fullFinger, dateTime, orgCode,
+      this.write(`INSERT INTO met( fullFinger, dateTime, domain,
          url, referrer, domTime, idleTime,
          referrerLocalFlag, priorDateTimeDiff )
             VALUES
@@ -60,7 +62,7 @@ export class MeDB extends BaseDBL  {
           ?,?
          )`
          ,
-         fullFinger, date, params.orgCode,
+         fullFinger, date, domain,
          params.url, params.referrer, params.domTime, params.idleTime,
          referrerLocalFlag, priorDateTimeDiff
       )
@@ -92,25 +94,25 @@ export class MeDB extends BaseDBL  {
       
    }//()
    
-   writeError(orgCode, ip, type, error:string) {
+   writeError(domain, ip, type, error:string) {
       const date = new Date().toISOString()
 
-      const ehash:string = hash.x64.hash128(error+orgCode)
+      const ehash:string = hash.x64.hash128(error+domain)
 
       // is error new
-      this.write(`INSERT INTO error( orgCode, dateTime, ip,
+      this.write(`INSERT INTO error( domain, dateTime, ip,
          ehash, error, type )
          VALUES
       ( ?, ?, ?,
          ?,?,?
       )`
       ,
-         orgCode, date, ip,
+         domain, date, ip,
          ehash, error, type
       )//
 
    }//()
-   getErrors(){}//  by orgCode,  date
+   getErrors(){}//  by domain,  date
 
    private schema() {
 
@@ -121,13 +123,13 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('schema')
 
-      this.write(`CREATE TABLE error( orgCode, dateTime TEXT, ip,
+      this.write(`CREATE TABLE error( domain, dateTime TEXT, ip,
             ehash, error, type 
          ) `)
       this.write(`CREATE INDEX error_ehash ON error(ehash)`)
-      this.write(`CREATE INDEX error_desc ON error(orgCode, dateTime DESC)`)
+      this.write(`CREATE INDEX error_desc ON error(domain, dateTime DESC)`)
 
-      this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, orgCode,
+      this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, domain,
             url, referrer, domTime, idleTime,
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
@@ -152,17 +154,8 @@ export class MeDB extends BaseDBL  {
       return true
    }//()
 
-   static getHostName(url) {
-      var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-      if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
-      return match[2];
-      }
-      else {
-         return null;
-      }
-   }
 
-   showRecentUsers(orgCode, cou) {
+   showRecentUsers(domain, cou) {
       const rows = this.read(`SELECT DISTINCT fullFinger FROM met
          ORDER BY dateTime DESC 
          LIMIT 60

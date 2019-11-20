@@ -17,7 +17,6 @@ class __gMetrics {
 
    static _url3 = 'http://185.105.7.112:3000'
 
-
    static _start = Date.now()
    static _dom 
 
@@ -135,13 +134,16 @@ class __gMetrics {
    }//()
 
    log(arg) {
-      let extra={}  
+      let extra={} 
+
       extra['domain']=  window.location.href
 
+      extra['arg'] = arg
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/log')
-      ajax.send(JSON.stringify(arg))
-      console.log(arg)
+      
+      ajax.send(JSON.stringify(extra))
+      console.log(extra)
    }
 
    //- eg addScript('bla.js', null, 'api-key', 'key123') 

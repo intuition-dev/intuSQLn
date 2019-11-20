@@ -9,6 +9,7 @@
 declare var window: any // needed to compile ts
 
 import puppeteer from 'puppeteer'
+import { Utils } from './Utils'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -43,10 +44,10 @@ export class Pupp {
       const domains = {}
       page.on('response', response => {
          const url:string = response.url()
-         let domain:string = url.replace('http://','').replace('https://','').split(/[/?#]/)[0]
+         let domain:string = Utils.getDomain(url)
          if(domain.includes('data:image'))
             return
-         console.info( ' ', url.substring(0, 90) )
+         log.info( ' ', url.substring(0, 90) )
          domain = Pupp.reverseString(domain)
          if(domains[domain])
             domains[domain]  = domains[domain] + 1
