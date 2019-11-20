@@ -27,8 +27,9 @@ export class MetricsHandler {
       
       // ip + 2 fingers + orgCode
       let ip = req.connection.remoteAddress
-      const orgCode = params.orgCode
-      let str:string = orgCode + params.fid + params.fidc + ip
+      const fullDomain = params.domain
+
+      let str:string =  params.fid + params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
       try {
@@ -45,13 +46,14 @@ export class MetricsHandler {
 
       let err = req.body
 
-      let orgCode = err['orgCode'] 
+      const fullDomain = err.domain
+
       let type = err['type']
       let error = err['error']
       
       error = JSON.stringify(error)
 
-      MetricsHandler._db.writeError(orgCode, ip, type, error)
+      MetricsHandler._db.writeError(fullDomain, ip, type, error)
       resp.send('OK')
    }//()
    
@@ -59,6 +61,8 @@ export class MetricsHandler {
       resp.send('OK')
 
       let params = req.body
+      const fullDomain = params.domain
+
       log.info(params)
    }//()
 

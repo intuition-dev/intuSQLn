@@ -21,10 +21,7 @@ class __gMetrics {
    static _start = Date.now()
    static _dom 
 
-   static _orgCode
-
-   constructor(orgCode) {
-      __gMetrics._orgCode = orgCode
+   constructor() {
       
       window.addEventListener('unhandledrejection', function (e) {
          __gMetrics._error('unhandled', e.reason)
@@ -85,6 +82,8 @@ class __gMetrics {
     */
    static _metrics(fid, idleTime?) { 
       var client = new ClientJS()
+      __gMetrics.met['domain']=  window.location.href
+
       __gMetrics.met['fidc'] = client.getFingerprint()
       __gMetrics.met['bro'] = client.getBrowser()
       __gMetrics.met['os'] = client.getOS()
@@ -96,7 +95,6 @@ class __gMetrics {
       if(client.isIE()) __gMetrics.met['ie'] = 1
          else __gMetrics.met['ie'] = 0
 
-      __gMetrics.met['orgCode']=__gMetrics._orgCode
       __gMetrics.met['fid'] = fid
       __gMetrics.met['referrer'] = document.referrer
       __gMetrics.met['h']=window.screen.height
@@ -121,9 +119,10 @@ class __gMetrics {
 
    static _error(type, errorObj) {
       var err:any  = {}
-      err['orgCode'] = __gMetrics._orgCode
       err['type']= type
       err['error']= errorObj
+
+      err['domain']=  window.location.href
 
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/error1911')
@@ -136,7 +135,9 @@ class __gMetrics {
    }//()
 
    log(arg) {
-      // send locale
+      let extra={}  
+      extra['domain']=  window.location.href
+
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/log')
       ajax.send(JSON.stringify(arg))
@@ -156,3 +157,4 @@ class __gMetrics {
 
 }//
 
+new __gMetrics()
