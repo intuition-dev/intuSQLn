@@ -11,12 +11,15 @@ const hash = require("murmurhash3js")
 export class MeDB extends BaseDBL  {
 
    static MAXINT:number = 9223372036854775807 
-   static _geo: any
+   static _geo:Geo
 
-   constrcutor() {
+   constructor() {
+      super()
       MeDB._geo = new Geo()
- 
-   }
+
+      this.schema()
+   }//()
+
    _getPriorDateTimeDiff(fullFinger, curDate) {
       const rows = this.read(`SELECT dateTime FROM met
          WHERE fullFinger = ?
@@ -66,8 +69,8 @@ export class MeDB extends BaseDBL  {
       if(MeDB._fingeExists(fullFinger, this))
       return
 
-      // dev only ip = '64.78.253.68'
-      const geo = await MeDB._geo.get(ip)
+      // dev only: ip = '64.78.253.68'
+      const geo:any = await MeDB._geo.get(ip)
 
       // fullFinger is PK
       this.write(`INSERT INTO device( fullFinger, ip,
@@ -158,12 +161,6 @@ export class MeDB extends BaseDBL  {
          return null;
       }
    }
-
-   constructor() {
-      super()
-
-      this.schema()
-   }//()
 
    showRecentUsers(orgCode, cou) {
       const rows = this.read(`SELECT DISTINCT fullFinger FROM met
