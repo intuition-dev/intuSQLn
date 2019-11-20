@@ -11,7 +11,7 @@ declare var window: any // needed to compile ts
 import puppeteer from 'puppeteer'
 
 const bunyan = require('bunyan')
-const bformat = require('bunyan-format')  
+const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "pup"})
 

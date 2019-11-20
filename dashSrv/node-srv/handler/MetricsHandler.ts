@@ -1,7 +1,7 @@
 import { MeDB } from "../db/MeDB"
 
 const bunyan = require('bunyan')
-const bformat = require('bunyan-format')  
+const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "MetricsHandler"})
 
