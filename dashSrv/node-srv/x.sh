@@ -1,4 +1,6 @@
 clear
+yarn
 tsc
-
-node main.js
+rm *.out
+nohup node main.js &
+cat nohup.out
