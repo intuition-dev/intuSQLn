@@ -26,26 +26,19 @@ var __gMetrics = (function () {
         __gMetrics.steps++;
     };
     __gMetrics.onLoadedFinger = function () {
-        if (window.requestIdleCallback) {
-            requestIdleCallback(function () {
-                Fingerprint2.get(function (components) {
-                    var fid = Fingerprint2.x64hash128(components.join(''), 31);
-                    __gMetrics._metrics(fid, Date.now());
-                });
+        var options = { excludes: { audio: false }
+        };
+        setTimeout(function () {
+            Fingerprint2.get(options, function (components) {
+                var fid = Fingerprint2.x64hash128(components.join(''), 31);
+                console.log(fid);
+                __gMetrics._metrics(fid);
             });
-        }
-        else {
-            setTimeout(function () {
-                Fingerprint2.get(function (components) {
-                    var fid = Fingerprint2.x64hash128(components.join(''), 31);
-                    __gMetrics._metrics(fid);
-                });
-            }, 200);
-        }
+        }, 200);
     };
     __gMetrics._metrics = function (fid, idleTime) {
         var client = new ClientJS();
-        __gMetrics.met['domain'] = window.location.href;
+        __gMetrics.met['domain'] = window.location.href.split('?')[0];
         __gMetrics.met['fidc'] = client.getFingerprint();
         __gMetrics.met['bro'] = client.getBrowser();
         __gMetrics.met['os'] = client.getOS();
@@ -63,7 +56,6 @@ var __gMetrics = (function () {
         __gMetrics.met['referrer'] = document.referrer;
         __gMetrics.met['h'] = window.screen.height;
         __gMetrics.met['w'] = window.screen.width;
-        __gMetrics.met['url'] = window.location.href.split('?')[0];
         __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
         __gMetrics.sendMet();
@@ -73,6 +65,7 @@ var __gMetrics = (function () {
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
         console.log('sentMet');
+        console.log('sent', JSON.stringify(__gMetrics.met));
     };
     __gMetrics._error = function (type, errorObj) {
         var err = {};

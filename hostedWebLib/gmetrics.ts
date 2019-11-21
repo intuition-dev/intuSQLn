@@ -55,21 +55,16 @@ class __gMetrics {
    }
 
    static onLoadedFinger() {
-      if (window.requestIdleCallback) {
-         requestIdleCallback(function () {
-             Fingerprint2.get(function (components) {  
-               let fid = Fingerprint2.x64hash128(components.join(''), 31)
-               __gMetrics._metrics(fid, Date.now() )
-            })
-         })
-     } else {
-         setTimeout(function () {
-             Fingerprint2.get(function (components) {
-               let fid = Fingerprint2.x64hash128(components.join(''), 31)
-               __gMetrics._metrics(fid)
-            })  
-         }, 200)
-     }//else
+      var options = { excludes: {audio: false } // cause waring message in opera
+      }
+      setTimeout(function () {
+            Fingerprint2.get(options, function (components) {
+            let fid = Fingerprint2.x64hash128(components.join(''), 31)
+            console.log(fid)
+            __gMetrics._metrics(fid)
+         })  
+      }, 200)
+   
    }//()
 
    static met = {}
@@ -81,7 +76,7 @@ class __gMetrics {
     */
    static _metrics(fid, idleTime?) { 
       var client = new ClientJS()
-      __gMetrics.met['domain']=  window.location.href
+      __gMetrics.met['domain']= window.location.href.split('?')[0]
 
       __gMetrics.met['fidc'] = client.getFingerprint()
       __gMetrics.met['bro'] = client.getBrowser()
@@ -98,7 +93,6 @@ class __gMetrics {
       __gMetrics.met['referrer'] = document.referrer
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width
-      __gMetrics.met['url']= window.location.href.split('?')[0]
       //__gMetrics.met['title']= document.title
       __gMetrics.met['idleTime']= idleTime - __gMetrics._start 
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
@@ -113,7 +107,7 @@ class __gMetrics {
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
       console.log('sentMet')
-      //console.log('sent', JSON.stringify(__gMetrics.met))
+      console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
    static _error(type, errorObj) {
