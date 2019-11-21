@@ -63,7 +63,7 @@ export class MeDB extends BaseDBL  {
          )`
          ,
          fullFinger, date, domain,
-         params.url, params.referrer, params.domTime, params.idleTime,
+         params.domain, params.referrer, params.domTime, params.idleTime,
          referrerLocalFlag, priorDateTimeDiff
       )
    
