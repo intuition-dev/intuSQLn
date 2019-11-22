@@ -1,4 +1,12 @@
 
+const io = require('@pm2/io')
+
+io.init({
+   transactions: true, // will enable the transaction tracing
+   http: true // will enable metrics about the http server (optional)
+ })
+
+
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
