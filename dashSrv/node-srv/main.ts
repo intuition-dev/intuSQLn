@@ -1,11 +1,15 @@
 
 const io = require('@pm2/io')
-
 io.init({
    transactions: true, // will enable the transaction tracing
    http: true // will enable metrics about the http server (optional)
  })
 
+const atatus = require("atatus-nodejs")
+atatus.start({
+    licenseKey: "lic_apm_97ce9f37c93c4535986d44110bb571c8",
+    appName: "service",
+})
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  

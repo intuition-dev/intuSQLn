@@ -2,7 +2,7 @@
   "name": "good-monitor",
   "author": "MetaBake LLC",
   "private": true,
-  "version": "0.10.15",
+  "version": "0.11.20",
   "description": " Monitoring",
   "bin": {
     "ok": "ok.js"
@@ -22,7 +22,8 @@
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.3.0",
     "@pm2/io": ">=4.3.3",
-    "mbakex": ">=1.11.10",
+    "atatus-nodejs": ">=1.1.0",
+    "mbakex": ">=1.11.11",
     "murmurhash3js": ">=3.0.1",
     "traceroute": ">=1.0.0"
   },
