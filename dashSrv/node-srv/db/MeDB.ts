@@ -154,8 +154,31 @@ export class MeDB extends BaseDBL  {
       return true
    }//()
 
+   dashDAU(){ //visitors for a week by day total. new vs returning
 
-   showRecentUsers(domain, cou) {
+   }
+
+   dashPopular() { //page title/url
+
+   }
+
+   dashRef(){ // where they came from
+      
+   }
+
+   dashGeo(){ // where are they.
+      
+   }
+
+   dashUse() { // decile of user by page
+
+   }
+
+   uptimeService() { // response time
+
+   }
+
+   dashRecentUsers(domain, cou) {
       const rows = this.read(`SELECT DISTINCT fullFinger FROM met
          ORDER BY dateTime DESC 
          LIMIT 60
@@ -168,9 +191,8 @@ export class MeDB extends BaseDBL  {
 
    }
 
-   showMap(){}
-   showRef(){}
-   showRUMPath(){}
-   showRPM(){}
+   dashMap(){}
+   dashRUMPath(){}
+   dashRPM(){}
 
 }//()
