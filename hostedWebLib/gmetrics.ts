@@ -74,7 +74,7 @@ class __gMetrics {
     *  Also used for RUM
     *  and AMP: reports DOM ready relative to start
     */
-   static _metrics(fid, idleTime?) { 
+   static _metrics(fid) { 
       var client = new ClientJS()
       __gMetrics.met['domain']= window.location.href.split('?')[0]
 
@@ -94,7 +94,6 @@ class __gMetrics {
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width
       //__gMetrics.met['title']= document.title
-      __gMetrics.met['idleTime']= idleTime - __gMetrics._start 
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
       //console.log(__gMetrics.met)

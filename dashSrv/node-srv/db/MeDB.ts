@@ -54,16 +54,16 @@ export class MeDB extends BaseDBL  {
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
       
       this.write(`INSERT INTO met( fullFinger, dateTime, domain,
-         url, referrer, domTime, idleTime,
+         url, referrer, domTime,
          referrerLocalFlag, priorDateTimeDiff )
             VALUES
          ( ?,?,?,
-          ?,?,?,?,
+          ?,?,?,
           ?,?
          )`
          ,
          fullFinger, date, domain,
-         params.domain, params.referrer, params.domTime, params.idleTime,
+         params.domain, params.referrer, params.domTime,
          referrerLocalFlag, priorDateTimeDiff
       )
    
@@ -122,21 +122,22 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('schema')
 
-      this.write(`CREATE TABLE error( domain, dateTime TEXT, ip,
+      // todo: fullFinger and url, and get full message
+      this.write(`CREATE TABLE error( domain, dateTime TEXT, ip, fullFinger, url,
             ehash, error, type 
          ) `)
       this.write(`CREATE INDEX error_ehash ON error(ehash)`)
       this.write(`CREATE INDEX error_desc ON error(domain, dateTime DESC)`)
 
       this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, domain,
-            url, referrer, domTime, idleTime,
+            url, referrer, domTime, 
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
-      this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime, idleTime)`)
+      this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime)`)
          
       this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
-            lat, long, cou, sub, post, aso, proxy,
-            bro, os, mobile, tz, lang, ie INTEGER, 
+            lat, long, cou, sub, post, aso, proxy INTEGER,
+            bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
             h, w, dateTime TEXT
          ) WITHOUT ROWID `)
       this.write(`CREATE INDEX device_ip ON device(ip, dateTime DESC)`)

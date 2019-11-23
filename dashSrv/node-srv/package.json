@@ -28,7 +28,7 @@
     "traceroute": ">=1.0.0"
   },
   "devDependencies": {
-    "@types/node": ">=12.12.11",
+    "@types/node": ">=12.12.12",
     "http-proxy": ">=1.18.0"
   }
 }
