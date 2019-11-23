@@ -93,20 +93,20 @@ export class MeDB extends BaseDBL  {
       
    }//()
    
-   writeError(domain, ip, type, error:string) {
+   writeError(domain, ip, url, type, error:string) {
       const date = new Date().toISOString()
 
       const ehash:string = hash.x64.hash128(error+domain)
 
       // is error new
-      this.write(`INSERT INTO error( domain, dateTime, ip,
+      this.write(`INSERT INTO error( domain, dateTime, ip, url,
          ehash, error, type )
          VALUES
-      ( ?, ?, ?,
+      ( ?, ?, ?, ?,
          ?,?,?
       )`
       ,
-         domain, date, ip,
+         domain, date, ip, url,
          ehash, error, type
       )//
 
@@ -122,8 +122,8 @@ export class MeDB extends BaseDBL  {
       if(exists) return
       log.info('schema')
 
-      // todo: fullFinger and url, and get full message
-      this.write(`CREATE TABLE error( domain, dateTime TEXT, ip, fullFinger, url,
+      // todo: url  get full message
+      this.write(`CREATE TABLE error( domain, dateTime TEXT, ip, url,
             ehash, error, type 
          ) `)
       this.write(`CREATE INDEX error_ehash ON error(ehash)`)
@@ -155,6 +155,23 @@ export class MeDB extends BaseDBL  {
    }//()
 
    dashDAU(){ //visitors for a week by day total. new vs returning
+      let dau = `SELECT fullFinger, date(dateTime) AS date, count(*) 
+      FROM met
+      GROUP BY fullFinger, date
+      ORDER by date DESC 
+         `
+      // WHERE domain = ? and dateTime >= ? 
+
+      let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) 
+      FROM met
+      INNER JOIN device ON met.fullFinger = device.fullFinger
+      GROUP BY met.fullFinger, first, visited
+      ORDER by first, visited DESC 
+
+         `
+      // WHERE domain = ? and dateTime >= ? 
+
+
 
    }
 
