@@ -77,18 +77,18 @@ export class MeDB extends BaseDBL  {
       this.write(`INSERT INTO device( fullFinger, ip,
          lat, long, cou, sub, post, aso, proxy,
          bro, os, mobile, tz, lang, ie, 
-         h, w, dateTime)
+         hw, dateTime)
             VALUES
       ( ?, ?,
        ?,?,?, ?,?,?,?,
        ?,?,?, ?,?,?,
-       ?,?,?
+       ?,?
       )`
       ,
       fullFinger, ip, 
       geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
       params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
-      params.h, params.w, date
+      params.h +'x'+ params.w, date
      )//
       
    }//()
@@ -138,7 +138,7 @@ export class MeDB extends BaseDBL  {
       this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, cou, sub, post, aso, proxy INTEGER,
             bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
-            h, w, dateTime TEXT
+            hw, dateTime TEXT
          ) WITHOUT ROWID `)
       this.write(`CREATE INDEX device_ip ON device(ip, dateTime DESC)`)
 
