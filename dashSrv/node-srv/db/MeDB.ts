@@ -155,43 +155,60 @@ export class MeDB extends BaseDBL  {
    }//()
 
    dashDAU(){ //visitors for a week by day total. new vs returning
-      let dau = `SELECT fullFinger, date(dateTime) AS date, count(*) 
+      let dau = `SELECT fullFinger, date(dateTime) AS date, count(*) AS COUNT
       FROM met
       GROUP BY fullFinger, date
       ORDER by date DESC 
-         `
+      `
       // WHERE domain = ? and dateTime >= ? 
 
-      let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) 
+      let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) AS COUNT
       FROM met
       INNER JOIN device ON met.fullFinger = device.fullFinger
       GROUP BY met.fullFinger, first, visited
       ORDER by first, visited DESC 
-
-         `
+      `
       // WHERE domain = ? and dateTime >= ? 
-
-
-
    }
 
    dashPopular() { //page title/url
-
+      let s =` SELECT url, count(*) AS COUNT 
+      FROM met
+      GROUP BY url
+      `
    }
 
    dashRef(){ // where they came from
-      
+      let s =` SELECT referrer, count(*) AS COUNT 
+      FROM met
+      GROUP BY referrer
+      `
+      // only the ones from outside
    }
 
    dashGeo(){ // where are they.
-      
+      let s =` SELECT referrer, count(*) AS COUNT 
+      FROM met
+      GROUP BY url
+      `
+
+      this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
+         lat, long, cou, sub, post, aso, proxy INTEGER,
+         bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
+         h, w, dateTime TEXT
+      ) WITHOUT ROWID `)
+
    }
 
-   dashUse() { // decile of user by page
+   dashPopularity() { // user by page
+      let s =` SELECT url, count(*) AS COUNT 
+      FROM met
+      GROUP BY url
+      `
 
    }
 
-   uptimeService() { // response time
+   uptimeService() { // response time and outage
 
    }
 
