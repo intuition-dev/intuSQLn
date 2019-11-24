@@ -105,7 +105,7 @@ class __gMetrics {
       ajax.open('POST', __gMetrics._url1 + '/metrics1911')
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
-      console.log('sentMet')
+      console.log('sentMet1124')
       console.log('sent', JSON.stringify(__gMetrics.met))
    }
 

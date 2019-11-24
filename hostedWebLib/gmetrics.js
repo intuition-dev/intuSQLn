@@ -36,7 +36,7 @@ var __gMetrics = (function () {
             });
         }, 200);
     };
-    __gMetrics._metrics = function (fid, idleTime) {
+    __gMetrics._metrics = function (fid) {
         var client = new ClientJS();
         __gMetrics.met['domain'] = window.location.href.split('?')[0];
         __gMetrics.met['fidc'] = client.getFingerprint();
@@ -56,7 +56,7 @@ var __gMetrics = (function () {
         __gMetrics.met['referrer'] = document.referrer;
         __gMetrics.met['h'] = window.screen.height;
         __gMetrics.met['w'] = window.screen.width;
-        __gMetrics.met['idleTime'] = idleTime - __gMetrics._start;
+        __gMetrics.met['title'] = document.title;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
         __gMetrics.sendMet();
     };
@@ -64,7 +64,7 @@ var __gMetrics = (function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
-        console.log('sentMet');
+        console.log('sentMet1124');
         console.log('sent', JSON.stringify(__gMetrics.met));
     };
     __gMetrics._error = function (type, errorObj) {
