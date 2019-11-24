@@ -54,16 +54,16 @@ export class MeDB extends BaseDBL  {
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
       
       this.write(`INSERT INTO met( fullFinger, dateTime, domain,
-         url, referrer, domTime,
+         url, title, referrer, domTime,
          referrerLocalFlag, priorDateTimeDiff )
             VALUES
          ( ?,?,?,
-          ?,?,?,
+          ?,?,?,?,
           ?,?
          )`
          ,
          fullFinger, date, domain,
-         params.domain, params.referrer, params.domTime,
+         params.domain, params.title, params.referrer, params.domTime,
          referrerLocalFlag, priorDateTimeDiff
       )
    
@@ -130,7 +130,7 @@ export class MeDB extends BaseDBL  {
       this.write(`CREATE INDEX error_desc ON error(domain, dateTime DESC)`)
 
       this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, domain,
-            url, referrer, domTime, 
+            url, title, referrer, domTime, 
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
       this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime)`)
@@ -187,25 +187,23 @@ export class MeDB extends BaseDBL  {
    }
 
    dashGeo(){ // where are they.
-      let s =` SELECT referrer, count(*) AS COUNT 
-      FROM met
-      GROUP BY url
+      let s1 = `SELECT tz, lang, cou, sub, count(*) AS COUNT
+      FROM device
+      GROUP BY tz, lang, cou, sub
       `
 
-      this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
-         lat, long, cou, sub, post, aso, proxy INTEGER,
-         bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
-         h, w, dateTime TEXT
-      ) WITHOUT ROWID `)
+      let s2 = `SELECT tz, lang, cou, sub, aso, count(*) AS COUNT
+      FROM device
+      GROUP BY tz, lang, cou, sub, aso
+      `
 
    }
 
    dashPopularity() { // user by page
-      let s =` SELECT url, count(*) AS COUNT 
+      let s =` SELECT url, title, count(*) AS COUNT 
       FROM met
-      GROUP BY url
+      GROUP BY url, title,
       `
-
    }
 
    uptimeService() { // response time and outage
@@ -227,6 +225,6 @@ export class MeDB extends BaseDBL  {
 
    dashMap(){}
    dashRUMPath(){}
-   dashRPM(){}
+   dashRPM(){}  // and dome time
 
 }//()

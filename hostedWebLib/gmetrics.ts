@@ -93,7 +93,7 @@ class __gMetrics {
       __gMetrics.met['referrer'] = document.referrer
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width
-      //__gMetrics.met['title']= document.title
+      __gMetrics.met['title']= document.title
       __gMetrics.met['domTime']= __gMetrics._dom - __gMetrics._start 
 
       //console.log(__gMetrics.met)
