@@ -156,10 +156,10 @@ export class MeDB extends BaseDBL  {
    }//()
 
    dashDAU(domain){ //visitors for a week by day total. new vs returning
-      const dau = `SELECT fullFinger, date(dateTime) AS date, count(*) AS COUNT
-      FROM met
-      GROUP BY fullFinger, date
+      const dau = `SELECT fullFinger, date(dateTime) AS date, count(*) AS COUNT 
+      FROM met 
       WHERE domain = ? and dateTime >= ? 
+      GROUP BY fullFinger, date 
       ORDER by date DESC 
       `
       //date
