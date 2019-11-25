@@ -10,4 +10,4 @@ import { DashHandler } from "./handler/DashHandler"
 
 const m = new MeDB()
 
-m.dashGeo('www.metabake.net')
+m.dashPopularity('www.metabake.net')

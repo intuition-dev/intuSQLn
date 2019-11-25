@@ -199,8 +199,10 @@ export class MeDB extends BaseDBL  {
    }//()
 
    dashGeo(domain){ // where are they.
-      let state = `SELECT tz, lang, cou, sub, count(*) AS COUNT
+      let state = ` SELECT tz, lang, cou, sub, count(*) AS COUNT
       FROM device
+      INNER JOIN met ON met.fullFinger = device.fullFinger
+      WHERE domain = ? 
       GROUP BY tz, lang, cou, sub
       `
       const rows = this.read(state, domain )
@@ -216,7 +218,7 @@ export class MeDB extends BaseDBL  {
    dashPopularity(domain) { // user by page
       let s =` SELECT url, title, count(*) AS COUNT 
       FROM met
-      GROUP BY url, title,
+      GROUP BY url, title
       `
    }
 
