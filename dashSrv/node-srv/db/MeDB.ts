@@ -1,6 +1,7 @@
 import { BaseDBL } from 'mbakex/lib/BaseDBL'
 import { Geo } from '../gdb/Geo'
 import { Utils } from './Utils'
+import { DateTime } from 'luxon'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -36,7 +37,7 @@ export class MeDB extends BaseDBL  {
    }//()
 
    async writeMetrics(domain, fullFinger, params, ip) {
-      const date = new Date().toISOString()
+      const date = DateTime.local().toString()
 
       // sameDomain
       let referrerLocalFlag:number = 0
@@ -94,7 +95,7 @@ export class MeDB extends BaseDBL  {
    }//()
    
    writeError(domain, ip, url, type, error:string) {
-      const date = new Date().toISOString()
+      const date = DateTime.local().toString()
 
       const ehash:string = hash.x64.hash128(error+domain)
 
@@ -154,13 +155,20 @@ export class MeDB extends BaseDBL  {
       return true
    }//()
 
-   dashDAU(){ //visitors for a week by day total. new vs returning
-      let dau = `SELECT fullFinger, date(dateTime) AS date, count(*) AS COUNT
+   dashDAU(domain){ //visitors for a week by day total. new vs returning
+      const dau = `SELECT fullFinger, date(dateTime) AS date, count(*) AS COUNT
       FROM met
       GROUP BY fullFinger, date
+      WHERE domain = ? and dateTime >= ? 
       ORDER by date DESC 
       `
-      // WHERE domain = ? and dateTime >= ? 
+      //date
+      let weekAgo = DateTime.local().minus({days: 8})
+
+      const rows = this.read(dau, domain, weekAgo.toString() )
+
+      console.log(rows)
+      return rows
 
       let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) AS COUNT
       FROM met
@@ -219,7 +227,7 @@ export class MeDB extends BaseDBL  {
 
    }//()
 
-   showPerf(){ // average performance groped by time and country
+   dashPerf(){ // average performance groped by time and country
 
    }
 
