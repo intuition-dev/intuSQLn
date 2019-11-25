@@ -164,10 +164,7 @@ export class MeDB extends BaseDBL  {
       `
       //date
       let weekAgo = DateTime.local().minus({days: 8})
-
       const rows = this.read(dau, domain, weekAgo.toString() )
-
-      console.log(rows)
       return rows
 
       let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) AS COUNT
@@ -179,11 +176,14 @@ export class MeDB extends BaseDBL  {
       // WHERE domain = ? and dateTime >= ? 
    }
 
-   dashPopular() { //page title/url
+   dashPopular(domain) { //page title/url
       let s =` SELECT url, count(*) AS COUNT 
       FROM met
       GROUP BY url
       `
+      const rows = this.read(s, domain )
+      console.log(rows)
+      return rows
    }
 
    dashRef(){ // where they came from
