@@ -1,5 +1,6 @@
 import { MeDB } from "../db/MeDB"
 import { Utils } from "../db/Utils"
+import { BaseRPCMethodHandler } from "mbake/lib/Serv"
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -9,10 +10,12 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "MetricsHan
 log.info('hand')
 const hash = require("murmurhash3js")
 
-export class MetricsHandler {
+export class MetricsHandler extends BaseRPCMethodHandler {
   
    static _db:MeDB
+   
    constructor() {
+      super()
       MetricsHandler._db =  new MeDB()
    }
 
