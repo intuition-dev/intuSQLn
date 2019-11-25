@@ -193,24 +193,25 @@ export class MeDB extends BaseDBL  {
       WHERE domain = ? AND referrerLocalFlag = 0 
       GROUP BY referrer
       `
-      // only the ones from outside
       const rows = this.read(s, domain )
       console.log(rows)
       return rows
    }//()
 
    dashGeo(domain){ // where are they.
-      let s1 = `SELECT tz, lang, cou, sub, count(*) AS COUNT
+      let state = `SELECT tz, lang, cou, sub, count(*) AS COUNT
       FROM device
       GROUP BY tz, lang, cou, sub
       `
+      const rows = this.read(state, domain )
+      console.log(rows)
+      return rows
 
-      let s2 = `SELECT tz, lang, cou, sub, aso, count(*) AS COUNT
+      let aso = `SELECT tz, lang, cou, sub, aso, count(*) AS COUNT
       FROM device
       GROUP BY tz, lang, cou, sub, aso
       `
-
-   }
+   }//()
 
    dashPopularity(domain) { // user by page
       let s =` SELECT url, title, count(*) AS COUNT 
