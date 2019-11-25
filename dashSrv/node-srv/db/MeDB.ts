@@ -179,6 +179,7 @@ export class MeDB extends BaseDBL  {
    dashPopular(domain) { //page title/url
       let s =` SELECT url, count(*) AS COUNT 
       FROM met
+      WHERE domain = ? 
       GROUP BY url
       `
       const rows = this.read(s, domain )
@@ -186,15 +187,19 @@ export class MeDB extends BaseDBL  {
       return rows
    }
 
-   dashRef(){ // where they came from
+   dashRef(domain){ // where they came from
       let s =` SELECT referrer, count(*) AS COUNT 
       FROM met
+      WHERE domain = ? 
       GROUP BY referrer
       `
       // only the ones from outside
+      const rows = this.read(s, domain )
+      console.log(rows)
+      return rows
    }
 
-   dashGeo(){ // where are they.
+   dashGeo(domain){ // where are they.
       let s1 = `SELECT tz, lang, cou, sub, count(*) AS COUNT
       FROM device
       GROUP BY tz, lang, cou, sub
@@ -207,7 +212,7 @@ export class MeDB extends BaseDBL  {
 
    }
 
-   dashPopularity() { // user by page
+   dashPopularity(domain) { // user by page
       let s =` SELECT url, title, count(*) AS COUNT 
       FROM met
       GROUP BY url, title,
