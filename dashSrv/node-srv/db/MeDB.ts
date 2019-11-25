@@ -215,16 +215,6 @@ export class MeDB extends BaseDBL  {
       `
    }//()
 
-   dashPopularity(domain) { // user by page
-      let s =` SELECT url, title, count(*) AS COUNT 
-      FROM met
-      WHERE domain = ? 
-      GROUP BY url, title
-      `
-      const rows = this.read(s, domain )
-      console.log(rows)
-      return rows
-   }
 
    uptimeService() { // response time and outage
 

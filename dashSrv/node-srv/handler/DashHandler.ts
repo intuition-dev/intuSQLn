@@ -17,36 +17,33 @@ export class DashHandler extends BaseRPCMethodHandler {
    }
 
    async DAU(req, resp) {
-
       let params = req.body
 
-      let ret 
-
-
-      log.info(Object.keys( ret))
-
+      let ret  = this.mdb.dashDAU('www.metabake.net')
       this.ret(resp, ret, null, null)
-
-
    }//()
 
-}//
+   async popular(req, resp) {
+      let params = req.body
 
-/*  'www.metabake.net'
+      let ret  = this.mdb.dashPopular('www.metabake.net')
+      this.ret(resp, ret, null, null)
+   }//()
 
-   dashDAU(domain) //visitors for a week by day total. new vs returning
-  
+   async ref(req, resp) {
+      let params = req.body
 
-   dashPopular(domain)  //page title/url
+      let ret  = this.mdb.dashRef('www.metabake.net')
+      this.ret(resp, ret, null, null)
+   }//()
+
+   async geo(req, resp) {
+      let params = req.body
+
+      let ret  = this.mdb.dashGeo('www.metabake.net')
+      this.ret(resp, ret, null, null)
+   }//()
 
 
-   dashRef(domain) // where they came from
 
-
-   dashGeo(domain) // where are they.
-     
-
-   dashPopularity(domain) // user by page
-
-
-*/
+}//class
