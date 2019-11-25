@@ -10,4 +10,4 @@ import { DashHandler } from "./handler/DashHandler"
 
 const m = new MeDB()
 
-m.dashPopular('www.metabake.net')
+m.dashRef('www.metabake.net')

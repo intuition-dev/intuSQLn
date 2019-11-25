@@ -190,14 +190,14 @@ export class MeDB extends BaseDBL  {
    dashRef(domain){ // where they came from
       let s =` SELECT referrer, count(*) AS COUNT 
       FROM met
-      WHERE domain = ? 
+      WHERE domain = ? AND referrerLocalFlag = 0 
       GROUP BY referrer
       `
       // only the ones from outside
       const rows = this.read(s, domain )
       console.log(rows)
       return rows
-   }
+   }//()
 
    dashGeo(domain){ // where are they.
       let s1 = `SELECT tz, lang, cou, sub, count(*) AS COUNT
