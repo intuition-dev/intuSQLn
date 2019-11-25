@@ -3,7 +3,6 @@ console.log('api')
 
 depp.require('RPC', init)
 
-
 function init()  {
    console.log('rpc')
 
@@ -11,8 +10,7 @@ function init()  {
 
    const pro = rpc.invoke('api', 'pageOne', 'multiply', {a:5, b:2})
    pro.then(function(resp) {
-   console.log(resp)
+      console.log(resp)
+   })
 
-})
-
-}
+}//()
