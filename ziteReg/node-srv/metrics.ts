@@ -1,11 +1,10 @@
 
-import {  ExpressRPC } from "mbake/lib/Serv"
+import {  Serv } from "mbake/lib/Serv"
 
 import {  MetricsHandler } from "./handler/MetricsHandler"
 
 
-const exp = new ExpressRPC() 
-exp.makeInstance(['*'])
+const exp = new Serv(['*'])
 
 const mh = new MetricsHandler()
 

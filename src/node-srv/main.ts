@@ -16,7 +16,7 @@ const bformat = require('bunyan-format2')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "index"})
 
-import {  ExpressRPC } from "mbake/lib/Serv"
+import {  Serv } from "mbake/lib/Serv"
 
 import {  MetricsHandler } from "./handler/MetricsHandler"
 import {  DashHandler } from "./handler/DashHandler"
@@ -36,8 +36,7 @@ log.info('debug on 3001')
 
 const express = require('express');
 
-const srv = new ExpressRPC() 
-srv.makeInstance(['*'])
+const srv = new Serv(['*']) 
 
 const db =  new MeDB()
 
@@ -56,8 +55,8 @@ srv.appInst.post('/log', mh.log)
 
 //DASH
 const dashH = new DashHandler(db)
-srv.routeRPC('/api', 'dash', dashH.handleRPC.bind(dashH))
 
+srv.routeRPC('api',  dashH)
 
 srv.appInst.use(function(req,resp, next){
    log.warn('err', req.originalUrl)

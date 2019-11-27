@@ -3,7 +3,7 @@ const URL = require('url')
 
 
 // from mbake
-import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
+import { BaseRPCMethodHandler, Serv } from "mbake/lib/Serv"
 
 import { MDB } from "./lib/MDB"
 import { DashHandler } from "./handler/DashHandler"
@@ -12,8 +12,7 @@ const m = new MDB()
 
 m.showLastPerSecond()
 
-const dashSrv = new ExpressRPC()
-dashSrv.makeInstance(['*'])
+const dashSrv = new Serv(['*'])
 
 const handler = new BaseRPCMethodHandler()
 dashSrv.routeRPC('monitor', 'monitor', (req, res) => { 

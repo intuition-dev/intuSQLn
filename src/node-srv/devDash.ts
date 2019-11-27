@@ -2,29 +2,22 @@
 const URL = require('url')
 
 // from mbake
-import { BaseRPCMethodHandler, ExpressRPC } from "mbake/lib/Serv"
+import { BaseRPCMethodHandler, Serv } from "mbake/lib/Serv"
 
 import { MeDB } from "./db/MeDB"
 import { DashHandler } from "./handler/DashHandler"
 
 const m = new MeDB()
 
-const dashSrv = new ExpressRPC()
-dashSrv.makeInstance(['*'])
+const dashSrv = new Serv(['*'])
 
 const handler = new BaseRPCMethodHandler()
-dashSrv.routeRPC('monitor', 'monitor', (req, res) => { 
 
-   const params = URL.parse(req.url, true).query
-   params['ip'] = req.ip // you may need req.ips
-   
-   //m.ins(params)
+dashSrv.routeRPC('monitor', handler)
 
-   handler.ret(res, 'OK', 0, 0)
-})
 
 // dash handler
 const dashH = new DashHandler(m)
-dashSrv.routeRPC('dash', 'dash', dashH.handleRPC.bind(dashH) )
+dashSrv.routeRPC('dash', dashH )
 
 dashSrv.listen(8888)
