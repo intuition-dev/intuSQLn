@@ -51,7 +51,7 @@ export class Geo {
 
       geo['sub']= ctresp.subdivisions[0].isoCode
 
-      log.trace(geo)
+      log.info(geo)
       return geo
    }//()
 
