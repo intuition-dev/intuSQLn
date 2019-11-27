@@ -19,7 +19,7 @@ function data() {
 
    const rpc = new httpRPC('http', 'localhost', 8888)
 
-   const pro = rpc.invoke('dash', 'dash', 'dash', {})
+   const pro = rpc.invoke('dash', 'dash', {})
    pro.then(function(resp) {
      display(resp)
    })   

@@ -6,7 +6,7 @@ var logger = require('tracer').console();
 class Agent {
     async run() {
         logger.trace('loop:');
-        await Agent.rpc.invoke('monitor', 'monitor', 'monitor', await SysAgent_1.SysAgent.stats());
+        await Agent.rpc.invoke('monitor', 'monitor', await SysAgent_1.SysAgent.stats());
         await SysAgent_1.SysAgent.wait(200);
         this.run();
     }

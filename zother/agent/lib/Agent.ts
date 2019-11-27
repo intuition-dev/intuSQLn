@@ -12,7 +12,7 @@ export class Agent {
       
       log.info('loop:')
 
-      await Agent.rpc.invoke('monitor', 'monitor', 'monitor', await SysAgent.stats() )
+      await Agent.rpc.invoke('monitor',  'monitor', await SysAgent.stats() )
 
       await  SysAgent.wait(200)
       this.run()

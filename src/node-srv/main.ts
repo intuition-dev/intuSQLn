@@ -42,23 +42,23 @@ const db =  new MeDB()
 
 const mh = new MetricsHandler(db)
 
-srv.appInst.use(express.json( {type: '*/*'} ) )
+Serv._expInst.use(express.json( {type: '*/*'} ) )
 
-srv.appInst.use(function(req,resp, next){
+Serv._expInst.use(function(req,resp, next){
    log.info(req.originalUrl)
    next()
 })
 
-srv.appInst.post('/metrics1911',  mh.metrics1911)
-srv.appInst.post('/error1911', mh.error1911)
-srv.appInst.post('/log', mh.log)
+Serv._expInst.post('/metrics1911',  mh.metrics1911)
+Serv._expInst.post('/error1911', mh.error1911)
+Serv._expInst.post('/log', mh.log)
 
 //DASH
 const dashH = new DashHandler(db)
 
 srv.routeRPC('api',  dashH)
 
-srv.appInst.use(function(req,resp, next){
+Serv._expInst.use(function(req,resp, next){
    log.warn('err', req.originalUrl)
 })
 
