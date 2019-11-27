@@ -2,7 +2,7 @@ clear
 yarn
 tsc
 
-node dev1.js
+node main.js
 
 //pm2 reload main --trace
  

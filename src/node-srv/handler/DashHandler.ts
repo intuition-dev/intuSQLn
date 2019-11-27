@@ -17,6 +17,7 @@ export class DashHandler extends BaseRPCMethodHandler {
    }
 
    async DAU(req, resp) {
+      log.error('DAU')
       let params = req.body
 
       let ret  = this.mdb.dashDAU('www.metabake.net')

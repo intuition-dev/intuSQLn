@@ -20,7 +20,7 @@ import {  ExpressRPC } from "mbake/lib/Serv"
 
 import {  MetricsHandler } from "./handler/MetricsHandler"
 import {  DashHandler } from "./handler/DashHandler"
-import { MeDB } from "db/MeDB"
+import { MeDB } from "./db/MeDB"
 
 /* debug http
 const dhttp = require('http')
@@ -36,32 +36,32 @@ log.info('debug on 3001')
 
 const express = require('express');
 
-const exp = new ExpressRPC() 
-exp.makeInstance(['*'])
+const srv = new ExpressRPC() 
+srv.makeInstance(['*'])
 
 const db =  new MeDB()
 
 const mh = new MetricsHandler(db)
 
-exp.appInst.use(express.json( {type: '*/*'} ) )
+srv.appInst.use(express.json( {type: '*/*'} ) )
 
-exp.appInst.use(function(req,resp, next){
+srv.appInst.use(function(req,resp, next){
    log.info(req.originalUrl)
    next()
 })
 
-exp.appInst.post('/metrics1911',  mh.metrics1911)
-exp.appInst.post('/error1911', mh.error1911)
-exp.appInst.post('/log', mh.log)
+srv.appInst.post('/metrics1911',  mh.metrics1911)
+srv.appInst.post('/error1911', mh.error1911)
+srv.appInst.post('/log', mh.log)
 
 //DASH
 const dashH = new DashHandler(db)
-this.routeRPC('/api', 'editors', dashH.handleRPC.bind(dashH))
+srv.routeRPC('/api', 'dash', dashH.handleRPC.bind(dashH))
 
 
-exp.appInst.use(function(req,resp, next){
+srv.appInst.use(function(req,resp, next){
    log.warn('err', req.originalUrl)
 })
 
-exp.listen(3000)
+srv.listen(3000)
 
