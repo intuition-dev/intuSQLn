@@ -16,32 +16,29 @@ export class DashHandler extends BaseRPCMethodHandler {
       this.mdb = mdb
    }
 
-   async DAU(req, resp) {
+   async DAU(resp, params) {
    
       log.warn('DAU')
-      let params = req.body
 
       let ret  = this.mdb.dashDAU('www.metabake.net')
       this.ret(resp, ret, null, null)
    }//()
 
    async popular(req, resp) {
-      let params = req.body
 
       let ret  = this.mdb.dashPopular('www.metabake.net')
       this.ret(resp, ret, null, null)
    }//()
 
    async ref(req, resp) {
-      let params = req.body
 
+      
       let ret  = this.mdb.dashRef('www.metabake.net')
       this.ret(resp, ret, null, null)
    }//()
 
    async geo(req, resp) {
-      let params = req.body
-
+      
       let ret  = this.mdb.dashGeo('www.metabake.net')
       this.ret(resp, ret, null, null)
    }//()
