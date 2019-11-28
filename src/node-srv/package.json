@@ -23,8 +23,8 @@
     "@maxmind/geoip2-node": ">=1.3.0",
     "@pm2/io": ">=4.3.3",
     "atatus-nodejs": ">=1.1.0",
-    "luxon": ">=1.21.2",
-    "mbakex": ">=2.11.15",
+    "luxon": ">=1.21.3",
+    "mbakex": ">=2.11.16",
     "murmurhash3js": ">=3.0.1",
     "traceroute": ">=1.0.0"
   },
