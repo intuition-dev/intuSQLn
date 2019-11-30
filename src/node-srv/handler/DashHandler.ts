@@ -16,7 +16,7 @@ export class DashHandler extends BaseRPCMethodHandler {
       this.mdb = mdb
    }
 
-   async DAU(resp, params) {
+   async DAU(params) {
    
       log.warn('DAU')
 
