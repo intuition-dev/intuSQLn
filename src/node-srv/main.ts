@@ -16,7 +16,7 @@ const bformat = require('bunyan-format2')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "index"})
 
-import {  Serv } from "mbake/lib/Serv"
+import {  Serv }  from 'http-rpc/node-srv/lib/Serv'
 
 import {  MetricsHandler } from "./handler/MetricsHandler"
 import {  DashHandler } from "./handler/DashHandler"

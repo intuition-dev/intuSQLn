@@ -1,4 +1,4 @@
-import { BaseRPCMethodHandler } from 'mbake/lib/Serv'
+import { BaseRPCMethodHandler } from 'http-rpc/node-srv/lib/Serv'
 
 import { MeDB } from '../db/MeDB'
 
@@ -12,7 +12,7 @@ export class DashHandler extends BaseRPCMethodHandler {
    mdb:MeDB
 
    constructor(mdb) {
-      super()
+      super(1)
       this.mdb = mdb
    }
 
@@ -21,26 +21,25 @@ export class DashHandler extends BaseRPCMethodHandler {
       log.warn('DAU')
 
       let ret  = this.mdb.dashDAU('www.metabake.net')
-      this.ret(resp, ret, null, null)
+      return ret
    }//()
 
    async popular(req, resp) {
 
       let ret  = this.mdb.dashPopular('www.metabake.net')
-      this.ret(resp, ret, null, null)
+      return ret
    }//()
 
    async ref(req, resp) {
-
       
       let ret  = this.mdb.dashRef('www.metabake.net')
-      this.ret(resp, ret, null, null)
+      return ret
    }//()
 
    async geo(req, resp) {
       
       let ret  = this.mdb.dashGeo('www.metabake.net')
-      this.ret(resp, ret, null, null)
+      return ret
    }//()
 
 
