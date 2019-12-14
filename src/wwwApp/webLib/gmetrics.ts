@@ -3,6 +3,7 @@ declare var Fingerprint2 // to compile
 declare var userAgent
 declare var requestIdleCallback
 declare var ClientJS
+declare var TraceKit
 
 /**
  * This will download fingerprint
@@ -10,6 +11,8 @@ declare var ClientJS
 class __gMetrics {
    static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
+
+   static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
 
    static _url1 = 'https://1026491782.rsc.cdn77.org'
 
@@ -21,18 +24,7 @@ class __gMetrics {
    static _dom 
 
    constructor() {
-      
-      window.addEventListener('unhandledrejection', function (e) {
-         __gMetrics._error('unhandled', e.reason)
-       })
-      window.onerror = function(message, source, lineno) {
-         var e = {}
-         e['message']=message
-         e['source']=source
-         e['lineno']=lineno
-         __gMetrics._error('on', e)
-         return true
-      }//
+
 
       // start
       document.addEventListener('DOMContentLoaded', function() {
@@ -43,12 +35,20 @@ class __gMetrics {
    
    static _init() {
       setTimeout(function () {
+         // https://cdnjs.com/libraries/stacktrace.js
+         __gMetrics._addScript(__gMetrics._traceSrc , __gMetrics.onLoadedTrace)
          __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient)
          __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
       },51)
    }//()
 
    static steps = 0
+
+   static onLoadedTrace() {
+      TraceKit.report.subscribe(__gMetrics._sendError) 
+
+      __gMetrics.steps++
+   }
 
    static onLoadedClient() {
       __gMetrics.steps++
@@ -109,21 +109,27 @@ class __gMetrics {
       console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
-   static _error(type, errorObj) {
-      var err:any  = {}
-      err['type']= type
-      err['error']= errorObj
-
-      err['domain']=  window.location.href
+   static _sendError(errorObj) {
+      try {
+         if (!errorObj.stack) {
+           errorObj.stack = (new Error('make stack')).stack;
+           if (errorObj.stack) 
+             errorObj.stack = errorObj.stack.toString()
+           
+         }
+      } catch (e) { console.log(e)}
+      
+      if (typeof errorObj !== 'string') 
+         errorObj = JSON.stringify(errorObj)
 
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/error1911')
       
       //set timeout so metrics maybe?
       setTimeout(function () {
-         ajax.send(JSON.stringify(err))
-         console.log(err.error)
-      },1)
+         ajax.send(errorObj)
+         console.log(errorObj)
+      })
    }//()
 
    log(arg) {

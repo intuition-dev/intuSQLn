@@ -1,16 +1,5 @@
 var __gMetrics = (function () {
     function __gMetrics() {
-        window.addEventListener('unhandledrejection', function (e) {
-            __gMetrics._error('unhandled', e.reason);
-        });
-        window.onerror = function (message, source, lineno) {
-            var e = {};
-            e['message'] = message;
-            e['source'] = source;
-            e['lineno'] = lineno;
-            __gMetrics._error('on', e);
-            return true;
-        };
         document.addEventListener('DOMContentLoaded', function () {
             __gMetrics._dom = Date.now();
             __gMetrics._init();
@@ -18,9 +7,14 @@ var __gMetrics = (function () {
     }
     __gMetrics._init = function () {
         setTimeout(function () {
+            __gMetrics._addScript(__gMetrics._traceSrc, __gMetrics.onLoadedTrace);
             __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient);
             __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger);
         }, 51);
+    };
+    __gMetrics.onLoadedTrace = function () {
+        TraceKit.report.subscribe(__gMetrics._sendError);
+        __gMetrics.steps++;
     };
     __gMetrics.onLoadedClient = function () {
         __gMetrics.steps++;
@@ -67,17 +61,25 @@ var __gMetrics = (function () {
         console.log('sentMet1124');
         console.log('sent', JSON.stringify(__gMetrics.met));
     };
-    __gMetrics._error = function (type, errorObj) {
-        var err = {};
-        err['type'] = type;
-        err['error'] = errorObj;
-        err['domain'] = window.location.href;
+    __gMetrics._sendError = function (errorObj) {
+        try {
+            if (!errorObj.stack) {
+                errorObj.stack = (new Error('make stack')).stack;
+                if (errorObj.stack)
+                    errorObj.stack = errorObj.stack.toString();
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+        if (typeof errorObj !== 'string')
+            errorObj = JSON.stringify(errorObj);
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
         setTimeout(function () {
-            ajax.send(JSON.stringify(err));
-            console.log(err.error);
-        }, 1);
+            ajax.send(errorObj);
+            console.log(errorObj);
+        });
     };
     __gMetrics.prototype.log = function (arg) {
         var extra = {};
@@ -102,6 +104,7 @@ var __gMetrics = (function () {
     };
     __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
+    __gMetrics._traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js';
     __gMetrics._url1 = 'https://1026491782.rsc.cdn77.org';
     __gMetrics._url01 = 'http://localhost:3000';
     __gMetrics._url3 = 'http://185.105.7.112:3000';
