@@ -1,12 +1,14 @@
 
 console.log('UI:')
 
-depp.define({
-   'api':'/api/api.js'
-
-})
-
-depp.require('api')
+depp.define({'dapi':'/api/DashAPI.js'})
 
 
-// var vm = new ViewModel()
+depp.require(['DOM', 'RPC', 'dapi'], function() {
+    console.log('ready')
+}) 
+ 
+// sets the states of the view, such as buttons, click enabled/grayed and others
+function pushState() {
+
+}

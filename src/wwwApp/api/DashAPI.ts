@@ -6,9 +6,6 @@ declare var httpRPC
 declare var depp
 declare var dashAPI
 
-dashAPI
-
-depp.require('RPC', function() { dashAPI = new DashAPI()})
 
 class DashAPI {
 
@@ -16,7 +13,10 @@ class DashAPI {
 
 constructor() {
    this.rpc = new httpRPC('http', 'localhost', 3000)
+
+   this.pageViews('x')
 }
+
 
 pageViews(domain)  {
    const pro = this.rpc.invoke('api', 'pageViews', {a:5, b:2})
@@ -64,3 +64,4 @@ recent(domain)  {
 
 }//class
 
+dashAPI = new DashAPI()
