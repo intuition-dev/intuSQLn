@@ -22,7 +22,7 @@ export class MeDB extends BaseDBL  {
       this.schema()
    }//()
 
-   _getPriorDateTimeDiff(fullFinger, curDate) {
+   private _getPriorDateTimeDiff(fullFinger, curDate) {
       const rows = this.read(`SELECT dateTime FROM met
          WHERE fullFinger = ?
          ORDER BY dateTime DESC 
@@ -94,7 +94,7 @@ export class MeDB extends BaseDBL  {
       
    }//()
    
-   writeError(domain, ip, url, type, error:string) {
+   XwriteError(domain, ip, url, type, error:string) {
       const date = DateTime.local().toString()
 
       const ehash:string = hash.x64.hash128(error+domain)
@@ -112,7 +112,6 @@ export class MeDB extends BaseDBL  {
       )//
 
    }//()
-   getErrors(){}//  by domain,  date
 
    private schema() {
 
@@ -155,16 +154,18 @@ export class MeDB extends BaseDBL  {
       return true
    }//()
 
-   dashDAU(domain){ //visitors for a week by day total. new vs returning
-      const dau = `SELECT fullFinger, date(dateTime) AS date, count(*) AS COUNT 
+   dashPageViews(domain){ //visitors for the 2 weeks by day total. new vs returning
+
+      const dau = `SELECT date(dateTime) AS date, count(*) AS COUNT 
       FROM met 
-      WHERE domain = ? and dateTime >= ? 
-      GROUP BY fullFinger, date 
+      WHERE domain = ? AND dateTime >= ? 
+      GROUP BY date 
       ORDER by date DESC 
       `
       //date
-      let weekAgo = DateTime.local().minus({days: 8})
-      const rows = this.read(dau, domain, weekAgo.toString() )
+      let weeksAgo = DateTime.local().minus({days: 7*2 + 1})
+      const rows = this.read(dau, domain, weeksAgo.toString() )
+      console.log(rows)
       return rows
 
       let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) AS COUNT
@@ -176,18 +177,24 @@ export class MeDB extends BaseDBL  {
       // WHERE domain = ? and dateTime >= ? 
    }
 
-   dashPopular(domain) { //page title/url
+   dashPgPopular(domain) { //page title/url
+
+      let weeksAgo = DateTime.local().minus({days:  30 + 1 })
+
       let s =` SELECT url, count(*) AS COUNT 
       FROM met
-      WHERE domain = ? 
+      WHERE domain = ? AND dateTime >= ? 
       GROUP BY url
       `
-      const rows = this.read(s, domain )
+      const rows = this.read(s, domain, weeksAgo.toString() )
       console.log(rows)
       return rows
    }
 
    dashRef(domain){ // where they came from
+
+      //let weeksAgo = DateTime.local().minus({days:  30 + 1 })
+
       let s =` SELECT referrer, count(*) AS COUNT 
       FROM met
       WHERE domain = ? AND referrerLocalFlag = 0 
@@ -198,14 +205,17 @@ export class MeDB extends BaseDBL  {
       return rows
    }//()
 
-   dashGeo(domain){ // where are they.
+   dashGeo(domain){ // where are they
+      
+      let weeksAgo = DateTime.local().minus({days:  30 + 1 })
+
       let state = ` SELECT tz, lang, cou, sub, count(*) AS COUNT
       FROM device
       INNER JOIN met ON met.fullFinger = device.fullFinger
-      WHERE domain = ? 
+      WHERE domain = ? AND met.dateTime >= ? 
       GROUP BY tz, lang, cou, sub
       `
-      const rows = this.read(state, domain )
+      const rows = this.read(state, domain, weeksAgo.toString() )
       console.log(rows)
       return rows
 
@@ -216,25 +226,18 @@ export class MeDB extends BaseDBL  {
    }//()
 
 
-   uptimeService() { // response time and outage
-
-   }
-
-   dashRecentUsers(domain, cou) {
-      const rows = this.read(`SELECT DISTINCT fullFinger FROM met
-         ORDER BY dateTime DESC 
-         LIMIT 60
-         `)
-      // for each finger, get metrics and country
-
+   dashRecentUsers(domain) {
+      
+      const rows = this.read(`
+      SELECT m.fullFinger, m.dateTime, d.ip, m.title, d.cou, d.sub, d.aso, d.mobile
+      FROM met m, device d
+      WHERE m.fullFinger = d.fullFinger
+      AND m.datetime = ( SELECT MAX(dateTime) FROM met m2 WHERE m2.fullFinger = m.fullFinger )
+      AND domain = ? 
+      ORDER BY m.dateTime DESC 
+      LIMIT 60
+       `, domain)
    }//()
 
-   dashPerf(){ // average performance groped by time and country
-
-   }
-
-   dashMap(){}
-   dashRUMPath(){}
-   dashRPM(){}  // and dome time
 
 }//()

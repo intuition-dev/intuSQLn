@@ -9,7 +9,7 @@ declare var TraceKit
  * This will download fingerprint
  */
 class __gMetrics {
-   static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
+   //static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
    static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
@@ -38,7 +38,7 @@ class __gMetrics {
          // https://cdnjs.com/libraries/stacktrace.js
          __gMetrics._addScript(__gMetrics._traceSrc , __gMetrics.onLoadedTrace)
          __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient)
-         __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
+         //__gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
       },51)
    }//()
 
@@ -51,17 +51,19 @@ class __gMetrics {
    }
 
    static onLoadedClient() {
+      __gMetrics._metrics()
+
       __gMetrics.steps++
    }
 
-   static onLoadedFinger() {
+   static XonLoadedFinger() {
       var options = { excludes: {audio: false } // cause waring message in opera
       }
       setTimeout(function () {
             Fingerprint2.get(options, function (components) {
             let fid = Fingerprint2.x64hash128(components.join(''), 31)
             console.log(fid)
-            __gMetrics._metrics(fid)
+            __gMetrics._metrics()
          })  
       }, 200)
    
@@ -74,7 +76,7 @@ class __gMetrics {
     *  Also used for RUM
     *  and AMP: reports DOM ready relative to start
     */
-   static _metrics(fid) { 
+   static _metrics() { 
       var client = new ClientJS()
       __gMetrics.met['domain']= window.location.href.split('?')[0]
 
@@ -89,7 +91,7 @@ class __gMetrics {
       if(client.isIE()) __gMetrics.met['ie'] = 1
          else __gMetrics.met['ie'] = 0
 
-      __gMetrics.met['fid'] = fid
+      //__gMetrics.met['fid'] = fid
       __gMetrics.met['referrer'] = document.referrer
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width

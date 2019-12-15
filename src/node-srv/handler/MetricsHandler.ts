@@ -32,7 +32,7 @@ export class MetricsHandler {
       const fullDomain = params.domain
       let domain:string = fullDomain.replace('http://','').replace('https://','').split(/[/?#]/)[0]
 
-      let str:string =  params.fid + params.fidc + ip
+      let str:string =  params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
       try {
@@ -59,7 +59,7 @@ export class MetricsHandler {
       
       error = JSON.stringify(error)
 
-      MetricsHandler._db.writeError(domain, ip, fullDomain, type, error)
+      // MetricsHandler._db.writeError(domain, ip, fullDomain, type, error)
       resp.send('OK')
    }//()
    

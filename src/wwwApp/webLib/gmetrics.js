@@ -9,7 +9,6 @@ var __gMetrics = (function () {
         setTimeout(function () {
             __gMetrics._addScript(__gMetrics._traceSrc, __gMetrics.onLoadedTrace);
             __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient);
-            __gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger);
         }, 51);
     };
     __gMetrics.onLoadedTrace = function () {
@@ -17,20 +16,21 @@ var __gMetrics = (function () {
         __gMetrics.steps++;
     };
     __gMetrics.onLoadedClient = function () {
+        __gMetrics._metrics();
         __gMetrics.steps++;
     };
-    __gMetrics.onLoadedFinger = function () {
+    __gMetrics.XonLoadedFinger = function () {
         var options = { excludes: { audio: false }
         };
         setTimeout(function () {
             Fingerprint2.get(options, function (components) {
                 var fid = Fingerprint2.x64hash128(components.join(''), 31);
                 console.log(fid);
-                __gMetrics._metrics(fid);
+                __gMetrics._metrics();
             });
         }, 200);
     };
-    __gMetrics._metrics = function (fid) {
+    __gMetrics._metrics = function () {
         var client = new ClientJS();
         __gMetrics.met['domain'] = window.location.href.split('?')[0];
         __gMetrics.met['fidc'] = client.getFingerprint();
@@ -46,7 +46,6 @@ var __gMetrics = (function () {
             __gMetrics.met['ie'] = 1;
         else
             __gMetrics.met['ie'] = 0;
-        __gMetrics.met['fid'] = fid;
         __gMetrics.met['referrer'] = document.referrer;
         __gMetrics.met['h'] = window.screen.height;
         __gMetrics.met['w'] = window.screen.width;
@@ -102,7 +101,6 @@ var __gMetrics = (function () {
         s.async = true;
         document.getElementsByTagName('body')[0].appendChild(s);
     };
-    __gMetrics._fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js';
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
     __gMetrics._traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js';
     __gMetrics._url1 = 'https://1026491782.rsc.cdn77.org';
