@@ -55,7 +55,6 @@ Serv._expInst.post('/log', mh.log)
 
 //DASH
 const dashH = new DashHandler(db)
-
 srv.routeRPC('api',  dashH)
 
 Serv._expInst.use(function(req,resp, next){

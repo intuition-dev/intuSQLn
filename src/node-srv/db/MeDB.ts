@@ -41,8 +41,8 @@ export class MeDB extends BaseDBL  {
 
       // sameDomain
       let referrerLocalFlag:number = 0
-      const refHost = Utils.getHostname(params.referrer)
-      const curHost = Utils.getHostname(params.referrer)      
+      const refHost = Utils.getHostname(params.referrer) 
+      const curHost = Utils.getHostname(params.domain)      
 
       if(curHost==refHost)
          referrerLocalFlag = 1
@@ -209,11 +209,11 @@ export class MeDB extends BaseDBL  {
       
       let weeksAgo = DateTime.local().minus({days:  30 + 1 })
 
-      let state = ` SELECT tz, lang, cou, sub, count(*) AS COUNT
+      let state = ` SELECT  lang, cou, sub, count(*) AS COUNT
       FROM device
       INNER JOIN met ON met.fullFinger = device.fullFinger
       WHERE domain = ? AND met.dateTime >= ? 
-      GROUP BY tz, lang, cou, sub
+      GROUP BY  lang, cou, sub
       `
       const rows = this.read(state, domain, weeksAgo.toString() )
       console.log(rows)
@@ -229,7 +229,7 @@ export class MeDB extends BaseDBL  {
    dashRecentUsers(domain) {
       
       const rows = this.read(`
-      SELECT m.fullFinger, m.dateTime, d.ip, m.title, d.cou, d.sub, d.aso, d.mobile
+      SELECT m.dateTime, d.ip, m.title, d.cou, d.sub, d.aso, d.mobile
       FROM met m, device d
       WHERE m.fullFinger = d.fullFinger
       AND m.datetime = ( SELECT MAX(dateTime) FROM met m2 WHERE m2.fullFinger = m.fullFinger )
@@ -237,6 +237,10 @@ export class MeDB extends BaseDBL  {
       ORDER BY m.dateTime DESC 
       LIMIT 60
        `, domain)
+
+       console.log(rows)
+       return rows
+
    }//()
 
 
