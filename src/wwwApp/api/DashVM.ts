@@ -7,7 +7,7 @@ declare var depp
 declare var dashAPI
 
 
-class DashAPI {
+class DashVM {
 
    rpc
 
@@ -64,4 +64,4 @@ recent(domain)  {
 
 }//class
 
-dashAPI = new DashAPI()
+dashAPI = new DashVM()

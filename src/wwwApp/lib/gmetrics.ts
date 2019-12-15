@@ -9,23 +9,18 @@ declare var TraceKit
  * This will download fingerprint
  */
 class __gMetrics {
-   //static _fingerSrc = 'https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.0/fingerprint2.min.js'
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
    static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
 
-   static _url1 = 'https://1026491782.rsc.cdn77.org'
+   static _url01 = 'https://1026491782.rsc.cdn77.org'
 
-   static _url01 = 'http://localhost:3000'
-
-   static _url3 = 'http://185.105.7.112:3000'
+   static _url1 = 'http://localhost:3000'
 
    static _start = Date.now()
    static _dom 
 
    constructor() {
-
-
       // start
       document.addEventListener('DOMContentLoaded', function() {
          __gMetrics._dom  = Date.now()
@@ -34,11 +29,10 @@ class __gMetrics {
    }//()
    
    static _init() {
-      setTimeout(function () {
+      setTimeout(function () { // after dom
          // https://cdnjs.com/libraries/stacktrace.js
          __gMetrics._addScript(__gMetrics._traceSrc , __gMetrics.onLoadedTrace)
          __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient)
-         //__gMetrics._addScript(__gMetrics._fingerSrc, __gMetrics.onLoadedFinger)
       },51)
    }//()
 
@@ -50,24 +44,14 @@ class __gMetrics {
       __gMetrics.steps++
    }
 
+   static client
+
    static onLoadedClient() {
+      __gMetrics.client = new ClientJS()
       __gMetrics._metrics()
 
       __gMetrics.steps++
    }
-
-   static XonLoadedFinger() {
-      var options = { excludes: {audio: false } // cause waring message in opera
-      }
-      setTimeout(function () {
-            Fingerprint2.get(options, function (components) {
-            let fid = Fingerprint2.x64hash128(components.join(''), 31)
-            console.log(fid)
-            __gMetrics._metrics()
-         })  
-      }, 200)
-   
-   }//()
 
    static met = {}
 
@@ -77,21 +61,19 @@ class __gMetrics {
     *  and AMP: reports DOM ready relative to start
     */
    static _metrics() { 
-      var client = new ClientJS()
       __gMetrics.met['domain']= window.location.href.split('?')[0]
 
-      __gMetrics.met['fidc'] = client.getFingerprint()
-      __gMetrics.met['bro'] = client.getBrowser()
-      __gMetrics.met['os'] = client.getOS()
-      if(client.isMobile())
+      __gMetrics.met['fidc'] = __gMetrics.client.getFingerprint()
+      __gMetrics.met['bro'] = __gMetrics.client.getBrowser()
+      __gMetrics.met['os'] = __gMetrics.client.getOS()
+      if(__gMetrics.client.isMobile())
          __gMetrics.met['mobile'] = 1
       else __gMetrics.met['mobile'] = 0 
-      __gMetrics.met['tz'] = client.getTimeZone()
-      __gMetrics.met['lang'] = client.getLanguage()
-      if(client.isIE()) __gMetrics.met['ie'] = 1
+      __gMetrics.met['tz'] = __gMetrics.client.getTimeZone()
+      __gMetrics.met['lang'] = __gMetrics.client.getLanguage()
+      if(__gMetrics.client.isIE()) __gMetrics.met['ie'] = 1
          else __gMetrics.met['ie'] = 0
 
-      //__gMetrics.met['fid'] = fid
       __gMetrics.met['referrer'] = document.referrer
       __gMetrics.met['h']=window.screen.height
       __gMetrics.met['w']=window.screen.width
@@ -124,12 +106,18 @@ class __gMetrics {
       if (typeof errorObj !== 'string') 
          errorObj = JSON.stringify(errorObj)
 
+      let extra={} 
+      extra['error']=  errorObj
+
+      if(__gMetrics.client)
+         extra['fidc'] = __gMetrics.client.getFingerprint()
+      extra['domain']=  window.location.href
+         
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/error1911')
-      
       //set timeout so metrics maybe?
       setTimeout(function () {
-         ajax.send(errorObj)
+         ajax.send(JSON.stringify(extra))
          console.log(errorObj)
       })
    }//()
@@ -137,7 +125,12 @@ class __gMetrics {
    log(arg) {
       let extra={} 
 
+      if(__gMetrics.client)
+        extra['fidc'] = __gMetrics.client.getFingerprint()
       extra['domain']=  window.location.href
+
+      if (typeof arg !== 'string') 
+         arg = JSON.stringify(arg)
 
       extra['arg'] = arg
       var ajax = new XMLHttpRequest()
@@ -154,7 +147,6 @@ class __gMetrics {
       if (attr) s.setAttribute(attr, attrValue)
       if (id) s.id = id
       if (callback) s.onload = callback
-      s.async = true // it does it anyway, as the script is async
       document.getElementsByTagName('body')[0].appendChild(s)
    }//()
 

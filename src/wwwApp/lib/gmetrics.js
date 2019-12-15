@@ -16,33 +16,22 @@ var __gMetrics = (function () {
         __gMetrics.steps++;
     };
     __gMetrics.onLoadedClient = function () {
+        __gMetrics.client = new ClientJS();
         __gMetrics._metrics();
         __gMetrics.steps++;
     };
-    __gMetrics.XonLoadedFinger = function () {
-        var options = { excludes: { audio: false }
-        };
-        setTimeout(function () {
-            Fingerprint2.get(options, function (components) {
-                var fid = Fingerprint2.x64hash128(components.join(''), 31);
-                console.log(fid);
-                __gMetrics._metrics();
-            });
-        }, 200);
-    };
     __gMetrics._metrics = function () {
-        var client = new ClientJS();
         __gMetrics.met['domain'] = window.location.href.split('?')[0];
-        __gMetrics.met['fidc'] = client.getFingerprint();
-        __gMetrics.met['bro'] = client.getBrowser();
-        __gMetrics.met['os'] = client.getOS();
-        if (client.isMobile())
+        __gMetrics.met['fidc'] = __gMetrics.client.getFingerprint();
+        __gMetrics.met['bro'] = __gMetrics.client.getBrowser();
+        __gMetrics.met['os'] = __gMetrics.client.getOS();
+        if (__gMetrics.client.isMobile())
             __gMetrics.met['mobile'] = 1;
         else
             __gMetrics.met['mobile'] = 0;
-        __gMetrics.met['tz'] = client.getTimeZone();
-        __gMetrics.met['lang'] = client.getLanguage();
-        if (client.isIE())
+        __gMetrics.met['tz'] = __gMetrics.client.getTimeZone();
+        __gMetrics.met['lang'] = __gMetrics.client.getLanguage();
+        if (__gMetrics.client.isIE())
             __gMetrics.met['ie'] = 1;
         else
             __gMetrics.met['ie'] = 0;
@@ -73,15 +62,22 @@ var __gMetrics = (function () {
         }
         if (typeof errorObj !== 'string')
             errorObj = JSON.stringify(errorObj);
+        var extra = {};
+        extra['error'] = errorObj;
+        if (__gMetrics.client)
+            extra['fidc'] = __gMetrics.client.getFingerprint();
+        extra['domain'] = window.location.href;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
         setTimeout(function () {
-            ajax.send(errorObj);
+            ajax.send(JSON.stringify(extra));
             console.log(errorObj);
         });
     };
     __gMetrics.prototype.log = function (arg) {
         var extra = {};
+        if (__gMetrics.client)
+            extra['fidc'] = __gMetrics.client.getFingerprint();
         extra['domain'] = window.location.href;
         extra['arg'] = arg;
         var ajax = new XMLHttpRequest();
@@ -98,14 +94,12 @@ var __gMetrics = (function () {
             s.id = id;
         if (callback)
             s.onload = callback;
-        s.async = true;
         document.getElementsByTagName('body')[0].appendChild(s);
     };
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
     __gMetrics._traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js';
-    __gMetrics._url1 = 'https://1026491782.rsc.cdn77.org';
-    __gMetrics._url01 = 'http://localhost:3000';
-    __gMetrics._url3 = 'http://185.105.7.112:3000';
+    __gMetrics._url01 = 'https://1026491782.rsc.cdn77.org';
+    __gMetrics._url1 = 'http://localhost:3000';
     __gMetrics._start = Date.now();
     __gMetrics.steps = 0;
     __gMetrics.met = {};

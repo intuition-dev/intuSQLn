@@ -49,15 +49,16 @@ export class MetricsHandler {
    error1911(req, resp) { //let str:string =  params.fid + params.fidc + ip
 
       let ip = req.connection.remoteAddress
-      let err = req.body
-
-      const fullDomain = err.domain
+      let params = req.body
+      
+      const fullDomain = params.domain
       let domain:string = Utils.getDomain(fullDomain)
 
-      let type = err['type']
-      let error = err['error']
-      
-      error = JSON.stringify(error)
+      let fid = params.fidc
+      let error = params.error
+      MetricsHandler.isJSON(error)
+
+      log.info(params)
 
       // MetricsHandler._db.writeError(domain, ip, fullDomain, type, error)
       resp.send('OK')
@@ -65,12 +66,27 @@ export class MetricsHandler {
    
    log(req, resp) {
       resp.send('OK')
-
+      let ip = req.connection.remoteAddress
       let params = req.body
+
       const fullDomain = params.domain
       let domain:string = Utils.getDomain(fullDomain)
 
+      let fid = params.fidc
+      let arg = params.arg
+      MetricsHandler.isJSON(arg)
+
       log.info(params)
+   }//()
+
+   static isJSON(str):boolean {
+      try {
+         JSON.parse(str)
+         return true
+     } catch (e) {
+         return false
+      }
+
    }//()
 
 }//class

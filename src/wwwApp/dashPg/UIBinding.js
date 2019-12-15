@@ -1,10 +1,10 @@
 
 console.log('UI:')
 
-depp.define({'dapi':'/api/DashAPI.js'})
+depp.define({'dash':'/api/DashVM.js'})
 
 
-depp.require(['DOM', 'RPC', 'dapi'], function() {
+depp.require(['DOM', 'RPC', 'dash'], function() {
     console.log('ready')
 }) 
  
