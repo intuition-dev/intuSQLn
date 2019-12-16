@@ -22,6 +22,7 @@ class __gMetrics {
 
    constructor() {
       // start
+
       document.addEventListener('DOMContentLoaded', function() {
          __gMetrics._dom  = Date.now()
          __gMetrics._init()
@@ -29,9 +30,10 @@ class __gMetrics {
    }//()
    
    static _init() {
+      __gMetrics._addScript(__gMetrics._traceSrc , __gMetrics.onLoadedTrace)
+
       setTimeout(function () { // after dom
          // https://cdnjs.com/libraries/stacktrace.js
-         __gMetrics._addScript(__gMetrics._traceSrc , __gMetrics.onLoadedTrace)
          __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient)
       },51)
    }//()
@@ -42,6 +44,9 @@ class __gMetrics {
       TraceKit.report.subscribe(__gMetrics._sendError) 
 
       __gMetrics.steps++
+      setTimeout(function(){
+         throw new Error('oh oh oh')
+      },200)
    }
 
    static client
@@ -90,10 +95,11 @@ class __gMetrics {
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
       console.log('sentMet1124')
-      console.log('sent', JSON.stringify(__gMetrics.met))
+      //console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
    static _sendError(errorObj) {
+      console.log('error')
       try {
          if (!errorObj.stack) {
            errorObj.stack = (new Error('make stack')).stack;
@@ -153,3 +159,4 @@ class __gMetrics {
 }//
 
 new __gMetrics()
+

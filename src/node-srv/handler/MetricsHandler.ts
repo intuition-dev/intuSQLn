@@ -17,55 +17,64 @@ export class MetricsHandler {
       MetricsHandler._db = db
    }
 
-   // do seo search for title via api
+   // perf trace route on ip
 
-   // perf trace route
-
-   // percent chance of receiving
+   // percent chance of processing vs ignore by domain
    
    async metrics1911(req, resp) {// RUM, APM, 
 
       let params = req.body
       
-      // ip + 2 fingers
+      // ip fingers
       let ip = req.connection.remoteAddress
       const fullDomain = params.domain
       let domain:string = fullDomain.replace('http://','').replace('https://','').split(/[/?#]/)[0]
 
-      let str:string =  params.fidc + ip
+      let str:string =  domain +  params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
+      setTimeout(function(){resp.send('OK')},0)
+
       try {
-         // local only
-         // ip = '64.78.253.68'
+         // dev only XXX ***
+         // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+         ip = '64.78.253.68'
 
          MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
          log.warn(err)
       }
-      resp.send('OK')
    }//()
    
-   error1911(req, resp) { //let str:string =  params.fid + params.fidc + ip
+   error1911(req, resp) { //let str:string =  params.fidc + ip
 
+      log.info('error')
       let ip = req.connection.remoteAddress
       let params = req.body
       
       const fullDomain = params.domain
       let domain:string = Utils.getDomain(fullDomain)
 
-      let fid = params.fidc
+      let str:string =  domain + params.fidc + ip
+      const fullFinger:string = hash.x64.hash128(str)
+
       let error = params.error
-      MetricsHandler.isJSON(error)
 
-      log.info(params)
+      setTimeout(function(){resp.send('OK')},0)
+      
+      if(! (MetricsHandler.isJSON(error)))
+        MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error)
+      else {    
+         let mesage = JSON.parse(error)
+      
+         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, mesage.mesage,  mesage.mode, mesage.name, mesage.stack) 
+      }
 
-      // MetricsHandler._db.writeError(domain, ip, fullDomain, type, error)
-      resp.send('OK')
    }//()
    
+
    log(req, resp) {
-      resp.send('OK')
+      resp.send('log')
       let ip = req.connection.remoteAddress
       let params = req.body
 
@@ -76,7 +85,11 @@ export class MetricsHandler {
       let arg = params.arg
       MetricsHandler.isJSON(arg)
 
-      log.info(params)
+      let error = JSON.parse(arg)
+      log.info(Object.keys(error))
+
+      //log.info(error)
+
    }//()
 
    static isJSON(str):boolean {

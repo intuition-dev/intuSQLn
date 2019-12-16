@@ -8,7 +8,7 @@ const bformat = require('bunyan-format2')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "DB"})
 
-const hash = require("murmurhash3js")
+// SEO
 
 export class MeDB extends BaseDBL  {
 
@@ -30,7 +30,7 @@ export class MeDB extends BaseDBL  {
          `, fullFinger)
       if((!rows) || rows.length!=1 )
          return MeDB.MAXINT
-
+      log.info(rows)
       const row = rows[0]
       const delta = ( Date.parse(curDate) - row['dateTime']  ) / 1000
       return delta 
@@ -49,7 +49,7 @@ export class MeDB extends BaseDBL  {
 
       let priorDateTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, date)
 
-      log.info(priorDateTimeDiff, params)
+      log.info(priorDateTimeDiff)
       
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
@@ -75,18 +75,18 @@ export class MeDB extends BaseDBL  {
       const geo:any = await MeDB._geo.get(ip)
 
       // fullFinger is PK
-      this.write(`INSERT INTO device( fullFinger, ip,
+      this.write(`INSERT INTO device( domain, fullFinger, ip,
          lat, long, cou, sub, post, aso, proxy,
          bro, os, mobile, tz, lang, ie, 
          hw, dateTime)
             VALUES
-      ( ?, ?,
+      ( ?, ?, ?,
        ?,?,?, ?,?,?,?,
        ?,?,?, ?,?,?,
        ?,?
       )`
       ,
-      fullFinger, ip, 
+      domain, fullFinger, ip, 
       geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
       params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
       params.h +'x'+ params.w, date
@@ -94,55 +94,23 @@ export class MeDB extends BaseDBL  {
       
    }//()
    
-   XwriteError(domain, ip, url, type, error:string) {
+   writeError(domain, fullFinger, ip, url, message, mode?, name?, stack?) {
       const date = DateTime.local().toString()
 
-      const ehash:string = hash.x64.hash128(error+domain)
-
       // is error new
-      this.write(`INSERT INTO error( domain, dateTime, ip, url,
-         ehash, error, type )
+      this.write(`INSERT INTO error( domain, dateTime, fullFinger, ip, url,
+         message, mode, name, stack)
          VALUES
-      ( ?, ?, ?, ?,
-         ?,?,?
+      (  ?, ?, ?, ?, ?,
+         ?,?,?,?
       )`
       ,
-         domain, date, ip, url,
-         ehash, error, type
+         domain, date, fullFinger, ip, url,
+         message, mode, name, stack
       )//
 
    }//()
 
-   private schema() {
-
-      // SEO
-      this.defCon(process.cwd(), '/db/met.db')
-
-      const exists = this.tableExists('met')
-      if(exists) return
-      log.info('schema')
-
-      // todo: url  get full message
-      this.write(`CREATE TABLE error( domain, dateTime TEXT, ip, url,
-            ehash, error, type 
-         ) `)
-      this.write(`CREATE INDEX error_ehash ON error(ehash)`)
-      this.write(`CREATE INDEX error_desc ON error(domain, dateTime DESC)`)
-
-      this.write(`CREATE TABLE met( fullFinger TEXT, dateTime TEXT, domain,
-            url, title, referrer, domTime, 
-            referrerLocalFlag INTEGER, priorDateTimeDiff INT
-         ) `)
-      this.write(`CREATE INDEX met_dt ON met (fullFinger, dateTime DESC, domTime)`)
-         
-      this.write(`CREATE TABLE device( fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
-            lat, long, cou, sub, post, aso, proxy INTEGER,
-            bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
-            hw, dateTime TEXT
-         ) WITHOUT ROWID `)
-      this.write(`CREATE INDEX device_ip ON device(ip, dateTime DESC)`)
-
-    }//()
 
    static _fingeExists(fullFinger, ctx:BaseDBL) {
       const rows = ctx.read(`SELECT fullFinger FROM device
@@ -153,6 +121,34 @@ export class MeDB extends BaseDBL  {
          return false
       return true
    }//()
+
+   private schema() {
+      this.defCon(process.cwd(), '/db/met.db')
+
+      const exists = this.tableExists('met')
+      if(exists) return
+      log.info('schema')
+
+  
+      this.write(` CREATE TABLE error( domain, dateTime TEXT, fullFinger, ip, url, message, mode, name, stack)
+      ) `)
+      this.write(`CREATE INDEX error ON error(domain, dateTime DESC)`)
+
+      this.write(`CREATE TABLE met( domain, fullFinger TEXT, dateTime TEXT, 
+            url, title, referrer, domTime, 
+            referrerLocalFlag INTEGER, priorDateTimeDiff INT
+         ) `)
+      this.write(`CREATE INDEX met_dt ON met (domain, dateTime DESC)`)
+         
+      this.write(`CREATE TABLE device( domain, fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
+            lat, long, cou, sub, post, aso, proxy INTEGER,
+            bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
+            hw, dateTime TEXT
+         ) WITHOUT ROWID `)
+      this.write(`CREATE INDEX device ON device(domain, ip, dateTime DESC)`)
+
+    }//()
+
 
    dashPageViews(domain){ //visitors for the 2 weeks by day total. new vs returning
 

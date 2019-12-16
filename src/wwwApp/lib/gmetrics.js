@@ -6,14 +6,17 @@ var __gMetrics = (function () {
         });
     }
     __gMetrics._init = function () {
+        __gMetrics._addScript(__gMetrics._traceSrc, __gMetrics.onLoadedTrace);
         setTimeout(function () {
-            __gMetrics._addScript(__gMetrics._traceSrc, __gMetrics.onLoadedTrace);
             __gMetrics._addScript(__gMetrics._clientSrc, __gMetrics.onLoadedClient);
         }, 51);
     };
     __gMetrics.onLoadedTrace = function () {
         TraceKit.report.subscribe(__gMetrics._sendError);
         __gMetrics.steps++;
+        setTimeout(function () {
+            throw new Error('oh oh oh');
+        }, 200);
     };
     __gMetrics.onLoadedClient = function () {
         __gMetrics.client = new ClientJS();
@@ -47,9 +50,9 @@ var __gMetrics = (function () {
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
         console.log('sentMet1124');
-        console.log('sent', JSON.stringify(__gMetrics.met));
     };
     __gMetrics._sendError = function (errorObj) {
+        console.log('error');
         try {
             if (!errorObj.stack) {
                 errorObj.stack = (new Error('make stack')).stack;
@@ -79,6 +82,8 @@ var __gMetrics = (function () {
         if (__gMetrics.client)
             extra['fidc'] = __gMetrics.client.getFingerprint();
         extra['domain'] = window.location.href;
+        if (typeof arg !== 'string')
+            arg = JSON.stringify(arg);
         extra['arg'] = arg;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/log');
