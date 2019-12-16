@@ -53,11 +53,11 @@ Serv._expInst.post('/log', mh.log)
 const dashH = new DashHandler(db)
 srv.routeRPC('api',  dashH)
 
+srv.serveStatic('../wwwApp', 60*60, 60)
+
 Serv._expInst.use(function(req,resp, next){
    log.warn('err', req.originalUrl)
 })
-
-srv.serveStatic('../wwwAmp', 60*5)
 
 srv.listen(3000)
 
