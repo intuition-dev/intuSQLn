@@ -13,9 +13,9 @@ class __gMetrics {
 
    static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
 
-   static _url01 = 'https://1026491782.rsc.cdn77.org'
+   static _url1 = 'https://1490415816.rsc.cdn77.org'
 
-   static _url1 = 'http://localhost:3000'
+   static _url01 = 'http://localhost:3000'
 
    static _start = Date.now()
    static _dom 

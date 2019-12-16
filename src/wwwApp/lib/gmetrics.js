@@ -101,8 +101,8 @@ var __gMetrics = (function () {
     };
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
     __gMetrics._traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js';
-    __gMetrics._url01 = 'https://1026491782.rsc.cdn77.org';
-    __gMetrics._url1 = 'http://localhost:3000';
+    __gMetrics._url1 = 'https://1490415816.rsc.cdn77.org';
+    __gMetrics._url01 = 'http://localhost:3000';
     __gMetrics._start = Date.now();
     __gMetrics.steps = 0;
     __gMetrics.met = {};
