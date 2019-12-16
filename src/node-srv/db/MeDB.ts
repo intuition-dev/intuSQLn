@@ -94,8 +94,16 @@ export class MeDB extends BaseDBL  {
       
    }//()
    
-   writeError(domain, fullFinger, ip, url, message, mode?, name?, stack?) {
+   writeError(domain, fullFinger, ip:string, url, message, mode?, name?, stack?) {
       const date = DateTime.local().toString()
+
+      if(!message) message = ''
+      if(!mode) mode = ''
+      if(!name) name = ''
+      if(!stack) stack= ''
+      
+      log.info(domain, date, fullFinger, ip, url,
+      message, mode, name, stack)
 
       // is error new
       this.write(`INSERT INTO error( domain, dateTime, fullFinger, ip, url,
@@ -130,22 +138,22 @@ export class MeDB extends BaseDBL  {
       log.info('schema')
 
   
-      this.write(` CREATE TABLE error( domain, dateTime TEXT, fullFinger, ip, url, message, mode, name, stack)
+      this.write(` CREATE TABLE error( domain, dateTime TEXT, fullFinger, ip TEXT, url, message TEXT, mode TEXT, name TEXT, stack TEXT
       ) `)
-      this.write(`CREATE INDEX error ON error(domain, dateTime DESC)`)
+      this.write(`CREATE INDEX i_error ON error(domain, fullFinger, dateTime DESC)`)
 
       this.write(`CREATE TABLE met( domain, fullFinger TEXT, dateTime TEXT, 
             url, title, referrer, domTime, 
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
-      this.write(`CREATE INDEX met_dt ON met (domain, dateTime DESC)`)
+      this.write(`CREATE INDEX i_met ON met (domain, dateTime DESC)`)
          
       this.write(`CREATE TABLE device( domain, fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, cou, sub, post, aso, proxy INTEGER,
             bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
             hw, dateTime TEXT
          ) WITHOUT ROWID `)
-      this.write(`CREATE INDEX device ON device(domain, ip, dateTime DESC)`)
+      this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`)
 
     }//()
 

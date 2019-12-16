@@ -33,7 +33,7 @@ export class MetricsHandler {
       let str:string =  domain +  params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
       
-      setTimeout(function(){resp.send('OK')},0)
+      resp.send('OK')
 
       try {
          // dev only XXX ***
@@ -60,14 +60,14 @@ export class MetricsHandler {
 
       let error = params.error
 
-      setTimeout(function(){resp.send('OK')},0)
+      resp.send('OK')
       
       if(! (MetricsHandler.isJSON(error)))
         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error)
       else {    
-         let mesage = JSON.parse(error)
-      
-         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, mesage.mesage,  mesage.mode, mesage.name, mesage.stack) 
+         let message = JSON.parse(error)
+         log.info(Object.keys(message))
+         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, message.message,  message.mode, message.name, message.stack) 
       }
 
    }//()
