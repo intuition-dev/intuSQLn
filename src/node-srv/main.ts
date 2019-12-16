@@ -57,5 +57,7 @@ Serv._expInst.use(function(req,resp, next){
    log.warn('err', req.originalUrl)
 })
 
+srv.serveStatic('../wwwAmp', 60*5)
+
 srv.listen(3000)
 
