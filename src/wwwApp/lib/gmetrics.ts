@@ -45,7 +45,7 @@ class __gMetrics {
 
       __gMetrics.steps++
       setTimeout(function(){
-         throw new Error('oh oh oh')
+         // throw new Error('oh oh oh')
       },200)
    }
 
@@ -124,7 +124,6 @@ class __gMetrics {
       //set timeout so metrics maybe?
       setTimeout(function () {
          ajax.send(JSON.stringify(extra))
-         console.log(errorObj)
       })
    }//()
 

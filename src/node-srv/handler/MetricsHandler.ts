@@ -38,7 +38,7 @@ export class MetricsHandler {
       try {
          // dev only XXX ***
          // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-         ip = '64.78.253.68'
+         // ip = '64.78.253.68'
 
          MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
@@ -74,21 +74,27 @@ export class MetricsHandler {
    
 
    log(req, resp) {
-      resp.send('log')
+      log.info('error')
       let ip = req.connection.remoteAddress
       let params = req.body
-
+      
       const fullDomain = params.domain
       let domain:string = Utils.getDomain(fullDomain)
 
-      let fid = params.fidc
-      let arg = params.arg
-      MetricsHandler.isJSON(arg)
+      let str:string =  domain + params.fidc + ip
+      const fullFinger:string = hash.x64.hash128(str)
 
-      let error = JSON.parse(arg)
-      log.info(Object.keys(error))
+      let error = params.error
 
-      //log.info(error)
+      resp.send('OK')
+      
+      if(! (MetricsHandler.isJSON(error)))
+        MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error)
+      else {    
+         let message = JSON.parse(error)
+         log.info(Object.keys(message))
+         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, message.message,  message.mode, message.name, message.stack) 
+      }
 
    }//()
 

@@ -15,7 +15,6 @@ var __gMetrics = (function () {
         TraceKit.report.subscribe(__gMetrics._sendError);
         __gMetrics.steps++;
         setTimeout(function () {
-            throw new Error('oh oh oh');
         }, 200);
     };
     __gMetrics.onLoadedClient = function () {
@@ -74,7 +73,6 @@ var __gMetrics = (function () {
         ajax.open('POST', __gMetrics._url1 + '/error1911');
         setTimeout(function () {
             ajax.send(JSON.stringify(extra));
-            console.log(errorObj);
         });
     };
     __gMetrics.prototype.log = function (arg) {

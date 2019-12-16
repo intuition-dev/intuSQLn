@@ -101,9 +101,10 @@ export class MeDB extends BaseDBL  {
       if(!mode) mode = ''
       if(!name) name = ''
       if(!stack) stack= ''
-      
-      log.info(domain, date, fullFinger, ip, url,
-      message, mode, name, stack)
+
+      if (typeof stack !== 'string') 
+         stack = JSON.stringify(stack)
+   
 
       // is error new
       this.write(`INSERT INTO error( domain, dateTime, fullFinger, ip, url,
