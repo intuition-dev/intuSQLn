@@ -6,6 +6,7 @@
 
 // https://fdalvi.github.io/blog/2018-02-05-puppeteer-network-throttle
 
+
 declare var window: any // needed to compile ts
 
 import puppeteer from 'puppeteer'
@@ -44,9 +45,15 @@ export class Pupp {
       const domains = {}
       page.on('response', response => {
          const url:string = response.url()
-         let domain:string = Utils.getDomain(url)
-         if(domain.includes('data:image'))
+         if(url.includes('data:image'))
             return
+
+         let domain:string = Utils.getDomain(url)
+         if(!domain) {
+            log.info('issue w/', url)
+            return
+         }
+   
          log.info( ' ', url.substring(0, 90) )
          domain = Pupp.reverseString(domain)
          if(domains[domain])
@@ -54,7 +61,7 @@ export class Pupp {
          else domains[domain] = 1
       })
    
-      await page.goto(url, { waitUntil: ['networkidle', 'load'], timeout: 120 * 1000,  networkIdleTimeout: 5 * 1000  })
+      await page.goto(url, { waitUntil: ['load'], timeout: 120 * 1000 })
       await page.waitFor(200)
       const screenShot:string = await page.screenshot({fullPage: true, encoding: 'base64', })
 
