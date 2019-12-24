@@ -8,10 +8,10 @@
     "ok": "ok.js"
   },
   "license": "AGPL-1.0-only",
-  "homepage": "http://www.INTU.DEV",
+  "homepage": "http://www.INTUITION.DEV",
   "repository": {
     "type": "git",
-    "url": "http://git.mbake.org"
+    "url": "http://git.metabake.net"
   },
   "keywords": [
     "monitoring"
