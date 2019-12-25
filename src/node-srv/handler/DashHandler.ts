@@ -1,4 +1,4 @@
-import { BaseRPCMethodHandler } from 'http-rpc/node-srv/lib/Serv'
+import { BaseRPCMethodHandler } from 'http-rpc/lib/Serv'
 
 import { MeDB } from '../db/MeDB'
 

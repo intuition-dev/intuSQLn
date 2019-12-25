@@ -1,6 +1,6 @@
 {
   "name": "load-gen",
-  "author": "MetaBake LLC",
+  "author": "Cekvenich",
   "private": true,
   "version": "0.10.15",
   "description": "load gen",
@@ -17,7 +17,7 @@
     "load gen"
   ],
   "engines": {
-    "node": ">=13.2.0"
+    "node": ">=13.5.0"
   },
   "dependencies": {
     "faker": ">=4.1.0",
