@@ -8,7 +8,7 @@ const GDB_1 = require("./GDB");
 const csv = require('csv-parser');
 const fs = require('fs-extra');
 const perfy = require('perfy');
-const csvFile = 'dbip.csv';
+const csvFile = 'dbip-city-lite-2020-01.csv';
 const db = new GDB_1.GDB();
 class Load {
     async import() {
@@ -26,8 +26,7 @@ class Load {
         });
     }
     async check() {
-        await db.count();
-        await db.get();
+        await db.get('192.0.66.88');
     }
 }
 exports.Load = Load;

@@ -11,7 +11,7 @@ const fs = require('fs-extra')
 
 const perfy = require('perfy')
 
-const csvFile = 'dbip.csv'
+const csvFile = 'dbip-city-lite-2020-01.csv'
 
 const db = new GDB()
 
@@ -35,9 +35,9 @@ async import() {
 }//()
 
 async check() {
-   await db.count()
+   // await db.count()
 
-   await db.get()
+   await db.get('192.0.66.88')
 }
 
 }//class

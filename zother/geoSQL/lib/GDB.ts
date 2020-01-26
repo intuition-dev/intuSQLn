@@ -19,24 +19,28 @@ export class GDB extends BaseDBL  {
 
    ins(p) {
       let fromInt:number 
+      let toInt:number 
+
       try {
          fromInt = ip.toLong(p['0'])
+         toInt = ip.toLong(p['1'])
+
       } catch(err) {
          console.log(p['0'])
          fromInt = 0
       }
 
-      this.write(`INSERT INTO geo( fromInt, first, last, cont,
+      this.write(`INSERT INTO geo( fromInt, toInt, first, last, cont,
             cou, state, city, 
             lat, long
          )
             VALUES
-         ( ?,?,?,?,
+         ( ?,?,?,?,?,
            ?,?,?,
            ?,?
          )`
          ,
-         fromInt, p['0'], p['1'], p['2'],
+         fromInt, toInt, p['0'], p['1'], p['2'],
          p['3'], p['4'], p['5'],
          p['6'], p['7']
       )
@@ -49,24 +53,27 @@ export class GDB extends BaseDBL  {
       if(exists) return
 
       log.info('.')
-      this.write(`CREATE TABLE geo( fromInt, 
+      this.write(`CREATE TABLE geo( fromInt, toInt,
          cou, state, city,
          first, last, cont,
          lat, long
          ) `)
 
-      this.write(`CREATE INDEX geoLook ON geo (fromInt, cou, state, city DESC)`)
+      this.write(`CREATE INDEX geoLook ON geo (fromInt, toInt, cou, state, city DESC)`)
     }//()
 
-   get(ip?) {
+   get(adrs) {
       perfy.start('g')
-      //const fromInt = ip.toLong(ip)
+      const fromInt = ip.toLong(adrs)
+      
+      console.log(adrs, fromInt)
 
       const row = this.readOne(`SELECT cou, state, city FROM geo
          WHERE ? >= fromInt
+      
          ORDER BY fromInt DESC 
          LIMIT 1
-         `, 68257567 )
+         `, fromInt )
 
       console.log(':r:')
       console.log(row)
