@@ -54,16 +54,16 @@ export class MeDB extends BaseDBL  {
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
       
-      this.write(`INSERT INTO met( fullFinger, dateTime, domain,
+      this.write(`INSERT INTO met( fullFinger, dateTime, 
          url, title, referrer, domTime,
          referrerLocalFlag, priorDateTimeDiff )
             VALUES
-         ( ?,?,?,
+         ( ?,?,
           ?,?,?,?,
           ?,?
          )`
          ,
-         fullFinger, date, domain,
+         fullFinger, date, 
          params.domain, params.title, params.referrer, params.domTime,
          referrerLocalFlag, priorDateTimeDiff
       )
@@ -133,6 +133,8 @@ export class MeDB extends BaseDBL  {
 
    private schema() {
       this.defCon(process.cwd(), '/db/met.db')
+      this._db.pragma('locking_mode=NORMAL') // 3rd party connection, or  EXCLUSIVE
+
 
       const exists = this.tableExists('met')
       if(exists) return
@@ -143,7 +145,7 @@ export class MeDB extends BaseDBL  {
       ) `)
       this.write(`CREATE INDEX i_error ON error(domain, fullFinger, dateTime DESC)`)
 
-      this.write(`CREATE TABLE met( domain, fullFinger TEXT, dateTime TEXT, 
+      this.write(`CREATE TABLE met(  fullFinger TEXT, dateTime TEXT, 
             url, title, referrer, domTime, 
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
@@ -217,8 +219,8 @@ export class MeDB extends BaseDBL  {
       let state = ` SELECT  lang, cou, sub, count(*) AS COUNT
       FROM device
       INNER JOIN met ON met.fullFinger = device.fullFinger
-      WHERE domain = ? AND met.dateTime >= ? 
-      GROUP BY  lang, cou, sub
+      WHERE device.domain = ? AND met.dateTime >= ? 
+      GROUP BY lang, cou, sub
       `
       const rows = this.read(state, domain, weeksAgo.toString() )
       console.log(rows)
@@ -238,7 +240,7 @@ export class MeDB extends BaseDBL  {
       FROM met m, device d
       WHERE m.fullFinger = d.fullFinger
       AND m.datetime = ( SELECT MAX(dateTime) FROM met m2 WHERE m2.fullFinger = m.fullFinger )
-      AND domain = ? 
+      AND d.domain = ? 
       ORDER BY m.dateTime DESC 
       LIMIT 60
        `, domain)

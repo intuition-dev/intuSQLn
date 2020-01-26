@@ -2,7 +2,7 @@
 import { Geo } from "./gdb/Geo"
 import { MeDB } from "./db/MeDB"
 
-// new Geo().get('64.78.253.68')
+console.log( new Geo().get('64.78.253.68') )
 
 const db = new MeDB()
 
@@ -22,4 +22,6 @@ console.log(4)
 //m.dashGeo('www.ubaycap.com')
 
 console.log(5)
-m.dashRecentUsers('www.ubaycap.com')
+//m.dashRecentUsers('www.ubaycap.com')
+
+

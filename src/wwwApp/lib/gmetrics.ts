@@ -66,6 +66,7 @@ class __gMetrics {
     */
    static _metrics() { 
       __gMetrics.met['domain']= window.location.href.split('?')[0]
+      __gMetrics.met['url']=  window.location.href
 
       __gMetrics.met['fidc'] = __gMetrics.client.getFingerprint()
       __gMetrics.met['bro'] = __gMetrics.client.getBrowser()
@@ -93,7 +94,7 @@ class __gMetrics {
       ajax.open('POST', __gMetrics._url1 + '/metrics1911')
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
-      console.log('sentMet1124')
+      console.log('sentMet - v200125')
       //console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
@@ -117,6 +118,7 @@ class __gMetrics {
       if(__gMetrics.client)
          extra['fidc'] = __gMetrics.client.getFingerprint()
       extra['domain']=  window.location.href
+      extra['url']=  window.location.href
          
       var ajax = new XMLHttpRequest()
       ajax.open('POST', __gMetrics._url1 + '/error1911')
@@ -132,6 +134,7 @@ class __gMetrics {
       if(__gMetrics.client)
         extra['fidc'] = __gMetrics.client.getFingerprint()
       extra['domain']=  window.location.href
+      extra['url']=  window.location.href
 
       if (typeof arg !== 'string') 
          arg = JSON.stringify(arg)

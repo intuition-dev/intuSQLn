@@ -21,18 +21,28 @@ export class Geo {
 
    static asnBuffer = fs.readFileSync('./gdb/GeoLite2-ASN.mmdb')
    static cityBuffer = fs.readFileSync('./gdb/GeoLite2-City.mmdb')
+   static cntryBuffer = fs.readFileSync('./gdb/GeoLite2-Country.mmdb')
+   
    static asnReader = Reader.openBuffer(Geo.asnBuffer, options)
    static cityReader = Reader.openBuffer(Geo.cityBuffer, options)
+   static cntryReader = Reader.openBuffer(Geo.cntryBuffer, options)
 
    get(ip:string) {
 
       const aresp = Geo.asnReader.asn(ip)
       const ctresp = Geo.cityReader.city(ip)
-      
+      //const cnresp = Geo.cntryReader.country(ip)
+
       let geo = {}
-      geo['aso'] = aresp.autonomousSystemOrganization
+      geo['aso']  = aresp.autonomousSystemOrganization
       geo['post'] = ctresp.postal.code
-      geo['cou'] =ctresp.country.isoCode
+      geo['cou']  = ctresp.country.isoCode
+
+      geo['sub']= ctresp.subdivisions[0].isoCode
+   
+      geo['lat']= ctresp.location.latitude
+      geo['long']= ctresp.location.longitude
+      geo['tzg'] = ctresp.location.timeZone
 
       const proxy:boolean = 
          ctresp.traits.isAnonymous ||
@@ -46,11 +56,7 @@ export class Geo {
          geo['proxy']= 1
       else geo['proxy']= 0
 
-      geo['lat']= ctresp.location.latitude
-      geo['long']= ctresp.location.longitude
-
-      geo['sub']= ctresp.subdivisions[0].isoCode
-
+   
       log.info(geo)
       return geo
    }//()

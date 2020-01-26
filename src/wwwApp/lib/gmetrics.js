@@ -24,6 +24,7 @@ var __gMetrics = (function () {
     };
     __gMetrics._metrics = function () {
         __gMetrics.met['domain'] = window.location.href.split('?')[0];
+        __gMetrics.met['url'] = window.location.href;
         __gMetrics.met['fidc'] = __gMetrics.client.getFingerprint();
         __gMetrics.met['bro'] = __gMetrics.client.getBrowser();
         __gMetrics.met['os'] = __gMetrics.client.getOS();
@@ -48,7 +49,7 @@ var __gMetrics = (function () {
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/metrics1911');
         ajax.send(JSON.stringify(__gMetrics.met));
-        console.log('sentMet1124');
+        console.log('sentMet - v200125');
     };
     __gMetrics._sendError = function (errorObj) {
         console.log('error');
@@ -69,6 +70,7 @@ var __gMetrics = (function () {
         if (__gMetrics.client)
             extra['fidc'] = __gMetrics.client.getFingerprint();
         extra['domain'] = window.location.href;
+        extra['url'] = window.location.href;
         var ajax = new XMLHttpRequest();
         ajax.open('POST', __gMetrics._url1 + '/error1911');
         setTimeout(function () {
@@ -80,6 +82,7 @@ var __gMetrics = (function () {
         if (__gMetrics.client)
             extra['fidc'] = __gMetrics.client.getFingerprint();
         extra['domain'] = window.location.href;
+        extra['url'] = window.location.href;
         if (typeof arg !== 'string')
             arg = JSON.stringify(arg);
         extra['arg'] = arg;
