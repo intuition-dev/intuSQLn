@@ -65,7 +65,7 @@ var __gMetrics = (function () {
         }
         if (typeof errorObj !== 'string')
             errorObj = JSON.stringify(errorObj);
-        var extra = {};
+        var extra = __gMetrics.met;
         extra['error'] = errorObj;
         if (__gMetrics.client)
             extra['fidc'] = __gMetrics.client.getFingerprint();

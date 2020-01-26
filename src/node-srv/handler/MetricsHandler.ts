@@ -63,18 +63,18 @@ export class MetricsHandler {
       resp.send('OK')
       
       if(! (MetricsHandler.isJSON(error)))
-        MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error)
+        MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error, params)
       else {    
          let message = JSON.parse(error)
          log.info(Object.keys(message))
-         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, message.message,  message.mode, message.name, message.stack) 
+         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, message.message, params, message.mode, message.name, message.stack) 
       }
 
    }//()
    
 
    log(req, resp) {
-      log.info('error')
+      log.info('log')
       let ip = req.connection.remoteAddress
       let params = req.body
       
@@ -84,17 +84,9 @@ export class MetricsHandler {
       let str:string =  domain + params.fidc + ip
       const fullFinger:string = hash.x64.hash128(str)
 
-      let error = params.error
-
+      console.log(params)
       resp.send('OK')
-      
-      if(! (MetricsHandler.isJSON(error)))
-        MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error)
-      else {    
-         let message = JSON.parse(error)
-         log.info(Object.keys(message))
-         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, message.message,  message.mode, message.name, message.stack) 
-      }
+
 
    }//()
 

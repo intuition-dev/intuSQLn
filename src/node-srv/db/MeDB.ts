@@ -22,17 +22,18 @@ export class MeDB extends BaseDBL  {
       this.schema()
    }//()
 
-   private _getPriorDateTimeDiff(fullFinger, curDate) {
+   private _getPriorDateTimeDiff(fullFinger, curDate) { 
       const rows = this.read(`SELECT dateTime FROM met
          WHERE fullFinger = ?
-         ORDER BY dateTime DESC 
+         ORDER BY rowid DESC 
          LIMIT 1
          `, fullFinger)
       if((!rows) || rows.length!=1 )
          return MeDB.MAXINT
       log.info(rows)
       const row = rows[0]
-      const delta = ( Date.parse(curDate) - row['dateTime']  ) / 1000
+      const delta = ( Date.parse(curDate) - Date.parse(row['dateTime']) )
+      log.info(delta)
       return delta 
    }//()
 
@@ -67,40 +68,56 @@ export class MeDB extends BaseDBL  {
          params.domain, params.title, params.referrer, params.domTime,
          referrerLocalFlag, priorDateTimeDiff
       )
+
+      this.writeDevice(fullFinger, ip, params, domain, date )
+
+   }//()
+
+   async writeDevice(fullFinger, ip, params, domain, date ) {
    
       // check if fullFinger exists
       if(MeDB._fingeExists(fullFinger, this))
       return
 
       const geo:any = await MeDB._geo.get(ip)
-
+      // also get sqlite 
+      
+      let langCou:string = null
+      try {
+         if(params.lang.includes('-')) {
+            let pos:number = params.lang.indexOf('-')
+            langCou = params.lang.substring(pos)
+         }
+      } catch (err) {
+         log.err(err)
+      }
       // fullFinger is PK
       this.write(`INSERT INTO device( domain, fullFinger, ip,
-         lat, long, cou, sub, post, aso, proxy,
-         bro, os, mobile, tz, lang, ie, 
+         lat, long, geoTz, cou, sub, city, post, aso, proxy,
+         bro, os, mobile, tz, lang, langCou, ie, 
          hw, dateTime)
             VALUES
       ( ?, ?, ?,
+       ?,?,?, ?,?,?,?,?,?,
        ?,?,?, ?,?,?,?,
-       ?,?,?, ?,?,?,
        ?,?
       )`
       ,
       domain, fullFinger, ip, 
-      geo.lat, geo.long, geo.cou, geo.sub, geo.post, geo.aso, geo.proxy,
-      params.bro, params.os, params.mobile, params.tz, params.lang, params.ie,
+      geo.lat, geo.long, geo.geoTz, geo.cou, geo.sub, geo.city, geo.post, geo.aso, geo.proxy,
+      params.bro, params.os, params.mobile, params.tz, params.lang, langCou, params.ie,
       params.h +'x'+ params.w, date
      )//
       
    }//()
    
-   writeError(domain, fullFinger, ip:string, url, message, mode?, name?, stack?) {
+   writeError(domain, fullFinger, ip:string, url, message, extra, mode?, name?, stack?,) {
       const date = DateTime.local().toString()
 
-      if(!message) message = ''
-      if(!mode) mode = ''
-      if(!name) name = ''
-      if(!stack) stack= ''
+      if(!message) message = null
+      if(!mode) mode = null
+      if(!name) name = null
+      if(!stack) stack= null
 
       if (typeof stack !== 'string') 
          stack = JSON.stringify(stack)
@@ -117,6 +134,8 @@ export class MeDB extends BaseDBL  {
          domain, date, fullFinger, ip, url,
          message, mode, name, stack
       )//
+
+      this.writeDevice(fullFinger, ip, extra, domain, date )
 
    }//()
 
@@ -152,8 +171,8 @@ export class MeDB extends BaseDBL  {
       this.write(`CREATE INDEX i_met ON met (domain, dateTime DESC)`)
          
       this.write(`CREATE TABLE device( domain, fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
-            lat, long, cou, sub, post, aso, proxy INTEGER,
-            bro, os, mobile INTEGER, tz, lang, ie INTEGER, 
+            lat, long, geoTz, cou, sub, city, post, aso, proxy INTEGER,
+            bro, os, mobile INTEGER, tz, lang, langCou, ie INTEGER, 
             hw, dateTime TEXT
          ) WITHOUT ROWID `)
       this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`)

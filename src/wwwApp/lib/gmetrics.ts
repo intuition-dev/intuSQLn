@@ -65,7 +65,7 @@ class __gMetrics {
     *  and AMP: reports DOM ready relative to start
     */
    static _metrics() { 
-      __gMetrics.met['domain']= window.location.href.split('?')[0]
+      __gMetrics.met['domain']= window.location.href.split('?')[0] // deprecated
       __gMetrics.met['url']=  window.location.href
 
       __gMetrics.met['fidc'] = __gMetrics.client.getFingerprint()
@@ -112,12 +112,14 @@ class __gMetrics {
       if (typeof errorObj !== 'string') 
          errorObj = JSON.stringify(errorObj)
 
-      let extra={} 
+      let extra= __gMetrics.met // if we have it, lets get the extra info
+      
       extra['error']=  errorObj
 
       if(__gMetrics.client)
          extra['fidc'] = __gMetrics.client.getFingerprint()
-      extra['domain']=  window.location.href
+
+      extra['domain']=  window.location.href // deprecated
       extra['url']=  window.location.href
          
       var ajax = new XMLHttpRequest()
@@ -133,7 +135,7 @@ class __gMetrics {
 
       if(__gMetrics.client)
         extra['fidc'] = __gMetrics.client.getFingerprint()
-      extra['domain']=  window.location.href
+      extra['domain']=  window.location.href // deprecated
       extra['url']=  window.location.href
 
       if (typeof arg !== 'string') 
