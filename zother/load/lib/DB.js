@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
-const bformat = require('bunyan-format');
+const bformat = require('bunyan-format2');
 const formatOut = bformat({ outputMode: 'short' });
 const log = bunyan.createLogger({ src: true, stream: formatOut, name: "some name" });
 const BaseDBL_1 = require("mbakex/lib/BaseDBL");
@@ -14,15 +14,20 @@ class DB extends BaseDBL_1.BaseDBL {
         this._fn = path + fn;
         log.info(this._fn);
         this._db = new BaseDBL_1.BaseDBL.Database(this._fn);
-        this._db.pragma('cache_size = 50000');
+        this._db.pragma('cache_size = 5000');
         log.info(this._db.pragma('cache_size', { simple: true }));
+        this._db.pragma('busy_timeout=120000');
         this._db.pragma('synchronous=OFF');
-        this._db.pragma('count_changes=OFF');
-        this._db.pragma('journal_mode=MEMORY');
+        this._db.pragma('journal_mode=WAL');
         this._db.pragma('temp_store=MEMORY');
+        this._db.pragma('automatic_index=false');
+        this._db.pragma('foreign_keys=false');
+        this._db.pragma('secure_delete=false');
+        this._db.pragma('read_uncommitted=true');
+        this._db.pragma('cache_spill=false');
+        this._db.pragma('mmap_size=102400000');
         this._db.pragma('locking_mode=EXCLUSIVE');
         log.info(this._db.pragma('locking_mode', { simple: true }));
-        this._db.pragma('automatic_index=false');
     }
     schema() {
         this.fastCon(process.cwd(), '/aa.db');
@@ -71,10 +76,6 @@ class DB extends BaseDBL_1.BaseDBL {
     }
     countMon() {
         const row = this.readOne(`SELECT count(*) as count FROM mon `);
-        log.info(row);
-    }
-    memory() {
-        const row = this.readOne(`SELECT sqlite3_memory_used()`);
         log.info(row);
     }
 }

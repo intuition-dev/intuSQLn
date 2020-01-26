@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "faker": ">=4.1.0",
-    "mbakex": ">=1.11.5"
+    "mbakex": ">=2.12.102"
   },
   "devDependencies": {
-    "@types/node": ">=12.12.10"
+    "@types/node": ">=13.5.0"
   }
 }
