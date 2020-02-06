@@ -1,6 +1,5 @@
 
 const Minio = require('minio')
-const streamLength = require("stream-length")
 const { Readable } = require('stream')
 
 export class S3 {
@@ -8,36 +7,28 @@ export class S3 {
     minioClient
     bucket 
 
-    metaData = {
-        'Content-Type': 'application/octet-stream',
-    }
-
     constructor() {
-        this.bucket = 'snx01'
-        
+
         this.minioClient = new Minio.Client({
             endPoint: 'ewr1.vultrobjects.com',
-            useSSL: false,
             accessKey: 'QVJDCMTBVDZLLQTJVND1',
             secretKey: 'WrUKYmuNEhs1EdE9w1rXsqnKczgWoB9nCLj2mTTu'
         })
 
-        this._writeX()
     }
 
     async _writeX()  {
 
-        var path = '/oh'
+        var path = 'oh2/d'
         var fileO =  Readable.from("Oh hi")
-        var sz = await  this.len(fileO)
-        //await this._writeOne(path, fileO, sz);
+        await this._writeOne(path, fileO)
         
     }
 
-    _writeOne(path, fileO, sz) { // len pro
+    _writeOne(path, fileO) { // len pro
         const THIZ = this
         return new Promise(function(resolve, reject) {
-            THIZ.minioClient.putObject(THIZ.bucket, path, fileO, sz, THIZ.metaData, function(err) {
+            THIZ.minioClient.putObject(THIZ.bucket, path, fileO,  function(err) { //sz, THIZ.metaData,
                 if (err) {
                     console.log(err)
                     reject(err)
@@ -48,31 +39,25 @@ export class S3 {
         })
     }//()
 
-    len(fileO) { // len pro
-        return new Promise(function(resolve, reject) {
-            streamLength(fileO, function(err, len) {
-                if(err) {
-                    console.log(err)
-                    reject(err)
-                }
-                resolve(len) // return promise
-            })
-        })
-    }
+    Qdev = {} // a map of lists,  to be updated every fraction of a second
+    qDev( short_domain, year_month_day, continent, params) {
+        const path = short_domain +'/'+ year_month_day +'/'+continent
+         
+        let exists = this.Qdev[path]
+        if (!exists) this.Qdev[ path] = []
 
+        this.Qdev[path].push(params)
+    }//()
 
-    Q = {} // a map of lists to be updated every fraction of a second
+    Qmet = {} // a map of lists,  to be updated every fraction of a second
+    qMet( short_domain, year_month_day, continent, params) {
+        const path = short_domain +'/'+ year_month_day +'/'+continent
+         
+        let exists = this.Qmet[path]
+        if (!exists) this.Qmet[ path] = []
 
-
-    write(folder, short_domain, year_month_day, continent, params) {
-
-        let exists = this.Q[folder +'/'+ short_domain +'/'+ year_month_day +'/'+continent]
-
-        if (!exists) this.Q[folder +'/'+ short_domain +'/'+ year_month_day +'/'+continent] = []
-
-        this.Q[folder +'/'+ short_domain +'/'+ year_month_day +'/'+continent].push(params)
-
-    }
+        this.Qmet[path].push(params)
+    }//()
 
 
     _write(q) { // called on a timer. emits domain event at end of write
@@ -81,10 +66,7 @@ export class S3 {
         var path
         var file
 
-        this.minioClient.fPutObject(this.bucket, path, file, this.metaData, function(err, etag) {
-            if (err) return console.log(err)
-            console.log('uploaded successfully.')
-          })
+
 
     }
 
