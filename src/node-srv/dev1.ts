@@ -2,7 +2,14 @@
 import { Geo } from "./gdb/Geo"
 import { MeDB } from "./db/MeDB"
 
-console.log( new Geo().get('64.78.253.68') )
+import { S3 } from "./db/S3"
+
+new S3()
+
+
+// console.log( new Geo().get('64.78.253.68') )
+
+
 
 //const db = new MeDB()
 

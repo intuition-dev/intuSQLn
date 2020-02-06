@@ -27,10 +27,11 @@
     "mbakex": ">=2.12.102",
     "minio": "^7.0.13",
     "murmurhash3js": ">=3.0.1",
+    "stream-length": "^1.0.2",
     "traceroute": ">=1.0.0"
   },
   "devDependencies": {
-    "@types/node": ">=13.5.0",
+    "@types/node": ">=13.7.0",
     "http-proxy": ">=1.18.0"
   }
 }

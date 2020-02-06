@@ -1,7 +1,9 @@
 
-var Minio = require('minio')
+const Minio = require('minio')
+const streamLength = require("stream-length")
+const { Readable } = require('stream')
 
-class S3 {
+export class S3 {
 
     minioClient
     bucket 
@@ -19,11 +21,47 @@ class S3 {
             accessKey: 'QVJDCMTBVDZLLQTJVND1',
             secretKey: 'WrUKYmuNEhs1EdE9w1rXsqnKczgWoB9nCLj2mTTu'
         })
+
+        this._writeX()
     }
 
+    async _writeX()  {
+
+        var path = '/oh'
+        var fileO =  Readable.from("Oh hi")
+        var sz = await  this.len(fileO)
+        //await this._writeOne(path, fileO, sz);
+        
+    }
+
+    _writeOne(path, fileO, sz) { // len pro
+        const THIZ = this
+        return new Promise(function(resolve, reject) {
+            THIZ.minioClient.putObject(THIZ.bucket, path, fileO, sz, THIZ.metaData, function(err) {
+                if (err) {
+                    console.log(err)
+                    reject(err)
+                }
+                console.log('uploaded successfully.')
+                resolve()
+              })
+        })
+    }//()
+
+    len(fileO) { // len pro
+        return new Promise(function(resolve, reject) {
+            streamLength(fileO, function(err, len) {
+                if(err) {
+                    console.log(err)
+                    reject(err)
+                }
+                resolve(len) // return promise
+            })
+        })
+    }
+
+
     Q = {} // a map of lists to be updated every fraction of a second
-
-
 
 
     write(folder, short_domain, year_month_day, continent, params) {
@@ -35,7 +73,6 @@ class S3 {
         this.Q[folder +'/'+ short_domain +'/'+ year_month_day +'/'+continent].push(params)
 
     }
-
 
 
     _write(q) { // called on a timer. emits domain event at end of write
@@ -52,6 +89,4 @@ class S3 {
     }
 
 
-
-
-}
+}//class
