@@ -47,9 +47,9 @@ var __gMetrics = (function () {
     };
     __gMetrics.sendMet = function () {
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url1 + '/metrics1911');
+        ajax.open('POST', __gMetrics._url + '/metrics');
         ajax.send(JSON.stringify(__gMetrics.met));
-        console.log('sentMet - v200125');
+        console.log('sentMet - v2021');
     };
     __gMetrics._sendError = function (errorObj) {
         console.log('error');
@@ -72,7 +72,7 @@ var __gMetrics = (function () {
         extra['domain'] = window.location.href;
         extra['url'] = window.location.href;
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url1 + '/error1911');
+        ajax.open('POST', __gMetrics._url + '/error');
         setTimeout(function () {
             ajax.send(JSON.stringify(extra));
         });
@@ -87,7 +87,7 @@ var __gMetrics = (function () {
             arg = JSON.stringify(arg);
         extra['arg'] = arg;
         var ajax = new XMLHttpRequest();
-        ajax.open('POST', __gMetrics._url1 + '/log');
+        ajax.open('POST', __gMetrics._url + '/log');
         ajax.send(JSON.stringify(extra));
         console.log(extra);
     };
@@ -104,8 +104,8 @@ var __gMetrics = (function () {
     };
     __gMetrics._clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js';
     __gMetrics._traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js';
-    __gMetrics._url1 = 'https://1490415816.rsc.cdn77.org';
-    __gMetrics._url01 = 'http://localhost:3000';
+    __gMetrics._url0 = 'https://1490415816.rsc.cdn77.org';
+    __gMetrics._url = 'http://localhost:3000';
     __gMetrics._start = Date.now();
     __gMetrics.steps = 0;
     __gMetrics.met = {};

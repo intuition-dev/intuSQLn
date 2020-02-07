@@ -1,0 +1,32 @@
+{
+  "name": "good-agent",
+  "author": "Cekvenich",
+
+  "version": "0.10.15",
+  "description": " Just a generic agent",
+  "bin": {
+      "gagent": "mbake.js"
+  },
+  "license": "LGPL-3.0-only",
+  "homepage": "http://www.INTUITION.DEV",
+  "repository": {
+      "type": "git",
+      "url": "http://git.metabake.net"
+  },
+  "keywords": [
+      "monitoring"
+  ],
+
+  "engines": {
+   "node": ">=10.16.1"
+  },
+  
+  "dependencies": {
+    "mbake": ">=6.10.12"
+
+  },
+  "devDependencies": {
+    "@types/node": ">=12.11.2"
+  }
+
+}

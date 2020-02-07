@@ -9,11 +9,10 @@ new S3()
 
 // console.log( new Geo().get('64.78.253.68') )
 
+const db = new MeDB()
 
 
-//const db = new MeDB()
-
-import { DashHandler } from "./handler/DashHandler"
+//import { DashHandler } from "./handler/DashHandler"
 
 //const m = new MeDB()
 

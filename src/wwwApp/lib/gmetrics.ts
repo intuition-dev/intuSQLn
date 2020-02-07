@@ -13,8 +13,8 @@ class __gMetrics {
 
    static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
 
-   static _url1 = 'https://1490415816.rsc.cdn77.org'
-   static _url01 = 'http://localhost:3000'
+   static _url0 =  'https://1490415816.rsc.cdn77.org'
+   static _url = 'http://localhost:3000'
 
    static _start = Date.now()
    static _dom 
@@ -91,10 +91,10 @@ class __gMetrics {
 
    static sendMet() {
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url1 + '/metrics1911')
+      ajax.open('POST', __gMetrics._url + '/metrics')
       //ajax.setRequestHeader("Content-Type", "application/json")
       ajax.send(JSON.stringify(__gMetrics.met) )
-      console.log('sentMet - v200125')
+      console.log('sentMet - v2021')
       //console.log('sent', JSON.stringify(__gMetrics.met))
    }
 
@@ -123,7 +123,7 @@ class __gMetrics {
       extra['url']=  window.location.href
          
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url1 + '/error1911')
+      ajax.open('POST', __gMetrics._url + '/error')
       //set timeout so metrics maybe?
       setTimeout(function () {
          ajax.send(JSON.stringify(extra))
@@ -143,7 +143,7 @@ class __gMetrics {
 
       extra['arg'] = arg
       var ajax = new XMLHttpRequest()
-      ajax.open('POST', __gMetrics._url1 + '/log')
+      ajax.open('POST', __gMetrics._url + '/log')
       
       ajax.send(JSON.stringify(extra))
       console.log(extra)

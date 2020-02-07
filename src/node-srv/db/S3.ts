@@ -14,18 +14,9 @@ export class S3 {
             accessKey: 'QVJDCMTBVDZLLQTJVND1',
             secretKey: 'WrUKYmuNEhs1EdE9w1rXsqnKczgWoB9nCLj2mTTu'
         })
+    }//()
 
-    }
-
-    async _writeX()  {
-
-        var path = 'oh2/d'
-        var fileO =  Readable.from("Oh hi")
-        await this._writeOne(path, fileO)
-        
-    }
-
-    _writeOne(path, fileO) { // len pro
+    _writeOne(path, fileO) {  // fileO is a stream, eg   var fileO =  Readable.from("Oh hi") 
         const THIZ = this
         return new Promise(function(resolve, reject) {
             THIZ.minioClient.putObject(THIZ.bucket, path, fileO,  function(err) { //sz, THIZ.metaData,
@@ -60,13 +51,13 @@ export class S3 {
     }//()
 
 
-    _write(q) { // called on a timer. emits domain event at end of write
+    async  _write(q) { // called on a timer. emits domain event at end of write
         // by table,  by short_domain, by year_month_day, by continent
 
         var path
-        var file
 
-
+        var fileO =  Readable.from("Oh hi")
+        await this._writeOne(path, fileO)
 
     }
 

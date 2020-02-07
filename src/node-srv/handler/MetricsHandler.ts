@@ -21,7 +21,7 @@ export class MetricsHandler {
 
    // percent chance of processing vs ignore by domain
    
-   async metrics1911(req, resp) {// RUM, APM, 
+   async metrics(req, resp) {// RUM, APM, 
 
       let params = req.body
       
@@ -38,7 +38,7 @@ export class MetricsHandler {
       try {
          // dev only XXX ***
          // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-         // ip = '64.78.253.68'
+         ip = '64.78.253.68'
 
          MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
@@ -46,7 +46,7 @@ export class MetricsHandler {
       }
    }//()
    
-   error1911(req, resp) { //let str:string =  params.fidc + ip
+   error(req, resp) { //let str:string =  params.fidc + ip
 
       log.info('error')
       let ip = req.connection.remoteAddress
