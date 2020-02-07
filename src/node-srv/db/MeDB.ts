@@ -94,18 +94,21 @@ export class MeDB extends BaseDBL  {
       }
       // fullFinger is PK
       this.write(`INSERT INTO device( domain, fullFinger, ip,
-         lat, long, geoTz, cou, sub, city, post, aso, proxy,
+         lat, long, geoTz,  cou, cou2, sub,  state, city, 
+         city2, post, aso,  proxy,
          bro, os, mobile, tz, lang, langCou, ie, 
          hw, dateTime)
             VALUES
       ( ?, ?, ?,
-       ?,?,?, ?,?,?,?,?,?,
+       ?,?,?, ?,?,?, ?,?,
+       ?,?,?, ?,
        ?,?,?, ?,?,?,?,
        ?,?
       )`
       ,
       domain, fullFinger, ip, 
-      geo.lat, geo.long, geo.geoTz, geo.cou, geo.sub, geo.city, geo.post, geo.aso, geo.proxy,
+      geo.lat, geo.long, geo.geoTz, geo.cou, geo.cou2, geo.sub, geo.state, geo.city, 
+      geo.city2, geo.post, geo.aso, geo.proxy,
       params.bro, params.os, params.mobile, params.tz, params.lang, langCou, params.ie,
       params.h +'x'+ params.w, date
      )//
@@ -173,7 +176,7 @@ export class MeDB extends BaseDBL  {
       this.write(`CREATE INDEX i_met ON met (dateTime DESC)`)
          
       this.write(`CREATE TABLE device( domain, fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
-            lat, long, geoTz, cou, sub, city, post, aso, proxy INTEGER,
+            lat, long, geoTz, cou, cou2, sub, state, city, city2, post, aso, proxy INTEGER,
             bro, os, mobile INTEGER, tz, lang, langCou, ie INTEGER, 
             hw, dateTime TEXT
          ) WITHOUT ROWID `)

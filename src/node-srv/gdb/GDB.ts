@@ -66,10 +66,13 @@ async load() {
       let time = perfy.end('imp')
       console.log(':i:')
       this.log.info(time)
+
+      this.get('64.78.253.68')
+
    })
 }//()
 
-   private schema() {
+   private async schema() {
       this.defCon(process.cwd(), '/dbip.db')
 
       const exists = this.tableExists('geo')
@@ -88,7 +91,7 @@ async load() {
 
    get(adrs) {
       const fromInt = ip.toLong(adrs)
-      console.log(adrs, fromInt)
+      this.log.info(adrs, fromInt)
 
       const row = this.readOne(`SELECT cou, state, city FROM geo
          WHERE ? >= fromInt
@@ -98,7 +101,7 @@ async load() {
          `, fromInt )
 
       //let time = perfy.end('g')
-      this.log.info(row)
+      console.log(row)
       return row
    }//()
 

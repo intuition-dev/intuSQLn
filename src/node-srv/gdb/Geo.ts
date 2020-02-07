@@ -31,8 +31,6 @@ export class Geo {
 
    async get(ip:string) {
 
-      let g = await this.gdb.get(ip)
-      log.info(g)
 
       const aresp = Geo.asnReader.asn(ip)
       const ctresp = Geo.cityReader.city(ip)
@@ -40,11 +38,12 @@ export class Geo {
 
       //console.log(ctresp.subdivisions[0].names)
 
-      let geo = {}
+      let geo = await this.gdb.get(ip)
+      if(!geo) geo = {}
       geo['aso']  = aresp.autonomousSystemOrganization
-      geo['cou']  = ctresp.country.isoCode
+      geo['cou2']  = ctresp.country.isoCode
       geo['sub']=   ctresp.subdivisions[0].isoCode
-      geo['city']=  ctresp.city.names.en
+      geo['city2']=  ctresp.city.names.en
 
       geo['post'] = ctresp.postal.code
    

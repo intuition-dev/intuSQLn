@@ -8,10 +8,14 @@ import { S3 } from "./db/S3"
 new S3()
 
 
-// console.log( new Geo().get('64.78.253.68') )
+//console.log( new Geo().get('64.78.253.68') )
 
+let g = new GDB()
 
-new GDB().load()
+g.load()
+
+//new GDB().get('64.78.253.68')
+
 
 //const db = new MeDB()
 
