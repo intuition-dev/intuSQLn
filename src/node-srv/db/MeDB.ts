@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "DB"})
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "MeDB"})
 
 // SEO
 
@@ -68,6 +68,7 @@ export class MeDB extends BaseDBL  {
          params.domain, params.title, params.referrer, params.domTime,
          referrerLocalFlag, priorDateTimeDiff
       )
+      log.info('met')
 
       this.writeDevice(fullFinger, ip, params, domain, date )
 
@@ -108,6 +109,8 @@ export class MeDB extends BaseDBL  {
       params.bro, params.os, params.mobile, params.tz, params.lang, langCou, params.ie,
       params.h +'x'+ params.w, date
      )//
+     log.info('dev')
+
       
    }//()
    
@@ -134,6 +137,7 @@ export class MeDB extends BaseDBL  {
          domain, date, fullFinger, ip, url,
          message, mode, name, stack
       )//
+      log.info('err')
 
       this.writeDevice(fullFinger, ip, extra, domain, date )
 
@@ -151,14 +155,12 @@ export class MeDB extends BaseDBL  {
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/db/met.db')
-      this._db.pragma('locking_mode=NORMAL') // 3rd party connection, or  EXCLUSIVE
-
+      this.defCon(process.cwd(), '/met.db')
 
       const exists = this.tableExists('met')
-      if(exists) return
-      log.info('schema')
+      log.info('schema', exists)
 
+      if(exists) return
   
       this.write(` CREATE TABLE error( domain, dateTime TEXT, fullFinger, ip TEXT, url, message TEXT, mode TEXT, name TEXT, stack TEXT
       ) `)
@@ -168,7 +170,7 @@ export class MeDB extends BaseDBL  {
             url, title, referrer, domTime, 
             referrerLocalFlag INTEGER, priorDateTimeDiff INT
          ) `)
-      this.write(`CREATE INDEX i_met ON met (domain, dateTime DESC)`)
+      this.write(`CREATE INDEX i_met ON met (dateTime DESC)`)
          
       this.write(`CREATE TABLE device( domain, fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
             lat, long, geoTz, cou, sub, city, post, aso, proxy INTEGER,
@@ -176,6 +178,8 @@ export class MeDB extends BaseDBL  {
             hw, dateTime TEXT
          ) WITHOUT ROWID `)
       this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`)
+
+      log.info('schemaDone')
 
     }//()
 

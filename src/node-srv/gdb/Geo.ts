@@ -4,6 +4,8 @@ const bformat = require('bunyan-format2')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "GDB"})
 
+import { GDB } from "./GDB"
+
 const perfy = require('perfy')
 
 const fs = require('fs-extra')
@@ -25,7 +27,12 @@ export class Geo {
    static asnReader = Reader.openBuffer(Geo.asnBuffer, options)
    static cityReader = Reader.openBuffer(Geo.cityBuffer, options)
 
-   get(ip:string) {
+   gdb:GDB  = new GDB()
+
+   async get(ip:string) {
+
+      let g = await this.gdb.get(ip)
+      log.info(g)
 
       const aresp = Geo.asnReader.asn(ip)
       const ctresp = Geo.cityReader.city(ip)
@@ -57,8 +64,6 @@ export class Geo {
          geo['proxy']= 1
       else geo['proxy']= 0
 
-   
-      log.info(geo)
       return geo
    }//()
 

@@ -47,7 +47,6 @@ export class MetricsHandler {
    }//()
    
    error(req, resp) { //let str:string =  params.fidc + ip
-
       log.info('error')
       let ip = req.connection.remoteAddress
       let params = req.body

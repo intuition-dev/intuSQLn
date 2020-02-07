@@ -5,12 +5,10 @@ io.init({
    http: true // will enable metrics about the http server (optional)
  })
 
-
-
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "index"})
+const log = bunyan.createLogger({src: true, stream: formatOut, name: "main"})
 
 import {  Serv }  from 'http-rpc/lib/Serv'
 
@@ -45,8 +43,8 @@ Serv._expInst.use(function(req,resp, next){
    next()
 })
 
-Serv._expInst.post('/metrics1911',  mh.metrics1911)
-Serv._expInst.post('/error1911', mh.error1911)
+Serv._expInst.post('/metrics',  mh.metrics)
+Serv._expInst.post('/error', mh.error)
 Serv._expInst.post('/log', mh.log)
 
 //DASH
@@ -56,7 +54,7 @@ srv.routeRPC('api',  dashH)
 srv.serveStatic('../wwwApp', 60*60, 60)
 
 Serv._expInst.use(function(req,resp, next){
-   log.warn('err', req.originalUrl)
+   log.warn('err, not found', req.originalUrl)
 })
 
 srv.listen(3000)
