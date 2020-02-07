@@ -38,7 +38,7 @@ export class MetricsHandler {
       try {
          // dev only XXX ***
          // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-         ip = '64.78.253.68'
+         //ip = '64.78.253.68'
 
          MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
@@ -60,6 +60,10 @@ export class MetricsHandler {
       let error = params.error
 
       resp.send('OK')
+      
+      // dev only XXX ***
+      // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      //ip = '64.78.253.68'
       
       if(! (MetricsHandler.isJSON(error)))
         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error, params)

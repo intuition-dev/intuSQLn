@@ -13,8 +13,8 @@ class __gMetrics {
 
    static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
 
-   static _url0 =  'https://1490415816.rsc.cdn77.org'
-   static _url = 'http://localhost:3000'
+   static _url =  'https://1490415816.rsc.cdn77.org'
+   static _url0 = 'http://localhost:3000'
 
    static _start = Date.now()
    static _dom 
@@ -96,6 +96,8 @@ class __gMetrics {
       ajax.send(JSON.stringify(__gMetrics.met) )
       console.log('sentMet - v2021')
       //console.log('sent', JSON.stringify(__gMetrics.met))
+
+      // throw new Error("test")
    }
 
    static _sendError(errorObj) {
