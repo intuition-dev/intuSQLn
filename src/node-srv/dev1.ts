@@ -1,41 +1,36 @@
 
-import { Geo } from "./gdb/Geo"
+//import { Geo } from "./gdb/Geo"
 import { MeDB } from "./db/MeDB"
-import { GDB } from "./gdb/GDB"
+//import { GDB } from "./gdb/GDB"
 
-import { S3 } from "./db/S3"
-
-new S3()
-
+//import { S3 } from "./db/S3"
 
 //console.log( new Geo().get('64.78.253.68') )
 
-let g = new GDB()
+//let g = new GDB()
 
-g.load()
+//g.load()
 
 //new GDB().get('64.78.253.68')
 
+const db = new MeDB()
 
-//const db = new MeDB()
+import { DashHandler } from "./handler/DashHandler"
 
+const m = new MeDB()
 
-//import { DashHandler } from "./handler/DashHandler"
-
-//const m = new MeDB()
-
-//m.dashPageViews('www.ubaycap.com')
+m.dashPageViews('www.ubaycap.com')
 
 console.log(2)
-//m.dashPgPopular('www.ubaycap.com')
+m.dashPgPopular('www.ubaycap.com')
 
 console.log(3)
-//m.dashRef('www.ubaycap.com')
+m.dashRef('www.ubaycap.com')
 
 console.log(4)
-//m.dashGeo('www.ubaycap.com')
+m.dashGeo('www.ubaycap.com')
 
 console.log(5)
-//m.dashRecentUsers('www.ubaycap.com')
+m.dashRecentUsers('www.ubaycap.com')
 
 
