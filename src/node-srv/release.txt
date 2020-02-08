@@ -1,11 +1,15 @@
 
 ftp the ip db
 
-
 node version, gyp
 
-ls
-disable se linux
+
+disable se linux:
+/usr/sbin/getenforce
 
 
-sudo npm install -g --unsafe-perm=true --allow-root
+npm i -g --unsafe-perm=true --allow-root mbake
+
+
+https://stackoverflow.com/questions/11177954/how-do-i-completely-uninstall-node-js-and-reinstall-from-beginning-mac-os-x
+
