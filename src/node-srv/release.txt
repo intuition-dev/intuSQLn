@@ -1,2 +1,11 @@
 
 ftp the ip db
+
+
+node version, gyp
+
+ls
+disable se linux
+
+
+sudo npm install -g --unsafe-perm=true --allow-root
