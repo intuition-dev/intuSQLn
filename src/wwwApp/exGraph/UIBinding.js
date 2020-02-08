@@ -1,15 +1,10 @@
 
 console.log('UI:')
 
-depp.define({
-
-   'RPCXX': ['#poly', '#lz-string', '#eventBus', '#RPC']
-
-})
 
 // var vm = new ViewModel()
 
-depp.require(['poly', 'lz-string', 'DOM', 'RPCXX', 'smoothie', 'raphael', 'justgage'], function() {
+depp.require(['poly', 'lz-string', 'DOM', 'RPC', 'smoothie', 'raphael', 'justgage'], function() {
    console.log('ready')
    smoot()
    data()
@@ -17,7 +12,7 @@ depp.require(['poly', 'lz-string', 'DOM', 'RPCXX', 'smoothie', 'raphael', 'justg
 
 function data() {
 
-   const rpc = new httpRPC('http', 'localhost', 8888)
+   const rpc = new httpRPC('http', 'localhost', 3000)
 
    const pro = rpc.invoke('dash', 'dash', {})
    pro.then(function(resp) {

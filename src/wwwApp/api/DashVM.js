@@ -1,8 +1,7 @@
-console.log('api');
 var DashVM = (function () {
     function DashVM() {
         this.rpc = new httpRPC('http', 'localhost', 3000);
-        this.pageViews('x');
+        console.log('DashAPI');
     }
     DashVM.prototype.pageViews = function (domain) {
         var pro = this.rpc.invoke('api', 'pageViews', { a: 5, b: 2 });
@@ -36,4 +35,3 @@ var DashVM = (function () {
     };
     return DashVM;
 }());
-dashAPI = new DashVM();

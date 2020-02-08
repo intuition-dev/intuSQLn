@@ -1,11 +1,8 @@
 
-console.log('api')
-
 
 declare var httpRPC
 declare var depp
 declare var dashAPI
-
 
 class DashVM {
 
@@ -13,8 +10,7 @@ class DashVM {
 
 constructor() {
    this.rpc = new httpRPC('http', 'localhost', 3000)
-
-   this.pageViews('x')
+   console.log('DashAPI')
 }
 
 
@@ -34,7 +30,6 @@ popular(domain)  {
    })
 
 }//()
-
 
 ref(domain)  {
    const pro = this.rpc.invoke('api', 'ref', {a:5, b:2})
@@ -64,4 +59,3 @@ recent(domain)  {
 
 }//class
 
-dashAPI = new DashVM()

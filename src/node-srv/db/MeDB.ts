@@ -2,6 +2,7 @@ import { BaseDBL } from 'mbakex/lib/BaseDBL'
 import { Geo } from '../gdb/Geo'
 import { Utils } from './Utils'
 import { DateTime } from 'luxon'
+import { loadavg } from 'os'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -187,7 +188,7 @@ export class MeDB extends BaseDBL  {
     }//()
 
 
-   dashPageViews(domain){ //visitors for the 2 weeks by day total. new vs returning
+   dashPageViews(domain){ //visitors for the 45 days by day total. new vs returning
 
       const dau = `SELECT date(dateTime) AS date, count(*) AS COUNT 
       FROM met 
@@ -196,9 +197,9 @@ export class MeDB extends BaseDBL  {
       ORDER by date DESC 
       `
       //date
-      let weeksAgo = DateTime.local().minus({days: 7*2 + 1})
+      let weeksAgo = DateTime.local().minus({days: 45 + 1})
+      log.info(weeksAgo.toString())
       const rows = this.read(dau, domain, weeksAgo.toString() )
-      console.log(rows)
       return rows
 
       let newOrReturning = `SELECT met.fullFinger, date(device.dateTime) AS first, date(met.dateTime) AS visited, count(*) AS COUNT
@@ -218,9 +219,10 @@ export class MeDB extends BaseDBL  {
       FROM met
       WHERE domain = ? AND dateTime >= ? 
       GROUP BY url
+      ORDER BY COUNT DESC
+      LIMIT 15
       `
       const rows = this.read(s, domain, weeksAgo.toString() )
-      console.log(rows)
       return rows
    }
 
@@ -234,7 +236,6 @@ export class MeDB extends BaseDBL  {
       GROUP BY referrer
       `
       const rows = this.read(s, domain )
-      console.log(rows)
       return rows
    }//()
 
@@ -249,7 +250,6 @@ export class MeDB extends BaseDBL  {
       GROUP BY lang, cou, sub
       `
       const rows = this.read(state, domain, weeksAgo.toString() )
-      console.log(rows)
       return rows
 
       let aso = `SELECT tz, lang, cou, sub, aso, count(*) AS COUNT
@@ -271,7 +271,6 @@ export class MeDB extends BaseDBL  {
       LIMIT 60
        `, domain)
 
-       console.log(rows)
        return rows
 
    }//()
