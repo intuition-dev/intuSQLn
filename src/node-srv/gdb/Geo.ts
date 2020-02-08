@@ -29,11 +29,10 @@ export class Geo {
 
    gdb:GDB  = new GDB()
 
-   async get(ip:string) {
+   async getG(ip:string) {
 
-
-      const aresp = Geo.asnReader.asn(ip)
-      const ctresp = Geo.cityReader.city(ip)
+      const aresp = await Geo.asnReader.asn(ip)
+      const ctresp = await Geo.cityReader.city(ip)
       //const cnresp = Geo.cntryReader.country(ip)
 
       //console.log(ctresp.subdivisions[0].names)
@@ -41,28 +40,33 @@ export class Geo {
       let geo = await this.gdb.get(ip)
       if(!geo) geo = {}
       geo['aso']  = aresp.autonomousSystemOrganization
-      geo['cou2']  = ctresp.country.isoCode
-      geo['sub']=   ctresp.subdivisions[0].isoCode
-      geo['city2']=  ctresp.city.names.en
 
-      geo['post'] = ctresp.postal.code
-   
-      geo['lat']= ctresp.location.latitude
-      geo['long']= ctresp.location.longitude
-      geo['geoTz'] = ctresp.location.timeZone
+      if(!ctresp) return geo
+      try {
+         geo['cou2']  = ctresp.country.isoCode
+         geo['sub']=   ctresp.subdivisions[0].isoCode
+         geo['city2']=  ctresp.city.names.en
 
-      const proxy:boolean = 
-         ctresp.traits.isAnonymous ||
-         ctresp.traits.isAnonymousProxy ||
-         ctresp.traits.isAnonymousVpn ||
-         ctresp.traits.isHostingProvider || 
-         ctresp.traits.isLegitimateProxy || 
-         ctresp.traits.isPublicProxy ||
-         ctresp.traits.isTorExitNode
-      if(proxy)
-         geo['proxy']= 1
-      else geo['proxy']= 0
+         geo['post'] = ctresp.postal.code
+      
+         geo['lat']= ctresp.location.latitude
+         geo['long']= ctresp.location.longitude
+         geo['geoTz'] = ctresp.location.timeZone
 
+         const proxy:boolean = 
+            ctresp.traits.isAnonymous ||
+            ctresp.traits.isAnonymousProxy ||
+            ctresp.traits.isAnonymousVpn ||
+            ctresp.traits.isHostingProvider || 
+            ctresp.traits.isLegitimateProxy || 
+            ctresp.traits.isPublicProxy ||
+            ctresp.traits.isTorExitNode
+         if(proxy)
+            geo['proxy']= 1
+         else geo['proxy']= 0
+      } catch (err) {
+         log.info(err)
+      }
       return geo
    }//()
 

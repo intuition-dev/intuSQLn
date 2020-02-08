@@ -80,7 +80,7 @@ export class MeDB extends BaseDBL  {
       if(MeDB._fingeExists(fullFinger, this))
       return
 
-      const geo:any = await MeDB._geo.get(ip)
+      const geo:any = await MeDB._geo.getG(ip)
       // also get sqlite 
       
       let langCou:string = null
