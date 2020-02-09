@@ -15,10 +15,10 @@ function init() {
     // vm.pageViews(domain) // bar chart
 
     //vm.popular(domain) page count vertical bar chart
-    
-    //vm.ref(domain)
 
     //vm.geo(domain)
+
+    //vm.ref(domain)
     //vm.recent(domain)
 
 }

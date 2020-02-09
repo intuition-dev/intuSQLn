@@ -25,12 +25,12 @@ console.log(2)
 //console.log( m.dashPgPopular('www.ubaycap.com'))
 
 console.log(3)
-console.log(m.dashRef('www.ubaycap.com'))
+//console.log(m.dashRef('www.ubaycap.com'))
 
 console.log(4)
-//m.dashGeo('www.ubaycap.com')
+//console.log(m.dashGeo('www.ubaycap.com'))
 
 console.log(5)
-// m.dashRecentUsers('www.ubaycap.com')
+console.log(m.dashRecentUsers('www.ubaycap.com'))
 
 

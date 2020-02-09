@@ -234,6 +234,8 @@ export class MeDB extends BaseDBL  {
       FROM met
       WHERE domain = ? AND referrerLocalFlag = 0 
       GROUP BY referrer
+      ORDER BY COUNT DESC
+      LIMIT 15
       `
       const rows = this.read(s, domain )
       return rows
@@ -248,6 +250,8 @@ export class MeDB extends BaseDBL  {
       INNER JOIN met ON met.fullFinger = device.fullFinger
       WHERE device.domain = ? AND met.dateTime >= ? 
       GROUP BY lang, cou, sub
+      ORDER BY COUNT DESC
+      LIMIT 20
       `
       const rows = this.read(state, domain, weeksAgo.toString() )
       return rows
