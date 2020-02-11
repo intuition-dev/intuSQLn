@@ -22,11 +22,11 @@
   },
   
   "dependencies": {
-    "mbake": ">=6.10.12"
+    "mbake": ">=7.14.7"
 
   },
   "devDependencies": {
-    "@types/node": ">=12.11.2"
+    "@types/node": ">=13.7.0"
   }
 
 }

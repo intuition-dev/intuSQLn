@@ -1,0 +1,37 @@
+{
+  "name": "good-monitor",
+  "author": "Cekvenich",
+  "private": true,
+  "version": "0.11.20",
+  "description": " Monitoring",
+  "bin": {
+    "ok": "ok.js"
+  },
+  "license": "AGPL-1.0-only",
+  "homepage": "http://www.INTUITION.DEV",
+  "repository": {
+    "type": "git",
+    "url": "http://git.metabake.net"
+  },
+  "keywords": [
+    "monitoring"
+  ],
+  "engines": {
+    "node": ">=12.15.0"
+  },
+  "dependencies": {
+    "@maxmind/geoip2-node": ">=1.4.0",
+    "@pm2/io": ">=4.3.3",
+    "http-rpc": ">=1.1.2",
+    "luxon": "^1.22.0",
+    "mbakex": ">=2.14.3",
+    "minio": "^7.0.13",
+    "murmurhash3js": ">=3.0.1",
+    "traceroute": ">=1.0.0",
+    "csv-parser": ">=2.3.2"
+  },
+  "devDependencies": {
+    "@types/node": ">=13.7.0",
+    "http-proxy": ">=1.18.0"
+  }
+}
