@@ -7,11 +7,12 @@ import { loadavg } from 'os'
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "MeDB"})
 
 // SEO
 
 export class MeDB extends BaseDBL  {
+
+   log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
 
    static MAXINT:number = 9223372036854775807 
    static _geo:Geo

@@ -2,7 +2,6 @@
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "GDB"})
 
 import { GDB } from "./GDB"
 
@@ -20,6 +19,9 @@ const options = {
 
 export class Geo {
    //  https://www.npmjs.com/package/@maxmind/geoip2-node
+
+
+   log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
 
    static asnBuffer = fs.readFileSync('./gdb/GeoLite2-ASN.mmdb')
    static cityBuffer = fs.readFileSync('./gdb/GeoLite2-City.mmdb')
