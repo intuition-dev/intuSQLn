@@ -1,7 +1,7 @@
 
-import { SysAgent } from "mbake/lib/SysAgent"
+import { SysAgent } from "./SysAgent"
 
-import { HttpRPC } from "mbake/lib/Invoke"
+import { HttpRPC } from "http-rpc/lib/Invoke"
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
