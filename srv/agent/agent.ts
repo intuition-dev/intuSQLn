@@ -9,8 +9,8 @@ import { VersionNag, Dirs} from './lib/FileOpsExtra'
 
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.0.0"
-VersionNag.isCurrent('mbake', ver).then(function (isCurrent_: boolean) {
+const ver = "v1.0.1"
+VersionNag.isCurrent('gagent', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
          console.log('There is a newer version of mbake CLI, please update.')
