@@ -5,11 +5,11 @@ const commandLineArgs = require("command-line-args");
 const SysAgent_1 = require("./lib/SysAgent");
 const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
-const ver = "v1.0.1";
-FileOpsExtra_1.VersionNag.isCurrent('gagent', ver).then(function (isCurrent_) {
+const ver = "v1.0.5";
+FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
-            console.log('There is a newer version of mbake CLI, please update.');
+            console.log('There is a newer version of agentg CLI, please update.');
     }
     catch (err) {
         console.log(err);
@@ -17,17 +17,18 @@ FileOpsExtra_1.VersionNag.isCurrent('gagent', ver).then(function (isCurrent_) {
 });
 const cwd = process.cwd();
 function version() {
-    console.info('mbake CLI version: ' + ver);
+    console.info('agentg CLI version: ' + ver);
 }
 function help() {
     console.info();
-    console.info('mbake CLI version: ' + ver);
+    console.info('agentg CLI version: ' + ver);
     console.info();
     console.info('Usage:');
-    console.info('  To download branch from git, in folder with gitdown.yaml:    mbakex --gitDown .');
+    console.info('  To download branch from git, in folder with gitdown.yaml: agentg --gitDown .');
     console.info('     passing the git password of gitdown user');
     console.info();
-    console.info('  List ports in use w/ process ID:                            mbake -p');
+    console.info('  List ports in use w/ process ID:                          agentg -p');
+    console.info();
     console.info(' Full docs: http://www.INTUITION.DEV');
     console.info();
 }

@@ -10,11 +10,11 @@ import { VersionNag, Dirs} from './lib/FileOpsExtra'
 import { GitDown  } from './lib/gitdown'
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.0.1"
-VersionNag.isCurrent('gagent', ver).then(function (isCurrent_: boolean) {
+const ver = "v1.0.5"
+VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
-         console.log('There is a newer version of mbake CLI, please update.')
+         console.log('There is a newer version of agentg CLI, please update.')
    } catch (err) {
       console.log(err)
    }
@@ -23,19 +23,21 @@ VersionNag.isCurrent('gagent', ver).then(function (isCurrent_: boolean) {
 const cwd: string = process.cwd()
 
 function version() {
-   console.info('mbake CLI version: ' + ver)
+   console.info('agentg CLI version: ' + ver)
 }
 
 function help() {
    console.info()
-   console.info('mbake CLI version: ' + ver)
+   console.info('agentg CLI version: ' + ver)
    console.info()
    console.info('Usage:')
-   console.info('  To download branch from git, in folder with gitdown.yaml:    mbakex --gitDown .')
+   console.info('  To download branch from git, in folder with gitdown.yaml: agentg --gitDown .')
    console.info('     passing the git password of gitdown user')
    console.info()
-   console.info('  List ports in use w/ process ID:                            mbake -p')
- 
+
+   console.info('  List ports in use w/ process ID:                          agentg -p')
+
+   console.info()
    console.info(' Full docs: http://www.INTUITION.DEV')
 
    console.info()

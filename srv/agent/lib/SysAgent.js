@@ -5,13 +5,7 @@ const bformat = require('bunyan-format2');
 const formatOut = bformat({ outputMode: 'short' });
 const log = bunyan.createLogger({ src: true, stream: formatOut, name: "Base" });
 const find = require('find-process');
-const disk = require('diskusage');
 class SysAgent {
-    static async diskUsage() {
-        const diskS = await disk.check('/');
-        console.log(JSON.stringify(diskS));
-        return diskS;
-    }
     static async ports() {
         let ports = [];
         await SysAgent.si.networkConnections().then(data => {
