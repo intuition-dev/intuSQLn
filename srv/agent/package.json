@@ -32,7 +32,9 @@
     "js-yaml": ">=3.13.1",
     "perfy": ">=1.1.5",
     "systeminformation": ">=4.21.2",
-    "uuid": ">=3.4.0"
+    "uuid": ">=3.4.0",
+    "execa": ">=4.0.0"
+
   },
   "devDependencies": {
     "@types/node": "^13.7.1",

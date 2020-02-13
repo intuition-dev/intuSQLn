@@ -7,6 +7,7 @@ import { SysAgent } from './lib/SysAgent'
 
 import { VersionNag, Dirs} from './lib/FileOpsExtra'
 
+import { GitDown  } from './lib/gitdown'
 
 // imports done /////////////////////////////////////////////
 const ver = "v1.0.1"
@@ -30,7 +31,9 @@ function help() {
    console.info('mbake CLI version: ' + ver)
    console.info()
    console.info('Usage:')
- 
+   console.info('  To download branch from git, in folder with gitdown.yaml:    mbakex --gitDown .')
+   console.info('     passing the git password of gitdown user')
+   console.info()
    console.info('  List ports in use w/ process ID:                            mbake -p')
  
    console.info(' Full docs: http://www.INTUITION.DEV')
@@ -44,6 +47,8 @@ const optionDefinitions = [
 
    { name: 'help', alias: 'h', type: Boolean },
    { name: 'version', alias: 'v', type: Boolean },
+
+   { name: 'gitDown', type: Boolean },
 
    { name: 'ports', alias: 'p', type: Boolean },
 
@@ -82,6 +87,11 @@ function ports() {
    SysAgent.ports()
 }
 
+function git(arg) {
+   let gg = new GitDown(arg)
+}//()
+
+
 // start: ///////////////////////////////////////////////////////////////////////////////////// if (argsParsed.pug)
 if (argsParsed.version)
    version()
@@ -89,5 +99,7 @@ else if (argsParsed.help)
    help()
 else if (argsParsed.ports)
    ports()
+else if (argsParsed.gitDown)
+   git(arg)
 else (!arg)
    help()
