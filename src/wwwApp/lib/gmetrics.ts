@@ -9,15 +9,25 @@ declare var TraceKit
  * This will download fingerprint
  */
 class __gMetrics {
+   static _traceSrc    =  'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
+   static _platfromSrc =  'https://cdn.jsdelivr.net/npm/platform@1.3.5/platform.min.js'
+   // todo: replace client with platform!
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
-
-   static _traceSrc = 'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
 
    static _url =  'https://1490415816.rsc.cdn77.org'
    static _url0 = 'http://localhost:3000'
 
    static _start = Date.now()
    static _dom 
+
+   /**
+    * Determines if a host is a localhost.
+    * @param {String} hostname - Hostname that should be tested.
+    * @returns {Boolean} isLocalhost
+    */
+   isLocalhost = function(hostname) {
+      return hostname === '' || hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1'
+   }
 
    constructor() {
       // start

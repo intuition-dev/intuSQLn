@@ -1,6 +1,6 @@
 {
   "name": "good-monitor",
-  "author": www.INTUITION.DEV",
+  "author": "www.INTUITION.DEV",
   "private": true,
   "version": "0.11.20",
   "description": " Monitoring",
@@ -21,11 +21,10 @@
   },
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.4.0",
-    "@pm2/io": ">=4.3.3",
     "http-rpc": ">=1.1.2",
-    "luxon": "^1.22.0",
+    "luxon": ">=1.22.0",
     "mbakex": ">=2.14.3",
-    "minio": "^7.0.13",
+    "minio": ">=7.0.13",
     "murmurhash3js": ">=3.0.1",
     "traceroute": ">=1.0.0",
     "csv-parser": ">=2.3.2"

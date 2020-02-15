@@ -1,9 +1,4 @@
 
-const io = require('@pm2/io')
-io.init({
-   transactions: true, // will enable the transaction tracing
-   http: true // will enable metrics about the http server (optional)
- })
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -28,7 +23,7 @@ dserver.listen(3001)
 log.info('debug on 3001')
 */ //end debug
 
-const express = require('express');
+const express = require('express')
 
 const srv = new Serv(['*']) 
 
