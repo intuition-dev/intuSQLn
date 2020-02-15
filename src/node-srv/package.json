@@ -21,16 +21,15 @@
   },
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.4.0",
-    "http-rpc": ">=1.1.2",
+    "http-rpc": ">=1.1.5",
     "luxon": ">=1.22.0",
-    "mbakex": ">=2.14.3",
+    "mbakex": ">=2.14.9",
     "minio": ">=7.0.13",
     "murmurhash3js": ">=3.0.1",
     "traceroute": ">=1.0.0",
     "csv-parser": ">=2.3.2"
   },
   "devDependencies": {
-    "@types/node": ">=13.7.0",
-    "http-proxy": ">=1.18.0"
+    "@types/node": ">=13.7.1"
   }
 }
