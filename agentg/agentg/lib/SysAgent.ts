@@ -6,9 +6,9 @@ const bformat = require('bunyan-format2')
 const formatOut = bformat({ outputMode: 'short' })
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "Base"})
 
-
+const checkDiskSpace = require('check-disk-space')
+const psList = require('ps-list')
 const find = require('find-process')
-//const disk = require('diskusage')
 
 export class SysAgent { 
     static guid = require('uuid/v4')
@@ -18,12 +18,20 @@ export class SysAgent {
     static os = require('os')
 
     /*
-    static async diskUsage() { // free disk space 
-      const diskS = await disk.check('/')
-      console.log(JSON.stringify(diskS))
-      return diskS
-    }
+    list of running processes  
     */
+
+    static  ps() {
+        return psList()
+    }
+
+    static disk() {
+        return new Promise(function(resolve, reject) {
+            checkDiskSpace('/').then((diskSpace) => {
+                resolve(diskSpace)
+            })
+        })
+    }//()
 
     static async ports() { 
       let ports = []
@@ -32,14 +40,12 @@ export class SysAgent {
             ports.push(v.localport)
          }) 
       })
-
-      console.log(ports)
-
+      //console.log(ports)
       let results = []
       let pids = {}
       for (let i = 0; i < ports.length; i++) {
          let row = await find('port', ports[i])
-         console.log(ports[i], row)
+         //console.log(ports[i], row)
          if(!row) continue
          if(row[0]) row = row[0]
 
@@ -58,7 +64,7 @@ export class SysAgent {
          results.push(row)
       }
 
-      console.log(results)
+      //console.log(results)
       return results
    }//()
 
@@ -67,6 +73,9 @@ export class SysAgent {
         track['guid']= SysAgent.guid()
         track['dt_stamp']= new Date().toISOString()
 
+        let disk = await SysAgent.disk()
+        track['disk'] = disk
+        
         await SysAgent.si.fsStats().then(data => { 
             track['fsR']=data.rx
             track['fsW']=data.wx

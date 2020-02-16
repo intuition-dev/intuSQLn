@@ -11,10 +11,10 @@ class Agent {
     }
     async run() {
         this._log.info('loop:');
+        let disk = await SysAgent_1.SysAgent.disk();
+        console.log(await SysAgent_1.SysAgent.ps());
         let params = await SysAgent_1.SysAgent.stats();
-        this._log.info(params);
-        await SysAgent_1.SysAgent.wait(200);
-        this.run();
+        await SysAgent_1.SysAgent.wait(400);
     }
 }
 exports.Agent = Agent;

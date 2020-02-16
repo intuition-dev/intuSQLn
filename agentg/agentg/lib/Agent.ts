@@ -14,15 +14,18 @@ export class Agent {
     static rpc = new HttpRPC('http', 'localhost', 8888)
 
     async run() {
-      
       this._log.info('loop:')
 
-      let params = await SysAgent.stats() 
-      this._log.info(params)
-      // await Agent.rpc.invoke('monitor',  'monitor', 'monitor', params  )
+      let params = await SysAgent.stats()
+      let ports = await SysAgent.ports()
+      params['ports'] = ports
+      let ps = await SysAgent.ps()
+      params['ps']= ps
 
-      await  SysAgent.wait(200)
-      this.run()
+      await Agent.rpc.invoke('monitor',  'monitor', 'monitor', params  )
+
+      await  SysAgent.wait(400)
+      //this.run()
 
     }
 

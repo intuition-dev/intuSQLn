@@ -11,18 +11,6 @@ import {  MetricsHandler } from "./handler/MetricsHandler"
 import {  DashHandler } from "./handler/DashHandler"
 import { MeDB } from "./db/MeDB"
 
-/* debug http
-const dhttp = require('http')
-const httpProxy = require('http-proxy')
-const proxy = httpProxy.createProxyServer({})
-const dserver = dhttp.createServer(function(req, res) {
-   log.info(req.path)
-   proxy.web(req, res, { target: 'http://127.0.0.1:3000' });
-})
-dserver.listen(3001)
-log.info('debug on 3001')
-*/ //end debug
-
 const express = require('express')
 
 const srv = new Serv(['*']) 

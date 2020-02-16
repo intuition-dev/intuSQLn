@@ -4,8 +4,20 @@ const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
 const formatOut = bformat({ outputMode: 'short' });
 const log = bunyan.createLogger({ src: true, stream: formatOut, name: "Base" });
+const checkDiskSpace = require('check-disk-space');
+const psList = require('ps-list');
 const find = require('find-process');
 class SysAgent {
+    static ps() {
+        return psList();
+    }
+    static disk() {
+        return new Promise(function (resolve, reject) {
+            checkDiskSpace('/').then((diskSpace) => {
+                resolve(diskSpace);
+            });
+        });
+    }
     static async ports() {
         let ports = [];
         await SysAgent.si.networkConnections().then(data => {
@@ -13,12 +25,10 @@ class SysAgent {
                 ports.push(v.localport);
             });
         });
-        console.log(ports);
         let results = [];
         let pids = {};
         for (let i = 0; i < ports.length; i++) {
             let row = await find('port', ports[i]);
-            console.log(ports[i], row);
             if (!row)
                 continue;
             if (row[0])
@@ -35,7 +45,6 @@ class SysAgent {
             delete row['bin'];
             results.push(row);
         }
-        console.log(results);
         return results;
     }
     static async stats() {
