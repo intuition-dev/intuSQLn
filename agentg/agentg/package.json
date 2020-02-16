@@ -3,7 +3,7 @@
   "author": "www.INTUITION.DEV",
   "preferGlobal": true,
 
-  "version": "v1.2.5",
+  "version": "v1.2.6",
   "description": "A good agent, lets you download a branch, or tell you what is going on in the container/box. Used by mbake",
   "bin":  "agent.js",
   "license": "LGPL-3.0-only",

@@ -5,7 +5,7 @@ const commandLineArgs = require("command-line-args");
 const SysAgent_1 = require("./lib/SysAgent");
 const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
-const ver = "v1.0.5";
+const ver = "v1.2.6";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
@@ -40,7 +40,7 @@ const optionDefinitions = [
     { name: 'ports', alias: 'p', type: Boolean },
 ];
 const argsParsed = commandLineArgs(optionDefinitions);
-let arg = argsParsed.mbake;
+let arg = argsParsed.agentg;
 console.info();
 if (arg) {
     arg = FileOpsExtra_1.Dirs.slash(arg);

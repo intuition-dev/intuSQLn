@@ -10,7 +10,7 @@ import { VersionNag, Dirs} from './lib/FileOpsExtra'
 import { GitDown  } from './lib/gitdown'
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.0.5"
+const ver = "v1.2.6"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
@@ -57,7 +57,7 @@ const optionDefinitions = [
 ]
 
 const argsParsed = commandLineArgs(optionDefinitions)
-let arg: string = argsParsed.mbake
+let arg: string = argsParsed.agentg
 console.info()
 
 

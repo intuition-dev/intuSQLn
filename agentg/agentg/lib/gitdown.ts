@@ -12,11 +12,8 @@ import execa = require('execa')
 import yaml = require('js-yaml')
 
 
-
-
 export class GitDown {
 
-  
     config
     remote
     pass: string
