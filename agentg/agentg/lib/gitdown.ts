@@ -19,7 +19,7 @@ export class GitDown {
     pass: string
     git: any
     dir: string
-    constructor(pass_) {
+    constructor() {
        var standard_input = process.stdin;
  
        // Set input character encoding.
@@ -37,9 +37,7 @@ export class GitDown {
              process.exit()
           } else {
  
-             const last = pass_.lastIndexOf('/')
              this.pass = password.replace(/\n/g, '');
-             this.dir = pass_.substring(0, last);
  
              this.config = yaml.load(fs.readFileSync('gitdown.yaml'))
              log.info(this.dir, this.config.BRANCH)

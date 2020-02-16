@@ -31,13 +31,12 @@ function help() {
    console.info('agentg CLI version: ' + ver)
    console.info()
    console.info('Usage:')
-   console.info('  To download branch from git, in folder with gitdown.yaml: agentg --gitDown .')
-   console.info('     passing the git password of gitdown user')
-   console.info()
-
    console.info('  List ports in use w/ process ID:                          agentg -p')
-
    console.info()
+
+   console.info('  To download branch from git, in folder with gitdown.yaml: agentg -g')
+   console.info()
+
    console.info(' Full docs: http://www.INTUITION.DEV')
 
    console.info()
@@ -50,7 +49,7 @@ const optionDefinitions = [
    { name: 'help', alias: 'h', type: Boolean },
    { name: 'version', alias: 'v', type: Boolean },
 
-   { name: 'gitDown', type: Boolean },
+   { name: 'gitDown', alias: 'g', type: Boolean },
 
    { name: 'ports', alias: 'p', type: Boolean },
 
@@ -89,19 +88,17 @@ function ports() {
    SysAgent.ports()
 }
 
-function git(arg) {
-   let gg = new GitDown(arg)
+function git() {
+   new GitDown()
 }//()
 
 
 // start: ///////////////////////////////////////////////////////////////////////////////////// if (argsParsed.pug)
-if (argsParsed.version)
-   version()
-else if (argsParsed.help)
-   help()
-else if (argsParsed.ports)
+if (argsParsed.ports)
    ports()
 else if (argsParsed.gitDown)
-   git(arg)
-else (!arg)
+   git()
+else if (argsParsed.version)
+   version()
+else(argsParsed.help)
    help()

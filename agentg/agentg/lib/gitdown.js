@@ -8,7 +8,7 @@ const fs = require("fs-extra");
 const execa = require("execa");
 const yaml = require("js-yaml");
 class GitDown {
-    constructor(pass_) {
+    constructor() {
         var standard_input = process.stdin;
         standard_input.setEncoding('utf-8');
         console.log("Please, enter your git password:");
@@ -18,9 +18,7 @@ class GitDown {
                 process.exit();
             }
             else {
-                const last = pass_.lastIndexOf('/');
                 this.pass = password.replace(/\n/g, '');
-                this.dir = pass_.substring(0, last);
                 this.config = yaml.load(fs.readFileSync('gitdown.yaml'));
                 log.info(this.dir, this.config.BRANCH);
                 log.info(this.config);
