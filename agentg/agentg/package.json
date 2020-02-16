@@ -30,7 +30,7 @@
     "http-rpc": ">=1.1.5",
     "js-yaml": ">=3.13.1",
     "perfy": ">=1.1.5",
-    "systeminformation": ">=4.21.2",
+    "systeminformation": ">=4.21.3",
     "uuid": ">=3.4.0",
     "execa": ">=4.0.0"
 

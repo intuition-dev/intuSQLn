@@ -1,4 +1,4 @@
 clear
 tsc
 
-node agentg.js -g
+node dev1.js
