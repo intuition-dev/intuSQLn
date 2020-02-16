@@ -43,12 +43,12 @@ export class MetricsHandler {
 
          MetricsHandler._db.writeMetrics(domain, fullFinger, params, ip)
       } catch(err) {
-         log.warn(err)
+         this._log.warn(err)
       }
    }//()
    
    error(req, resp) { //let str:string =  params.fidc + ip
-      log.info('error')
+      this._log.info('error')
       let ip = req.connection.remoteAddress
       let params = req.body
       
@@ -70,7 +70,7 @@ export class MetricsHandler {
         MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, error, params)
       else {    
          let message = JSON.parse(error)
-         log.info(Object.keys(message))
+         this._log.info(Object.keys(message))
          MetricsHandler._db.writeError(domain, fullFinger, ip, fullDomain, message.message, params, message.mode, message.name, message.stack) 
       }
 
@@ -78,7 +78,7 @@ export class MetricsHandler {
    
 
    log(req, resp) {
-      log.info('log')
+      this._log.info('log')
       let ip = req.connection.remoteAddress
       let params = req.body
       

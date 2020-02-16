@@ -67,7 +67,7 @@ export class Geo {
             geo['proxy']= 1
          else geo['proxy']= 0
       } catch (err) {
-         log.info(err)
+         this.log.info(err)
       }
       return geo
    }//()

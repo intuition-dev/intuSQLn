@@ -32,10 +32,10 @@ export class MeDB extends BaseDBL  {
          `, fullFinger)
       if((!rows) || rows.length!=1 )
          return MeDB.MAXINT
-      log.info(rows)
+      this.log.info(rows)
       const row = rows[0]
       const delta = ( Date.parse(curDate) - Date.parse(row['dateTime']) )
-      log.info(delta)
+      this.log.info(delta)
       return delta 
    }//()
 
@@ -52,7 +52,7 @@ export class MeDB extends BaseDBL  {
 
       let priorDateTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, date)
 
-      log.info(priorDateTimeDiff)
+      this.log.info(priorDateTimeDiff)
       
       // pk is assigned by db in this case
       // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
@@ -70,7 +70,7 @@ export class MeDB extends BaseDBL  {
          params.domain, params.title, params.referrer, params.domTime,
          referrerLocalFlag, priorDateTimeDiff
       )
-      log.info('met')
+      this.log.info('met')
 
       this.writeDevice(fullFinger, ip, params, domain, date )
 
@@ -92,7 +92,7 @@ export class MeDB extends BaseDBL  {
             langCou = params.lang.substring(pos)
          }
       } catch (err) {
-         log.err(err)
+         this.log.err(err)
       }
       // fullFinger is PK
       this.write(`INSERT INTO device( domain, fullFinger, ip,
@@ -114,7 +114,7 @@ export class MeDB extends BaseDBL  {
       params.bro, params.os, params.mobile, params.tz, params.lang, langCou, params.ie,
       params.h +'x'+ params.w, date
      )//
-     log.info('dev')
+     this.log.info('dev')
 
       
    }//()
@@ -142,7 +142,7 @@ export class MeDB extends BaseDBL  {
          domain, date, fullFinger, ip, url,
          message, mode, name, stack
       )//
-      log.info('err')
+      this.log.info('err')
 
       this.writeDevice(fullFinger, ip, extra, domain, date )
 
@@ -163,7 +163,7 @@ export class MeDB extends BaseDBL  {
       this.defCon(process.cwd(), '/met.db')
 
       const exists = this.tableExists('met')
-      log.info('schema', exists)
+      this.log.info('schema', exists)
 
       if(exists) return
   
@@ -184,7 +184,7 @@ export class MeDB extends BaseDBL  {
          ) WITHOUT ROWID `)
       this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`)
 
-      log.info('schemaDone')
+      this.log.info('schemaDone')
 
     }//()
 
@@ -199,7 +199,7 @@ export class MeDB extends BaseDBL  {
       `
       //date
       let weeksAgo = DateTime.local().minus({days: 45 + 1})
-      log.info(weeksAgo.toString())
+      this.log.info(weeksAgo.toString())
       const rows = this.read(dau, domain, weeksAgo.toString() )
       return rows
 

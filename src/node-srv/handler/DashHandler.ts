@@ -18,31 +18,31 @@ export class DashHandler extends BaseRPCMethodHandler {
    }
 
    async pageViews(params) {
-      log.info(params)
+      this.log.info(params)
       let ret  = this.mdb.dashPageViews('www.ubaycap.com')
       return ret
    }//()
 
    async popular(params) {
-      log.info(params)
+      this.log.info(params)
       let ret  = this.mdb.dashPgPopular('www.ubaycap.com')
       return ret
    }//()
 
    async ref(params) {
-      log.info(params)      
+      this.log.info(params)      
       let ret  = this.mdb.dashRef('www.ubaycap.com')
       return ret
    }//()
 
    async geo(params) {
-      log.info(params)
+      this.log.info(params)
       let ret  = this.mdb.dashGeo('www.ubaycap.com')
       return ret
    }//()
 
    async recent(params) {
-      log.info(params)
+      this.log.info(params)
       let ret  = this.mdb.dashRecentUsers('www.ubaycap.com')
       return ret
    }//() 
