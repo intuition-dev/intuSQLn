@@ -18,7 +18,8 @@ export class GitDown {
     remote
     pass: string
     git: any
-    dir: string
+    dir: string = process.cwd()
+
     constructor() {
        var standard_input = process.stdin;
  
@@ -40,7 +41,7 @@ export class GitDown {
              this.pass = password.replace(/\n/g, '');
  
              this.config = yaml.load(fs.readFileSync('gitdown.yaml'))
-             log.info(this.dir, this.config.BRANCH)
+             log.info( this.config.BRANCH)
              log.info(this.config)
  
              this.remote = 'https://' + this.config.LOGINName + ':'

@@ -5,7 +5,7 @@ const commandLineArgs = require("command-line-args");
 const SysAgent_1 = require("./lib/SysAgent");
 const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
-const ver = "v1.2.6";
+const ver = "v1.2.7";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
@@ -32,7 +32,7 @@ function help() {
     console.info();
 }
 const optionDefinitions = [
-    { name: 'agent', defaultOption: true },
+    { name: 'agentg', defaultOption: true },
     { name: 'help', alias: 'h', type: Boolean },
     { name: 'version', alias: 'v', type: Boolean },
     { name: 'gitDown', alias: 'g', type: Boolean },
@@ -73,5 +73,4 @@ else if (argsParsed.gitDown)
 else if (argsParsed.version)
     version();
 else
-    (argsParsed.help);
-help();
+    help();

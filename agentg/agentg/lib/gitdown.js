@@ -9,6 +9,7 @@ const execa = require("execa");
 const yaml = require("js-yaml");
 class GitDown {
     constructor() {
+        this.dir = process.cwd();
         var standard_input = process.stdin;
         standard_input.setEncoding('utf-8');
         console.log("Please, enter your git password:");
@@ -20,7 +21,7 @@ class GitDown {
             else {
                 this.pass = password.replace(/\n/g, '');
                 this.config = yaml.load(fs.readFileSync('gitdown.yaml'));
-                log.info(this.dir, this.config.BRANCH);
+                log.info(this.config.BRANCH);
                 log.info(this.config);
                 this.remote = 'https://' + this.config.LOGINName + ':';
                 this.remote += this.pass + '@';

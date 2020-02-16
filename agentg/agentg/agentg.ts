@@ -10,7 +10,7 @@ import { VersionNag, Dirs} from './lib/FileOpsExtra'
 import { GitDown  } from './lib/gitdown'
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.2.6"
+const ver = "v1.2.7"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
@@ -44,7 +44,7 @@ function help() {
 
 // args: //////////////////////////////////////////////////////////////////////////////////////////////////////
 const optionDefinitions = [
-   { name: 'agent', defaultOption: true },
+   { name: 'agentg', defaultOption: true },
 
    { name: 'help', alias: 'h', type: Boolean },
    { name: 'version', alias: 'v', type: Boolean },
@@ -100,5 +100,5 @@ else if (argsParsed.gitDown)
    git()
 else if (argsParsed.version)
    version()
-else(argsParsed.help)
+else
    help()
