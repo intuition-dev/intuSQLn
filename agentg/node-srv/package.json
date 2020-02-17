@@ -20,7 +20,7 @@
     "node": ">=12.16.0"
   },
   "dependencies": {
-    "mbakex": ">=2.14.9",
+    "mbakex": ">=2.14.11",
     "traceroute": ">=1.0.0"
   },
   "devDependencies": {

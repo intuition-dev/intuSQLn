@@ -5,18 +5,21 @@ const formatOut = bformat({ outputMode: 'short' })
 
 import { BaseRPCMethodHandler } from 'http-rpc/lib/Serv'
 
-export class AgentHandler       extends BaseRPCMethodHandler {
+export class AgentHandler extends BaseRPCMethodHandler {
     
    constructor(db) {
       super(1)
    }
 
-   async agent(params) {
+   agent(params) {
       
       // ip fingers
      // let ip = req.connection.remoteAddress
       
       console.log(params)
+
+      return "OK"
+      
    }//()
    
 

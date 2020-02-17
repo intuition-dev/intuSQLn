@@ -1,7 +1,7 @@
 
 import { SysAgent } from "./SysAgent"
 
-import { HttpRPC } from "http-rpc/lib/Invoke"
+import { HttpRPC } from "http-rpc/lib/SrvRPC"
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -22,7 +22,10 @@ export class Agent {
       let ps = await SysAgent.ps()
       params['ps']= ps
 
-      await Agent.rpc.invoke('agent',  'agent', 'agent', params  )
+      params = {}
+      params['a']='b'
+
+      await Agent.rpc.invoke('agent',  'agent', params  )
 
       await  SysAgent.wait(1400)
       //this.run()

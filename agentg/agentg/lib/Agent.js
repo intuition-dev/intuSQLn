@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const SysAgent_1 = require("./SysAgent");
-const Invoke_1 = require("http-rpc/lib/Invoke");
+const SrvRPC_1 = require("http-rpc/lib/SrvRPC");
 const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
 const formatOut = bformat({ outputMode: 'short' });
@@ -16,9 +16,11 @@ class Agent {
         params['ports'] = ports;
         let ps = await SysAgent_1.SysAgent.ps();
         params['ps'] = ps;
-        await Agent.rpc.invoke('agent', 'agent', 'agent', params);
+        params = {};
+        params['a'] = 'b';
+        await Agent.rpc.invoke('agent', 'agent', params);
         await SysAgent_1.SysAgent.wait(1400);
     }
 }
 exports.Agent = Agent;
-Agent.rpc = new Invoke_1.HttpRPC('http', 'localhost', 8888);
+Agent.rpc = new SrvRPC_1.HttpRPC('http', 'localhost', 8888);

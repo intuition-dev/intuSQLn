@@ -10,7 +10,7 @@ import { VersionNag, Dirs} from './lib/FileOpsExtra'
 import { GitDown  } from './lib/gitdown'
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.2.7"
+const ver = "v1.2.11"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
