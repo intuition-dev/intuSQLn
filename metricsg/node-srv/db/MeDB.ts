@@ -2,7 +2,6 @@ import { BaseDBL } from 'mbakex/lib/BaseDBL'
 import { Geo } from '../gdb/Geo'
 import { Utils } from './Utils'
 import { DateTime } from 'luxon'
-import { loadavg } from 'os'
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  

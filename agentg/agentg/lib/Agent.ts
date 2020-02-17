@@ -22,9 +22,9 @@ export class Agent {
       let ps = await SysAgent.ps()
       params['ps']= ps
 
-      await Agent.rpc.invoke('monitor',  'monitor', 'monitor', params  )
+      await Agent.rpc.invoke('agent',  'agent', 'agent', params  )
 
-      await  SysAgent.wait(400)
+      await  SysAgent.wait(1400)
       //this.run()
 
     }

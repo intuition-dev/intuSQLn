@@ -26,6 +26,7 @@ Serv._expInst.use(function(req,resp, next){
    next()
 })
 
+// old school ajax, not rpc
 Serv._expInst.post('/metrics',  mh.metrics)
 Serv._expInst.post('/error', mh.error)
 Serv._expInst.post('/log', mh.log)

@@ -11,10 +11,13 @@ class Agent {
     }
     async run() {
         this._log.info('loop:');
-        let disk = await SysAgent_1.SysAgent.disk();
-        console.log(await SysAgent_1.SysAgent.ps());
         let params = await SysAgent_1.SysAgent.stats();
-        await SysAgent_1.SysAgent.wait(400);
+        let ports = await SysAgent_1.SysAgent.ports();
+        params['ports'] = ports;
+        let ps = await SysAgent_1.SysAgent.ps();
+        params['ps'] = ps;
+        await Agent.rpc.invoke('agent', 'agent', 'agent', params);
+        await SysAgent_1.SysAgent.wait(1400);
     }
 }
 exports.Agent = Agent;

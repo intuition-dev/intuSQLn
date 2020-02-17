@@ -7,22 +7,21 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "main"})
 
 import {  Serv }  from 'http-rpc/lib/Serv'
 
-const express = require('express')
+import {  AgentHandler }  from './handler/AgentHandler'
 
 const srv = new Serv(['*']) 
-
-// Serv._expInst.use(express.json( {type: '*/*'} ) )
 
 Serv._expInst.use(function(req,resp, next){
    log.info(req.originalUrl)
    next()
 })
 
-Serv._expInst.post('/metrics',  mh.metrics)
+const ah = new AgentHandler(null);
+srv.routeRPC('agent',  ah)
 
 Serv._expInst.use(function(req,resp, next){
    log.warn('err, not found', req.originalUrl)
 })
 
-srv.listen(3000)
+srv.listen(8888)
 

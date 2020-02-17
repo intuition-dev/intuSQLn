@@ -51,6 +51,8 @@ class SysAgent {
         const track = new Object();
         track['guid'] = SysAgent.guid();
         track['dt_stamp'] = new Date().toISOString();
+        let disk = await SysAgent.disk();
+        track['disk'] = disk;
         await SysAgent.si.fsStats().then(data => {
             track['fsR'] = data.rx;
             track['fsW'] = data.wx;
