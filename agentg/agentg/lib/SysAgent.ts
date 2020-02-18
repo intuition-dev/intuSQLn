@@ -69,32 +69,29 @@ export class SysAgent {
         const track =  new Object() 
         track['guid']= SysAgent.guid()
         track['dt_stamp']= new Date().toISOString()
+        track['host']=SysAgent.os.hostname() 
 
         let disk = await SysAgent.disk()
         track['disk'] = disk
-
-        track['host']=SysAgent.os.hostname() 
         
         return track
-     
     }//()
 
 
     static async statsSmall() { // often like 1 second
         const track =  new Object() 
         track['guid']= SysAgent.guid()
+        track['host']=SysAgent.os.hostname() 
         track['dt_stamp']= new Date().toISOString()
-
-
-        await SysAgent.si.fsStats().then(data => { 
-            track['fsR']=data.rx
-            track['fsW']=data.wx
-        })
-
 
         await SysAgent.si.disksIO().then(data => {
             track['ioR']=data.rIO
             track['ioW']=data.wIO
+        })
+        
+        await SysAgent.si.fsStats().then(data => { 
+            track['fsR']=data.rx
+            track['fsW']=data.wx
         })
 
         await SysAgent.si.fsOpenFiles().then(data => {
@@ -125,7 +122,6 @@ export class SysAgent {
         })
         
         return track
-     
     }//()
 
     static wait(t):Promise<any> {

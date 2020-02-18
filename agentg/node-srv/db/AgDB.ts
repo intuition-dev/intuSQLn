@@ -6,12 +6,9 @@ const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
 
-// SEO
-
-export class MeDB extends BaseDBL  {
+export class AgDB extends BaseDBL  {
 
    log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
-
  
    constructor() {
       super()
@@ -33,117 +30,50 @@ export class MeDB extends BaseDBL  {
       return delta 
    }//()
 
-   async writeMetrics(domain, fullFinger, params, ip) {
+   async writeData(params) {
       const date = DateTime.local().toString()
 
-      // sameDomain
-      let referrerLocalFlag:number = 0
-
-
-      let priorDateTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, date)
-
-      this.log.info(priorDateTimeDiff)
+      let priorTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, params.dt_stamp)
       
-      // pk is assigned by db in this case
-      // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
-      
-      this.write(`INSERT INTO met( fullFinger, dateTime, 
-         url, title, referrer, domTime,
-         referrerLocalFlag, priorDateTimeDiff )
+      this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
+         ioR, ioW, fsR, fsW, openMax, openAlloc,
+         nicR, nicT, memFree, memUsed, swapUsed, swapFree,
+         cpu, cpiIdle )
             VALUES
-         ( ?,?,
-          ?,?,?,?,
-          ?,?
+         (  ?,?,?, ?, ?,
+            ?,?,?, ?, ?,?,
+            ?,?,?, ?, ?,?,
+            ?,?
          )`
          ,
-         fullFinger, date, 
-         params.domain, params.title, params.referrer, params.domTime,
-         referrerLocalFlag, priorDateTimeDiff
+         box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif,
+         params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc,
+         params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree,
+         params.cpu, params.cpiIdle
       )
-      this.log.info('met')
+      this.log.info('data')
 
-      this.writeDevice(fullFinger, ip, params, domain, date )
-
-   }//()
-
-   async writeDevice(fullFinger, ip, params, domain, date ) {
-   
-      // check if fullFinger exists
-      if(MeDB._fingeExists(fullFinger, this))
-      return
-      
-      let langCou:string = null
-      try {
-         if(params.lang.includes('-')) {
-            let pos:number = params.lang.indexOf('-')
-            langCou = params.lang.substring(pos)
-         }
-      } catch (err) {
-         this.log.err(err)
-      }
-      // fullFinger is PK
-      this.write(`INSERT INTO device( domain, fullFinger, ip,
-         lat, long, geoTz,  cou, cou2, sub,  state, city, 
-         city2, post, aso,  proxy,
-         bro, os, mobile, tz, lang, langCou, ie, 
-         hw, dateTime)
-            VALUES
-      ( ?, ?, ?,
-       ?,?,?, ?,?,?, ?,?,
-       ?,?,?, ?,
-       ?,?,?, ?,?,?,?,
-       ?,?
-      )`
-      ,
-      domain, fullFinger, ip, 
-     
-     )//
-     this.log.info('dev')
-
-      
-   }//()
-
-
-   static _fingeExists(fullFinger, ctx:BaseDBL) {
-      const rows = ctx.read(`SELECT fullFinger FROM device
-         WHERE fullFinger = ?
-         LIMIT 1
-         `, fullFinger)
-      if((!rows) || rows.length!=1 )
-         return false
-      return true
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/met.db')
+      this.defCon(process.cwd(), '/ag.db')
 
-      const exists = this.tableExists('met')
+      const exists = this.tableExists('data')
       this.log.info('schema', exists)
 
       if(exists) return
-  
-      this.write(` CREATE TABLE error( domain, dateTime TEXT, fullFinger, ip TEXT, url, message TEXT, mode TEXT, name TEXT, stack TEXT
+           
+      this.write(` CREATE TABLE data( box_id, dateTime TEXT, host, ip TEXT,  timeDif,
+         ioR, ioW, fsR, fsW, openMax, openAlloc,
+         nicR, nicT, memFree, memUsed, swapUsed, swapFree,
+         cpu, cpiIdle
       ) `)
-      this.write(`CREATE INDEX i_error ON error(domain, fullFinger, dateTime DESC)`)
 
-      this.write(`CREATE TABLE met(  fullFinger TEXT, dateTime TEXT, 
-            url, title, referrer, domTime, 
-            referrerLocalFlag INTEGER, priorDateTimeDiff INT
-         ) `)
-      this.write(`CREATE INDEX i_met ON met (dateTime DESC)`)
-         
-      this.write(`CREATE TABLE device( domain, fullFinger TEXT NOT NULL PRIMARY KEY, ip TEXT,
-            lat, long, geoTz, cou, cou2, sub, state, city, city2, post, aso, proxy INTEGER,
-            bro, os, mobile INTEGER, tz, lang, langCou, ie INTEGER, 
-            hw, dateTime TEXT
-         ) WITHOUT ROWID `)
-      this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`)
+      this.write(`CREATE INDEX i_data ON data(box_id, dateTime DESC, cpu, memUsed, nicR, nicT )`)
 
       this.log.info('schemaDone')
 
     }//()
-
-
 
 
 }//()
