@@ -10,8 +10,8 @@ declare var TraceKit
  */
 class __gMetrics {
    static _traceSrc    =  'https://cdn.jsdelivr.net/npm/tracekit@0.4.5/tracekit.js'
-   static _platfromSrc =  'https://cdn.jsdelivr.net/npm/platform@1.3.5/platform.min.js'
-   // todo: replace client with platform!
+   
+   // todo: replace client with //cdn.jsdelivr.net/npm/fingerprintjs2@<VERSION>/dist/fingerprint2.min.js
    static _clientSrc = 'https://cdn.jsdelivr.net/npm/clientjs@0.1.11/dist/client.min.js'
 
    static _url =  'https://1490415816.rsc.cdn77.org'

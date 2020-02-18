@@ -20,11 +20,11 @@
     "node": ">=12.16.0"
   },
   "dependencies": {
+    "http-rpc": ">=1.1.7",
     "mbakex": ">=2.14.11",
     "traceroute": ">=1.0.0"
   },
   "devDependencies": {
     "@types/node": ">=13.7.1"
-
   }
 }
