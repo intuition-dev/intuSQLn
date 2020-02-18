@@ -9,6 +9,10 @@ class Agent {
     constructor() {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
     }
+    async dev() {
+        let ports = await new SysAgent_1.SysAgent().ports();
+        console.log(ports);
+    }
     async runSmall() {
         this._log.info('loop:');
         let params = await SysAgent_1.SysAgent.statsSmall();
@@ -23,7 +27,7 @@ class Agent {
         this._log.info('loop:');
         let params = {};
         params = await SysAgent_1.SysAgent.statsBig();
-        let ports = await SysAgent_1.SysAgent.ports();
+        let ports = await new SysAgent_1.SysAgent().ports();
         params['ports'] = ports;
         let ps = await SysAgent_1.SysAgent.ps();
         params['ps'] = ps;

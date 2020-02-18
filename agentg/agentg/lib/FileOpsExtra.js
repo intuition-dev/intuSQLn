@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
 const formatOut = bformat({ outputMode: 'short' });
-const log = bunyan.createLogger({ src: true, stream: formatOut, name: "file ops x" });
 const fs = require("fs-extra");
 const AdmZip = require("adm-zip");
 const download = require("download");
@@ -12,15 +11,16 @@ const path = require("path");
 const FileHound = require("filehound");
 class DownloadC {
     constructor(key_, targetDir_) {
+        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         this.key = key_;
         this.targetDir = targetDir_;
     }
     autoUZ() {
         const THIZ = this;
         this.getVal().then(function (url) {
-            log.info(url);
+            THIZ._log.info(url);
             const fn = THIZ.getFn(url);
-            log.info(fn);
+            THIZ._log.info(fn);
             THIZ.down(url, fn).then(function () {
                 THIZ.unzip(fn);
             });
@@ -51,7 +51,7 @@ class DownloadC {
                 let dic = yaml.load(data);
                 resolve(dic[THIZ.key]);
             }).catch(err => {
-                log.info('err: where is the vfile?', err, DownloadC.truth);
+                THIZ._log.info('err: where is the vfile?', err, DownloadC.truth);
             });
         });
     }
@@ -64,16 +64,16 @@ class DownloadC {
         return new Promise(function (resolve, reject) {
             download(url).then(data => {
                 fs.writeFileSync(THIZ.targetDir + '/' + fn, data);
-                log.info('downloaded');
+                THIZ._log.info('downloaded');
                 resolve('OK');
             }).catch(err => {
-                log.info('err: where is the file?', err, url);
+                THIZ._log.info('err: where is the file?', err, url);
             });
         });
     }
     unzip(fn) {
         const zfn = this.targetDir + fn;
-        log.info(zfn);
+        this._log.info(zfn);
         const zip = new AdmZip(zfn);
         zip.extractAllTo(this.targetDir, true);
         fs.remove(this.targetDir + '/' + fn);
@@ -83,15 +83,17 @@ exports.DownloadC = DownloadC;
 DownloadC.truth = 'https://INTUITION-dev.github.io/mbCLI/versions.yaml';
 class YamlConfig {
     constructor(fn) {
+        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         let cfg = yaml.load(fs.readFileSync(fn));
-        log.info(cfg);
+        this._log.info(cfg);
         return cfg;
     }
 }
 exports.YamlConfig = YamlConfig;
 class DownloadFrag {
     constructor(dir, ops) {
-        log.info('Extracting to', dir);
+        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log.info('Extracting to', dir);
         if (!ops) {
             new DownloadC('headFrag', dir).auto();
             new DownloadC('VM', dir).auto();
@@ -106,6 +108,9 @@ class DownloadFrag {
 }
 exports.DownloadFrag = DownloadFrag;
 class VersionNag {
+    constructor() {
+        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+    }
     static isCurrent(prod, ver) {
         const down = new DownloadC(prod, null);
         return down.checkVer(ver);
@@ -114,6 +119,7 @@ class VersionNag {
 exports.VersionNag = VersionNag;
 class Dirs {
     constructor(dir_) {
+        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         let dir = Dirs.slash(dir_);
         this.dir = dir;
     }
@@ -124,7 +130,7 @@ class Dirs {
         return path.resolve(dir, '..');
     }
     getInDir(sub) {
-        log.info('method renamed use getFilesIn');
+        this._log.info('method renamed use getFilesIn');
         return this.getFilesIn(sub);
     }
     getFilesIn(sub) {

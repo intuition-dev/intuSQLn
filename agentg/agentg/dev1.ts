@@ -3,5 +3,5 @@
 // client
 import { Agent } from './lib/Agent'
 
-new Agent().runSmall()
-new Agent().runBig()
+new Agent().dev()
+//new Agent().runBig()

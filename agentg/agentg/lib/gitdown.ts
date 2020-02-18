@@ -5,7 +5,6 @@ const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
 
-const log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
 
 import fs = require('fs-extra')
 import execa = require('execa')
@@ -13,6 +12,7 @@ import yaml = require('js-yaml')
 
 
 export class GitDown {
+   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
 
     config
     remote
@@ -34,15 +34,15 @@ export class GitDown {
  
           // User input exit.
           if (password == 'exit\n') {
-             log.info("Input failed.")
+            this._log.info("Input failed.")
              process.exit()
           } else {
  
              this.pass = password.replace(/\n/g, '');
  
              this.config = yaml.load(fs.readFileSync('gitdown.yaml'))
-             log.info( this.config.BRANCH)
-             log.info(this.config)
+             this._log.info( this.config.BRANCH)
+             this._log.info(this.config)
  
              this.remote = 'https://' + this.config.LOGINName + ':'
              this.remote += this.pass + '@'
@@ -53,7 +53,7 @@ export class GitDown {
              this.process();
  
              if (typeof(this.config.LOCALFolder) !== 'undefined')
-                log.info('LOCALFolder is not used, will use REPOfolder, please remove from gitdown.yaml')
+               this._log.info('LOCALFolder is not used, will use REPOfolder, please remove from gitdown.yaml')
  
           }
        })
@@ -63,14 +63,14 @@ export class GitDown {
        try {
           let b = this.config.BRANCH
           await this._branchExists(b)
-          log.info(this.exists)
+          this._log.info(this.exists)
  
           if (this.exists) await this._getEXISTINGRemoteBranch(b)
           else await this._getNEWRemoteBranch(b)
  
           this._write(b)
        } catch (err) {
-          log.error(err);
+         this._log.error(err);
           process.exit();
        }
     }
@@ -81,19 +81,19 @@ export class GitDown {
        dir = this.dir + '/' + dir + '/' + this.config.REPOFolder
  
        let dirTo = this.dir + '/' + this.config.REPOFolder
-       log.info(dir, dirTo)
+       this._log.info(dir, dirTo)
  
        fs.copySync(dir, dirTo)
  
        let dirR = this.config.PROJECT
        dirR = this.dir + '/' + dirR
        fs.removeSync(dirR)
-       log.info('removed temp', dirR)
+       this._log.info('removed temp', dirR)
  
        fs.writeJsonSync(dirTo + '/branch.json', { branch: branch, syncedOn: new Date().toISOString() })
-       log.info('DONE!')
+       this._log.info('DONE!')
  
-       log.info()
+       this._log.info()
        process.exit()
     }
  
@@ -101,7 +101,7 @@ export class GitDown {
     _emptyFolder() {
        let dirR = this.config.PROJECT
        dirR = this.dir + '/' + dirR
-       log.info('clean temp', dirR)
+       this._log.info('clean temp', dirR)
        fs.removeSync(dirR)
     }
  
@@ -135,7 +135,7 @@ export class GitDown {
        let dir = this.config.PROJECT
        dir = this.dir + '/' + dir
        await execa('git', ['checkout', branch], { cwd: dir })
-       log.info(dir, branch)
+       this._log.info(dir, branch)
  
        /* list history of the branch TODO
        await execa('git', ['fetch'], {cwd: dir})
@@ -152,12 +152,12 @@ export class GitDown {
     async _branchExists(branch) {
        let cmd = this.remote
        cmd += '.git'
-       log.info(cmd)
+       this._log.info(cmd)
  
        const { stdout } = await execa('git', ['ls-remote', cmd])
        this.exists = stdout.includes(branch)
  
-       log.info(stdout)
+       this._log.info(stdout)
        /*
        git ls-remote https:// Cekvenich:PASS@github.com/ Cekvenich/alan.git
        */

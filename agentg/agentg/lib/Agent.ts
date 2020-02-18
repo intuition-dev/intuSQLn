@@ -13,6 +13,11 @@ export class Agent {
 
     static rpc = new HttpRPC('http', 'localhost', 8888)
 
+    async dev() {
+      let ports = await new SysAgent().ports()
+      console.log(ports)
+    }
+
     async runSmall() {
       this._log.info('loop:')
       let params = await SysAgent.statsSmall()
@@ -30,7 +35,7 @@ export class Agent {
       this._log.info('loop:')
       let params = {}
       params = await SysAgent.statsBig()
-      let ports = await SysAgent.ports()
+      let ports = await new SysAgent().ports()
       params['ports'] = ports
       let ps = await SysAgent.ps()
       params['ps']= ps

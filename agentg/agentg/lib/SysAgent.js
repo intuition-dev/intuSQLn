@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
 const formatOut = bformat({ outputMode: 'short' });
-const log = bunyan.createLogger({ src: true, stream: formatOut, name: "Base" });
 const checkDiskSpace = require('check-disk-space');
 const psList = require('ps-list');
 const find = require('find-process');
 class SysAgent {
+    constructor() {
+        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+    }
     static ps() {
         return psList();
     }
@@ -18,7 +20,8 @@ class SysAgent {
             });
         });
     }
-    static async ports() {
+    async ports() {
+        const THIZ = this;
         let ports = [];
         await SysAgent.si.networkConnections().then(data => {
             data.forEach(function (v) {
@@ -28,21 +31,26 @@ class SysAgent {
         let results = [];
         let pids = {};
         for (let i = 0; i < ports.length; i++) {
-            let row = await find('port', ports[i]);
-            if (!row)
-                continue;
-            row = row[0];
-            let pid = row['pid'];
-            if (pids.hasOwnProperty(pid))
-                continue;
-            pids[pid] = 'X';
-            row['port'] = ports[i];
-            delete row['ppid'];
-            delete row['uid'];
-            delete row['gid'];
-            delete row['cmd'];
-            delete row['bin'];
-            results.push(row);
+            try {
+                let row = await find('port', ports[i]);
+                if (!row)
+                    continue;
+                row = row[0];
+                let pid = row['pid'];
+                if (pids.hasOwnProperty(pid))
+                    continue;
+                pids[pid] = 'X';
+                row['port'] = ports[i];
+                delete row['ppid'];
+                delete row['uid'];
+                delete row['gid'];
+                delete row['cmd'];
+                delete row['bin'];
+                results.push(row);
+            }
+            catch (err) {
+                THIZ._log.info(err);
+            }
         }
         return results;
     }

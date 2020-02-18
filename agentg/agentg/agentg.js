@@ -61,7 +61,7 @@ if (arg) {
     }
 }
 function ports() {
-    SysAgent_1.SysAgent.ports();
+    new SysAgent_1.SysAgent().ports();
 }
 function git() {
     new gitdown_1.GitDown();
