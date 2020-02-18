@@ -48,22 +48,16 @@ export class SysAgent {
                 let row = await find('port', ports[i])
                 //console.log(ports[i], row)
                 if(!row) continue
-                //if(row[0]) 
-                row = row[0]
+                if(row[0]) row = row[0]
 
-                // do we have that port?
                 let pid = row['pid'] 
-                //console.log(pid, pids)
+                if(!pid) continue
+                // do we have that port already?
                 if(pids.hasOwnProperty(pid)) continue
                 pids[pid]= 'X' //just track the pid
-
-                row['port'] = ports[i]
-                delete row['ppid']
-                delete row['uid']
-                delete row['gid']
-                delete row['cmd']
-                delete row['bin']
-                results.push(row)
+                
+                let ins = {port: ports[i], pid:pid, name:row['name']}
+                results.push(ins)
             } catch(err) { THIZ._log.info(err)}
       }//for
 

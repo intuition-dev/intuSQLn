@@ -1,4 +1,4 @@
 
-password: xyz
-
-waitTime: 400
+proto: http
+host: localhost
+port: 45

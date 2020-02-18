@@ -12,15 +12,14 @@ export class AgentHandler extends BaseRPCMethodHandler {
    }
 
    agentSmall(params) {
-      // ip fingers
-     // let ip = req.connection.remoteAddress
+     const ip = params.remoteAddress
+
       console.log(params)
       return "OK"
    }//()
    
    agentBig(params) {
-      // ip fingers
-     // let ip = req.connection.remoteAddress
+      const ip = params.remoteAddress
       console.log(params)
       return "OK"
    }//()

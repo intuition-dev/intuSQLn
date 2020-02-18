@@ -35,18 +35,16 @@ class SysAgent {
                 let row = await find('port', ports[i]);
                 if (!row)
                     continue;
-                row = row[0];
+                if (row[0])
+                    row = row[0];
                 let pid = row['pid'];
+                if (!pid)
+                    continue;
                 if (pids.hasOwnProperty(pid))
                     continue;
                 pids[pid] = 'X';
-                row['port'] = ports[i];
-                delete row['ppid'];
-                delete row['uid'];
-                delete row['gid'];
-                delete row['cmd'];
-                delete row['bin'];
-                results.push(row);
+                let ins = { port: ports[i], pid: pid, name: row['name'] };
+                results.push(ins);
             }
             catch (err) {
                 THIZ._log.info(err);

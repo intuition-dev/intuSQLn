@@ -13,18 +13,13 @@ export class Agent {
 
     static rpc = new HttpRPC('http', 'localhost', 8888)
 
-    async dev() {
-      let ports = await new SysAgent().ports()
-      console.log(ports)
-    }
-
     async runSmall() {
-      this._log.info('loop:')
+      this._log.info('loop: S')
       let params = await SysAgent.statsSmall()
 
       try {
-        //await Agent.rpc.invoke('agent', 'agentSmall', params  )
-      } catch(err) {}
+        await Agent.rpc.invoke('agent', 'agentSmall', params  )
+      } catch(err) {this._log.warn(err)}
 
       console.log(params)
       await  SysAgent.wait(1400)
@@ -32,7 +27,7 @@ export class Agent {
     }
 
     async runBig() {
-      this._log.info('loop:')
+      this._log.info('loop: B')
       let params = {}
       params = await SysAgent.statsBig()
       let ports = await new SysAgent().ports()
@@ -42,10 +37,10 @@ export class Agent {
 
       try {
         await Agent.rpc.invoke('agent', 'agentBig', params  )
-      } catch(err) {}
+      } catch(err) {this._log.warn(err)}
 
       console.log(params)
-      await  SysAgent.wait(60*1000)
+      await  SysAgent.wait(20*1000)
       this.runBig()
     }
 

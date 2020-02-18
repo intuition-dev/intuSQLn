@@ -19,7 +19,7 @@ export class PShell {
 
    onCon(soc, req) {
       // check auth/sec first
-      const ip = req.connection.remoteAddress;
+      const ip = req.socket.remoteAddress;
 
       // after auth/sec continue
       var shell = 'bash'

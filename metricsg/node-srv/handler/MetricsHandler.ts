@@ -27,7 +27,7 @@ export class MetricsHandler {
       let params = req.body
       
       // ip fingers
-      let ip = req.connection.remoteAddress
+      let ip = req.socket.remoteAddress
       const fullDomain = params.domain
       let domain:string = fullDomain.replace('http://','').replace('https://','').split(/[/?#]/)[0]
 
@@ -49,7 +49,7 @@ export class MetricsHandler {
    
    error(req, resp) { //let str:string =  params.fidc + ip
       this._log.info('error')
-      let ip = req.connection.remoteAddress
+      let ip = req.socket.remoteAddress
       let params = req.body
       
       const fullDomain = params.domain
@@ -79,7 +79,7 @@ export class MetricsHandler {
 
    log(req, resp) {
       this._log.info('log')
-      let ip = req.connection.remoteAddress
+      let ip = req.socket.remoteAddress
       let params = req.body
       
       const fullDomain = params.domain
