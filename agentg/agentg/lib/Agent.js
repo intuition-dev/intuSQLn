@@ -16,8 +16,7 @@ class Agent {
         params['ports'] = ports;
         let ps = await SysAgent_1.SysAgent.ps();
         params['ps'] = ps;
-        params = {};
-        params['a'] = 'b';
+        console.log(JSON.stringify(params));
         await Agent.rpc.invoke('agent', 'agent', params);
         await SysAgent_1.SysAgent.wait(1400);
     }
