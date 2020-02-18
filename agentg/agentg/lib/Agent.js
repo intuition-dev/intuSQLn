@@ -9,16 +9,31 @@ class Agent {
     constructor() {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
     }
-    async run() {
+    async runSmall() {
         this._log.info('loop:');
-        let params = await SysAgent_1.SysAgent.stats();
+        let params = await SysAgent_1.SysAgent.statsSmall();
+        try {
+        }
+        catch (err) { }
+        console.log(params);
+        await SysAgent_1.SysAgent.wait(1400);
+        this.runSmall();
+    }
+    async runBig() {
+        this._log.info('loop:');
+        let params = {};
+        params = await SysAgent_1.SysAgent.statsBig();
         let ports = await SysAgent_1.SysAgent.ports();
         params['ports'] = ports;
         let ps = await SysAgent_1.SysAgent.ps();
         params['ps'] = ps;
-        console.log(JSON.stringify(params));
-        await Agent.rpc.invoke('agent', 'agent', params);
-        await SysAgent_1.SysAgent.wait(1400);
+        try {
+            await Agent.rpc.invoke('agent', 'agentBig', params);
+        }
+        catch (err) { }
+        console.log(params);
+        await SysAgent_1.SysAgent.wait(60 * 1000);
+        this.runBig();
     }
 }
 exports.Agent = Agent;

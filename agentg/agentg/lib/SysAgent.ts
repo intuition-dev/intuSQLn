@@ -20,7 +20,6 @@ export class SysAgent {
     /*
     list of running processes  
     */
-
     static  ps() {
         return psList()
     }
@@ -47,13 +46,14 @@ export class SysAgent {
          let row = await find('port', ports[i])
          //console.log(ports[i], row)
          if(!row) continue
-         if(row[0]) row = row[0]
+         //if(row[0]) 
+         row = row[0]
 
          // do we have that port?
          let pid = row['pid'] 
          //console.log(pid, pids)
          if(pids.hasOwnProperty(pid)) continue
-         pids[pid]= 'X'
+         pids[pid]= 'X' //just track the pid
 
          row['port'] = ports[i]
          delete row['ppid']
@@ -68,18 +68,32 @@ export class SysAgent {
       return results
    }//()
 
-    static async stats() { // often like 1 second
+    static async statsBig() { // often like 1 second
         const track =  new Object() 
         track['guid']= SysAgent.guid()
         track['dt_stamp']= new Date().toISOString()
 
         let disk = await SysAgent.disk()
         track['disk'] = disk
+
+        track['host']=SysAgent.os.hostname() 
         
+        return track
+     
+    }//()
+
+
+    static async statsSmall() { // often like 1 second
+        const track =  new Object() 
+        track['guid']= SysAgent.guid()
+        track['dt_stamp']= new Date().toISOString()
+
+
         await SysAgent.si.fsStats().then(data => { 
             track['fsR']=data.rx
             track['fsW']=data.wx
         })
+
 
         await SysAgent.si.disksIO().then(data => {
             track['ioR']=data.rIO
@@ -112,8 +126,6 @@ export class SysAgent {
             track['cpu']= data.currentload
             track['cpuIdle']= data.currentload_idle
         })
-
-        track['host']=SysAgent.os.hostname() 
         
         return track
      

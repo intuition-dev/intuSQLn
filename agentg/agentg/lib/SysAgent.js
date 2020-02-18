@@ -31,8 +31,7 @@ class SysAgent {
             let row = await find('port', ports[i]);
             if (!row)
                 continue;
-            if (row[0])
-                row = row[0];
+            row = row[0];
             let pid = row['pid'];
             if (pids.hasOwnProperty(pid))
                 continue;
@@ -47,12 +46,19 @@ class SysAgent {
         }
         return results;
     }
-    static async stats() {
+    static async statsBig() {
         const track = new Object();
         track['guid'] = SysAgent.guid();
         track['dt_stamp'] = new Date().toISOString();
         let disk = await SysAgent.disk();
         track['disk'] = disk;
+        track['host'] = SysAgent.os.hostname();
+        return track;
+    }
+    static async statsSmall() {
+        const track = new Object();
+        track['guid'] = SysAgent.guid();
+        track['dt_stamp'] = new Date().toISOString();
         await SysAgent.si.fsStats().then(data => {
             track['fsR'] = data.rx;
             track['fsW'] = data.wx;
@@ -84,7 +90,6 @@ class SysAgent {
             track['cpu'] = data.currentload;
             track['cpuIdle'] = data.currentload_idle;
         });
-        track['host'] = SysAgent.os.hostname();
         return track;
     }
     static wait(t) {
