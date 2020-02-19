@@ -1,3 +1,4 @@
+// All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 
 import { SysAgent } from "./SysAgent"
 

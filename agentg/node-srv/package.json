@@ -1,12 +1,10 @@
 {
-  "name": "monitorg",
+  "name": "agentg-srv",
   "author": "www.INTUITION.DEV",
   "private": true,
-  "version": "0.11.20",
-  "description": "Good linux monitoring",
-  "bin": {
-    "ok": "ok.js"
-  },
+  "version": "0.11.12",
+  "description": "agentg-srv",
+
   "license": "AGPL-1.0-only",
   "homepage": "http://www.INTUITION.DEV",
   "repository": {

@@ -1,3 +1,4 @@
+// All rights reserved by INTUITION.DEV |  Cekvenich, licensed under LGPL 3.0
 
 // error 431 : https://stackoverflow.com/questions/32763165/node-js-http-get-url-length-limitation
 
