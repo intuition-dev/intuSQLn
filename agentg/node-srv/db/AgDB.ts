@@ -6,6 +6,8 @@ const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
 const formatOut = bformat({ outputMode: 'short' })
 
+const hash = require("murmurhash3js")
+
 export class AgDB extends BaseDBL  {
 
    log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
@@ -16,12 +18,12 @@ export class AgDB extends BaseDBL  {
       this.schema()
    }//()
 
-   private _getPriorDateTimeDiff(fullFinger, curDate) { 
-      const rows = this.read(`SELECT dateTime FROM met
-         WHERE fullFinger = ?
-         ORDER BY rowid DESC 
+   private _getPriorTimeDiff(box_id, curDate) { 
+      const rows = this.read(`SELECT dateTime FROM data
+         WHERE box_id = ?
+         ORDER BY dateTime DESC 
          LIMIT 1
-         `, fullFinger)
+         `, box_id)
       
       this.log.info(rows)
       const row = rows[0]
@@ -31,9 +33,9 @@ export class AgDB extends BaseDBL  {
    }//()
 
    async writeData(params) {
-      const date = DateTime.local().toString()
 
-      let priorTimeDiff:number = this._getPriorDateTimeDiff(fullFinger, params.dt_stamp)
+      const box_id:string = hash.x86.hash32(params.host + params.remoteAddress)
+      let timeDif:number = this._getPriorTimeDiff(box_id, params.dt_stamp)
       
       this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
@@ -63,7 +65,7 @@ export class AgDB extends BaseDBL  {
 
       if(exists) return
            
-      this.write(` CREATE TABLE data( box_id, dateTime TEXT, host, ip TEXT,  timeDif,
+      this.write(` CREATE TABLE data( box_id TEXT, dateTime TEXT, host, ip TEXT,  timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
          cpu, cpiIdle

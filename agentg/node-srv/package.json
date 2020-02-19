@@ -22,9 +22,10 @@
   "dependencies": {
     "http-rpc": ">=1.1.8",
     "mbakex": ">=2.14.11",
-    "traceroute": ">=1.0.0"
+    "traceroute": ">=1.0.0",
+    "murmurhash3js": ">=3.0.1"
   },
   "devDependencies": {
-    "@types/node": ">=13.7.1"
+    "@types/node": ">=13.7.2"
   }
 }

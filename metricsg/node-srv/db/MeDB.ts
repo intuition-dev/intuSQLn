@@ -26,7 +26,7 @@ export class MeDB extends BaseDBL  {
    private _getPriorDateTimeDiff(fullFinger, curDate) { 
       const rows = this.read(`SELECT dateTime FROM met
          WHERE fullFinger = ?
-         ORDER BY rowid DESC 
+         ORDER BY dateTime DESC 
          LIMIT 1
          `, fullFinger)
       if((!rows) || rows.length!=1 )
@@ -180,7 +180,7 @@ export class MeDB extends BaseDBL  {
             lat, long, geoTz, cou, cou2, sub, state, city, city2, post, aso, proxy INTEGER,
             bro, os, mobile INTEGER, tz, lang, langCou, ie INTEGER, 
             hw, dateTime TEXT
-         ) WITHOUT ROWID `)
+         ) `)
       this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`)
 
       this.log.info('schemaDone')

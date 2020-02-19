@@ -8,10 +8,13 @@ const log = bunyan.createLogger({src: true, stream: formatOut, name: "main"})
 
 import {  Serv }  from 'http-rpc/lib/Serv'
 import {  AgentHandler }  from './handler/AgentHandler'
+import { AgDB } from './db/AgDB'
 
 const srv = new Serv(['*']) 
 
-const ah = new AgentHandler(null);
+let db = new AgDB()
+
+const ah = new AgentHandler(db)
 srv.routeRPC('agent',  ah)
 
 srv.listen(8888)
