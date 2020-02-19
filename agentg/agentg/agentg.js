@@ -5,7 +5,7 @@ const commandLineArgs = require("command-line-args");
 const SysAgent_1 = require("./lib/SysAgent");
 const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
-const ver = "v1.2.11";
+const ver = "v1.2.12";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
@@ -60,8 +60,9 @@ if (arg) {
         arg = cwd + '/' + arg;
     }
 }
-function ports() {
-    new SysAgent_1.SysAgent().ports();
+async function ports() {
+    let ports = await new SysAgent_1.SysAgent().ports();
+    console.log(ports);
 }
 function git() {
     new gitdown_1.GitDown();

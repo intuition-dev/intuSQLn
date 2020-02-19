@@ -9,6 +9,7 @@ const formatOut = bformat({ outputMode: 'short' })
 const hash = require("murmurhash3js")
 
 export class AgDB extends BaseDBL  {
+   static MAXINT:number = 9223372036854775807 
 
    log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
  
@@ -19,14 +20,14 @@ export class AgDB extends BaseDBL  {
    }//()
 
    private _getPriorTimeDiff(box_id, curDate) { 
-      const rows = this.read(`SELECT dateTime FROM data
+      const row = this.readOne(`SELECT dateTime FROM data
          WHERE box_id = ?
          ORDER BY dateTime DESC 
          LIMIT 1
          `, box_id)
       
-      this.log.info(rows)
-      const row = rows[0]
+      this.log.info(row)
+      if(!row) return AgDB.MAXINT
       const delta = ( Date.parse(curDate) - Date.parse(row['dateTime']) )
       this.log.info(delta)
       return delta 
@@ -53,7 +54,6 @@ export class AgDB extends BaseDBL  {
          params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree,
          params.cpu, params.cpiIdle
       )
-      this.log.info('data')
 
    }//()
 
@@ -76,6 +76,5 @@ export class AgDB extends BaseDBL  {
       this.log.info('schemaDone')
 
     }//()
-
 
 }//()

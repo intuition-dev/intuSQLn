@@ -1,8 +1,0 @@
-
-ftp the ip db
-
-node version, gyp
-
-
-configure ip tables.sh
-

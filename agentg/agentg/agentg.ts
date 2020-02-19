@@ -10,7 +10,7 @@ import { VersionNag, Dirs} from './lib/FileOpsExtra'
 import { GitDown  } from './lib/gitdown'
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.2.11"
+const ver = "v1.2.12"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
@@ -84,8 +84,9 @@ if (arg) {
 
 //  ////////////////////////////////////////////////////////////////////////////////////////////////
 
-function ports() { 
-   console.log(new SysAgent().ports())
+async function ports() { 
+   let ports = await new SysAgent().ports() 
+   console.log(ports)
 }
 
 function git() {

@@ -2,6 +2,7 @@
 import { SysAgent } from "./SysAgent"
 
 import { HttpRPC } from "http-rpc/lib/SrvRPC"
+import { YamlConfig } from "./FileOpsExtra"
 
 const bunyan = require('bunyan')
 const bformat = require('bunyan-format2')  
@@ -10,8 +11,14 @@ const formatOut = bformat({ outputMode: 'short' })
 export class Agent {
 
     _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
-
-    static rpc = new HttpRPC('http', 'localhost', 8888)
+    
+    config
+    constructor() {
+      this.config =new YamlConfig(process.cwd()+'/agentg.yaml')
+      
+      Agent.rpc = new HttpRPC(this.config['proto'], this.config['host'], this.config['port'])
+    }
+    static rpc 
 
     async runSmall() {
       this._log.info('loop: S')
