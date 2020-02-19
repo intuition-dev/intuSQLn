@@ -8,9 +8,10 @@ import { SysAgent } from './lib/SysAgent'
 import { VersionNag, Dirs} from './lib/FileOpsExtra'
 
 import { GitDown  } from './lib/gitdown'
+import { Agent } from './lib/Agent'
 
 // imports done /////////////////////////////////////////////
-const ver = "v1.2.12"
+const ver = "v1.2.14"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
@@ -32,6 +33,7 @@ function help() {
    console.info()
    console.info('Usage:')
    console.info('  List ports in use w/ process ID:                          agentg -p')
+   console.info('  To start agent monitoring:                                agentg -s')
    console.info()
 
    console.info('  To download branch from git, in folder with gitdown.yaml: agentg -g')
@@ -52,6 +54,7 @@ const optionDefinitions = [
    { name: 'gitDown', alias: 'g', type: Boolean },
 
    { name: 'ports', alias: 'p', type: Boolean },
+   { name: 'start', alias: 's', type: Boolean },
 
 ]
 
@@ -84,6 +87,10 @@ if (arg) {
 
 //  ////////////////////////////////////////////////////////////////////////////////////////////////
 
+function start() {
+   new Agent().runSmall()
+}
+
 async function ports() { 
    let ports = await new SysAgent().ports() 
    console.log(ports)
@@ -99,6 +106,8 @@ if (argsParsed.ports)
    ports()
 else if (argsParsed.gitDown)
    git()
+else if (argsParsed.start)
+   start()
 else if (argsParsed.version)
    version()
 else

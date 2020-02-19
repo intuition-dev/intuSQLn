@@ -5,7 +5,8 @@ const commandLineArgs = require("command-line-args");
 const SysAgent_1 = require("./lib/SysAgent");
 const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
-const ver = "v1.2.12";
+const Agent_1 = require("./lib/Agent");
+const ver = "v1.2.14";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
@@ -25,6 +26,7 @@ function help() {
     console.info();
     console.info('Usage:');
     console.info('  List ports in use w/ process ID:                          agentg -p');
+    console.info('  To start agent monitoring:                                agentg -s');
     console.info();
     console.info('  To download branch from git, in folder with gitdown.yaml: agentg -g');
     console.info();
@@ -37,6 +39,7 @@ const optionDefinitions = [
     { name: 'version', alias: 'v', type: Boolean },
     { name: 'gitDown', alias: 'g', type: Boolean },
     { name: 'ports', alias: 'p', type: Boolean },
+    { name: 'start', alias: 's', type: Boolean },
 ];
 const argsParsed = commandLineArgs(optionDefinitions);
 let arg = argsParsed.agentg;
@@ -60,6 +63,9 @@ if (arg) {
         arg = cwd + '/' + arg;
     }
 }
+function start() {
+    new Agent_1.Agent().runSmall();
+}
 async function ports() {
     let ports = await new SysAgent_1.SysAgent().ports();
     console.log(ports);
@@ -71,6 +77,8 @@ if (argsParsed.ports)
     ports();
 else if (argsParsed.gitDown)
     git();
+else if (argsParsed.start)
+    start();
 else if (argsParsed.version)
     version();
 else

@@ -2,7 +2,7 @@
   "name": "agentg",
   "author": "www.INTUITION.DEV",
   "preferGlobal": true,
-  "version": "v1.2.12",
+  "version": "v1.2.14",
   "description": "A good agent, lets you download a branch, or tell you what is going on in the container/box. Used by mbake",
   "bin": "agentg.js",
   "license": "LGPL-3.0-only",
