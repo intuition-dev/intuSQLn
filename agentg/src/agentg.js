@@ -6,7 +6,7 @@ const SysAgent_1 = require("./lib/SysAgent");
 const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
 const Agent_1 = require("./lib/Agent");
-const ver = "v1.2.14";
+const ver = "v1.2.15";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)

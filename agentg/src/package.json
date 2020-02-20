@@ -1,0 +1,42 @@
+{
+    "name": "agentg",
+    "author": "www.INTUITION.DEV",
+    "preferGlobal": true,
+    "version": "v1.2.15",
+    "description": "A good agent, lets you download a branch, or tell you what is going on in the container/box. Used by mbake",
+    "bin": "agentg.js",
+    "license": "LGPL-3.0-only",
+    "homepage": "http://www.INTUITION.DEV",
+    "repository": {
+        "type": "git",
+        "url": "http://git.metabake.net"
+    },
+    "keywords": [
+        "monitoring"
+    ],
+    "engines": {
+        "node": ">=10.16.1"
+    },
+    "dependencies": {
+        "adm-zip": ">=0.4.14",
+        "check-disk-space": ">=2.1.0",
+        "command-line-args": ">=5.1.1",
+        "download": ">=7.1.0",
+        "execa": ">=4.0.0",
+        "filehound": ">=1.17.4",
+        "find-process": ">=1.4.3",
+        "fs-extra": ">=8.1.0",
+        "http-rpc": ">=1.1.9",
+        "js-yaml": ">=3.13.1",
+        "perfy": ">=1.1.5",
+        "ps-list": ">=7.0.0",
+        "systeminformation": ">=4.22.3",
+        "uuid": ">=3.4.0"
+    },
+    "devDependencies": {
+        "@types/node": ">=13.7.4",
+        "portscanner": ">=2.2.0",
+        "stack-trace": ">=0.0.10",
+        "table-parser": ">=1.0.1"
+    }
+}
