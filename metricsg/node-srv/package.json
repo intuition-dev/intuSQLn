@@ -20,11 +20,11 @@
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.4.0",
     "csv-parser": ">=2.3.2",
-    "http-rpc": ">=1.1.9",
+    "http-rpc": ">=2.2.0",
     "ip": ">=1.1.5",
     "luxon": ">=1.22.0",
-    "mbakex": ">=2.14.15",
-    "minio": ">=7.0.13",
+    "mbakex": ">=8.2.0",
+    "minio": ">=7.0.14",
     "murmurhash3js": ">=3.0.1",
     "traceroute": ">=1.0.0"
   },

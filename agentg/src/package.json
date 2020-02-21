@@ -26,7 +26,7 @@
         "filehound": ">=1.17.4",
         "find-process": ">=1.4.3",
         "fs-extra": ">=8.1.0",
-        "http-rpc": ">=1.1.9",
+        "http-rpc": ">=2.2.0",
         "js-yaml": ">=3.13.1",
         "perfy": ">=1.1.5",
         "ps-list": ">=7.0.0",

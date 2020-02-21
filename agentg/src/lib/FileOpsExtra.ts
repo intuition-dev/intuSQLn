@@ -200,6 +200,3 @@ export class Dirs {
 }//class
 
 
-module.exports = {
- DownloadFrag, YamlConfig, DownloadC, VersionNag, Dirs
-}
