@@ -1,4 +1,5 @@
 "use strict";
+// All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
@@ -7,6 +8,7 @@ const fs = require("fs-extra");
 const AdmZip = require("adm-zip");
 const download = require("download");
 const yaml = require("js-yaml");
+//
 const path = require("path");
 const FileHound = require("filehound");
 class DownloadC {
@@ -14,7 +16,7 @@ class DownloadC {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         this.key = key_;
         this.targetDir = targetDir_;
-    }
+    } // cons
     autoUZ() {
         const THIZ = this;
         this.getVal().then(function (url) {
@@ -37,12 +39,13 @@ class DownloadC {
         const THIZ = this;
         return new Promise(function (resolve, reject) {
             THIZ.getVal().then(function (ver) {
+                //log.info(ver, lver)
                 if (ver == lver)
                     resolve(true);
                 else
                     resolve(false);
             });
-        });
+        }); //pro
     }
     getVal() {
         const THIZ = this;
@@ -53,8 +56,8 @@ class DownloadC {
             }).catch(err => {
                 THIZ._log.info('err: where is the vfile?', err, DownloadC.truth);
             });
-        });
-    }
+        }); //pro
+    } //()
     getFn(url) {
         const pos = url.lastIndexOf('/');
         return url.substring(pos);
@@ -69,26 +72,28 @@ class DownloadC {
             }).catch(err => {
                 THIZ._log.info('err: where is the file?', err, url);
             });
-        });
-    }
+        }); //pro
+    } //()
     unzip(fn) {
         const zfn = this.targetDir + fn;
         this._log.info(zfn);
         const zip = new AdmZip(zfn);
-        zip.extractAllTo(this.targetDir, true);
+        zip.extractAllTo(this.targetDir, /*overwrite*/ true);
         fs.remove(this.targetDir + '/' + fn);
     }
-}
+} //class
 exports.DownloadC = DownloadC;
+// in docs root via git
 DownloadC.truth = 'https://INTUITION-dev.github.io/mbCLI/versions.yaml';
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class YamlConfig {
     constructor(fn) {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         let cfg = yaml.load(fs.readFileSync(fn));
         this._log.info(cfg);
         return cfg;
-    }
-}
+    } //()
+} //class
 exports.YamlConfig = YamlConfig;
 class DownloadFrag {
     constructor(dir, ops) {
@@ -103,8 +108,8 @@ class DownloadFrag {
         if (ops) {
             new DownloadC('opsPug', dir).auto();
             new DownloadC('opsJs', dir).auto();
-        }
-    }
+        } //fi
+    } //()
 }
 exports.DownloadFrag = DownloadFrag;
 class VersionNag {
@@ -134,42 +139,43 @@ class Dirs {
         return this.getFilesIn(sub);
     }
     getFilesIn(sub) {
-        const rec = FileHound.create()
+        const rec = FileHound.create() //recursive
             .paths(this.dir + sub)
             .findSync();
-        let ret = [];
+        let ret = []; //empty string array
         const ll = this.dir.length + sub.length;
-        for (let s of rec) {
+        for (let s of rec) { //clean the strings
             let n = s.substr(ll);
             ret.push(n);
         }
         return ret;
     }
+    /**
+     * Get list of dirs w/o root part
+     */
     getShort() {
         let lst = this.getFolders();
-        let ret = [];
+        let ret = []; //empty string array
         const ll = this.dir.length;
-        for (let s of lst) {
+        for (let s of lst) { //clean the strings
             let n = s.substr(ll);
+            //log.(n)
             ret.push(n);
         }
         return ret;
     }
     getFolders() {
-        const rec = FileHound.create()
+        const rec = FileHound.create() //recursive
             .paths(this.dir)
             .findSync();
-        let ret = [];
-        for (let val of rec) {
+        let ret = []; //empty string array
+        for (let val of rec) { //clean the strings
             val = Dirs.slash(val);
             let n = val.lastIndexOf('/');
             let s = val.substring(0, n);
             ret.push(s);
         }
         return Array.from(new Set(ret));
-    }
-}
+    } //()
+} //class
 exports.Dirs = Dirs;
-module.exports = {
-    DownloadFrag, YamlConfig, DownloadC, VersionNag, Dirs
-};

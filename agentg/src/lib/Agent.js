@@ -1,4 +1,5 @@
 "use strict";
+// All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
 const SysAgent_1 = require("./SysAgent");
 const SrvRPC_1 = require("http-rpc/lib/SrvRPC");

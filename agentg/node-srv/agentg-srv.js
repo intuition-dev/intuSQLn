@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const bunyan = require('bunyan');
+const bformat = require('bunyan-format2');
+const formatOut = bformat({ outputMode: 'short' });
+const log = bunyan.createLogger({ src: true, stream: formatOut, name: "main" });
+const Serv_1 = require("http-rpc/lib/Serv");
+const AgentHandler_1 = require("./handler/AgentHandler");
+const AgDB_1 = require("./db/AgDB");
+const srv = new Serv_1.Serv(['*']);
+let db = new AgDB_1.AgDB();
+const ah = new AgentHandler_1.AgentHandler(db);
+srv.routeRPC('agent', ah);
+srv.listen(8888);

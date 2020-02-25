@@ -1,4 +1,5 @@
 "use strict";
+// All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
@@ -10,6 +11,9 @@ class SysAgent {
     constructor() {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
     }
+    /*
+    list of running processes
+    */
     static ps() {
         return psList();
     }
@@ -19,7 +23,7 @@ class SysAgent {
                 resolve(diskSpace);
             });
         });
-    }
+    } //()
     async ports() {
         const THIZ = this;
         let ports = [];
@@ -28,11 +32,13 @@ class SysAgent {
                 ports.push(v.localport);
             });
         });
+        //console.log(ports)
         let results = [];
         let pids = {};
         for (let i = 0; i < ports.length; i++) {
             try {
                 let row = await find('port', ports[i]);
+                //console.log(ports[i], row)
                 if (!row)
                     continue;
                 if (row[0])
@@ -40,18 +46,20 @@ class SysAgent {
                 let pid = row['pid'];
                 if (!pid)
                     continue;
+                // do we have that port already?
                 if (pids.hasOwnProperty(pid))
                     continue;
-                pids[pid] = 'X';
+                pids[pid] = 'X'; //just track the pid
                 let ins = { port: ports[i], pid: pid, name: row['name'] };
                 results.push(ins);
             }
             catch (err) {
                 THIZ._log.info(err);
             }
-        }
+        } //for
+        //console.log(results)
         return results;
-    }
+    } //()
     static async statsBig() {
         const track = new Object();
         track['guid'] = SysAgent.guid();
@@ -60,7 +68,7 @@ class SysAgent {
         let disk = await SysAgent.disk();
         track['disk'] = disk;
         return track;
-    }
+    } //()
     static async statsSmall() {
         const track = new Object();
         track['guid'] = SysAgent.guid();
@@ -98,15 +106,15 @@ class SysAgent {
             track['cpuIdle'] = data.currentload_idle;
         });
         return track;
-    }
+    } //()
     static wait(t) {
         return new Promise((resolve, reject) => {
             setTimeout(function () {
                 resolve();
             }, t);
         });
-    }
-}
+    } //()
+} //class
 exports.SysAgent = SysAgent;
 SysAgent.guid = require('uuid/v4');
 SysAgent.si = require('systeminformation');

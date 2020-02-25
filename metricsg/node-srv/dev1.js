@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const MeDB_1 = require("./db/MeDB");
+const db = new MeDB_1.MeDB();
+const m = new MeDB_1.MeDB();
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+console.log(m.dashRecentUsers('www.ubaycap.com'));

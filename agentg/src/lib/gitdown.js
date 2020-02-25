@@ -1,4 +1,5 @@
 "use strict";
+// All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
 const bunyan = require('bunyan');
 const bformat = require('bunyan-format2');
@@ -11,9 +12,13 @@ class GitDown {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         this.dir = process.cwd();
         var standard_input = process.stdin;
+        // Set input character encoding.
         standard_input.setEncoding('utf-8');
+        // Prompt user to input data in console.
         console.log("Please, enter your git password:");
+        // When user input data and click enter key.
         standard_input.on('data', (password) => {
+            // User input exit.
             if (password == 'exit\n') {
                 this._log.info("Input failed.");
                 process.exit();
@@ -33,7 +38,7 @@ class GitDown {
                     this._log.info('LOCALFolder is not used, will use REPOfolder, please remove from gitdown.yaml');
             }
         });
-    }
+    } //()
     async process() {
         try {
             let b = this.config.BRANCH;
@@ -75,9 +80,22 @@ class GitDown {
         const { stdout } = await execa('git', ['clone', this.remote]);
         let dir = this.config.PROJECT;
         dir = this.dir + '/' + dir;
+        //make a branch
         await execa('git', ['remote', 'add', branch, this.remote], { cwd: dir });
         await execa('git', ['checkout', '-b', branch], { cwd: dir });
+        // add to remote
         await execa('git', ['push', '-u', 'origin', branch], { cwd: dir });
+        /* list history of the new branch TODO
+        await execa('git', ['fetch'], {cwd: dir})
+        const {stdout10} = await execa('git', ['log', '-8', '--oneline', 'origin/'+branch], {cwd: dir})
+        log.info('history', stdout10)
+        /*
+        git clone https:// Cekvenich:PASS@github.com/ Cekvenich/alan
+        cd folder
+        git remote add test2 https:// Cekvenich:PASS@github.com/ Cekvenich/alan
+        git checkout -b test2
+        git push -u origin test2
+        */
     }
     async _getEXISTINGRemoteBranch(branch) {
         const { stdout } = await execa('git', ['clone', this.remote]);
@@ -85,6 +103,15 @@ class GitDown {
         dir = this.dir + '/' + dir;
         await execa('git', ['checkout', branch], { cwd: dir });
         this._log.info(dir, branch);
+        /* list history of the branch TODO
+        await execa('git', ['fetch'], {cwd: dir})
+        const {stdout10} = await execa('git', ['log', '-8', '--oneline', 'origin/'+branch], {cwd: dir})
+        log.info('history', stdout10)
+        /*
+        git clone https:// Cekvenich:PASS@github.com/ Cekvenich/alan
+        cd folder
+        git checkout test2
+        */
     }
     async _branchExists(branch) {
         let cmd = this.remote;
@@ -93,6 +120,9 @@ class GitDown {
         const { stdout } = await execa('git', ['ls-remote', cmd]);
         this.exists = stdout.includes(branch);
         this._log.info(stdout);
-    }
-}
+        /*
+        git ls-remote https:// Cekvenich:PASS@github.com/ Cekvenich/alan.git
+        */
+    } //()
+} //class
 exports.GitDown = GitDown;

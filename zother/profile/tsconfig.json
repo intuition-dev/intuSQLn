@@ -12,7 +12,7 @@
       "strictBindCallApply": true,	
       "noImplicitThis": true,
 
-      "removeComments": true,
+      "removeComments": false,
       "outDir": ".",
       "baseUrl": ".",
       "paths": {
