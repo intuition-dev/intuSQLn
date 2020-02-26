@@ -4,7 +4,7 @@ console.log('UI:')
 
 // var vm = new ViewModel()
 
-depp.require(['poly', 'lz-string', 'DOM', 'RPC', 'smoothie', 'raphael', 'justgage'], function() {
+depp.require(['poly',  'DOM', 'RPC', 'smoothie', 'raphael', 'justgage'], function() {
    console.log('ready')
    smoot()
    data()
