@@ -108,18 +108,12 @@ export class YamlConfig {
 export class DownloadFrag {
    _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
 
-   constructor(dir, ops: boolean) {
+   constructor(dir) {
       this._log.info('Extracting to', dir)
-      if (!ops) {
-         new DownloadC('headFrag',dir).auto()
-         new DownloadC('VM',  dir).auto()
-         new DownloadC('Tests',  dir).auto()
-         new DownloadC('Bind',  dir).auto()
+      new DownloadC('headFrag',dir).auto()
+      new DownloadC('VM',  dir).auto()
+      new DownloadC('Bind',  dir).auto()
       }
-      if (ops) {
-         new DownloadC('opsPug', dir).auto()
-         new DownloadC('opsJs',  dir).auto()
-      }//fi
    }//()
 }
 
