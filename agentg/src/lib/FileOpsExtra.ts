@@ -113,7 +113,7 @@ export class DownloadFrag {
       new DownloadC('headFrag',dir).auto()
       new DownloadC('VM',  dir).auto()
       new DownloadC('Bind',  dir).auto()
-      }
+      
    }//()
 }
 
