@@ -111,8 +111,6 @@ export class DownloadFrag {
    constructor(dir) {
       this._log.info('Extracting to', dir)
       new DownloadC('headFrag',dir).auto()
-      new DownloadC('VM',  dir).auto()
-      new DownloadC('Bind',  dir).auto()
       
    }//()
 }
