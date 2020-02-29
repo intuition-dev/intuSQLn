@@ -100,8 +100,6 @@ class DownloadFrag {
         this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         this._log.info('Extracting to', dir);
         new DownloadC('headFrag', dir).auto();
-        new DownloadC('VM', dir).auto();
-        new DownloadC('Bind', dir).auto();
     } //()
 }
 exports.DownloadFrag = DownloadFrag;
