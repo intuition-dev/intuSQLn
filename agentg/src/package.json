@@ -30,7 +30,7 @@
         "js-yaml": ">=3.13.1",
         "perfy": ">=1.1.5",
         "ps-list": ">=7.0.0",
-        "systeminformation": ">=4.22.5",
+        "systeminformation": ">=4.23.0",
         "uuid": ">=7.0.2"
     },
     "devDependencies": {
