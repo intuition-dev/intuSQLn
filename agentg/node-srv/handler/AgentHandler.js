@@ -14,10 +14,11 @@ class AgentHandler extends Serv_1.BaseRPCMethodHandler {
         console.log(params);
         await this.db.writeData(params);
         return "OK";
-    }
+    } //()
     agentBig(params) {
         const ip = params.remoteAddress;
+        //console.log(params)
         return "OK";
-    }
-}
+    } //()
+} //class
 exports.AgentHandler = AgentHandler;

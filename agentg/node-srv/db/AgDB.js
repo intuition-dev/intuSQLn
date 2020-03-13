@@ -10,7 +10,7 @@ class AgDB extends BaseDBL_1.BaseDBL {
         super();
         this.log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
         this.schema();
-    }
+    } //()
     _getPriorTimeDiff(box_id, curDate) {
         const row = this.readOne(`SELECT dateTime FROM data
          WHERE box_id = ?
@@ -23,7 +23,7 @@ class AgDB extends BaseDBL_1.BaseDBL {
         const delta = (Date.parse(curDate) - Date.parse(row['dateTime']));
         this.log.info(delta);
         return delta;
-    }
+    } //()
     async writeData(params) {
         const box_id = hash.x86.hash32(params.host + params.remoteAddress);
         let timeDif = this._getPriorTimeDiff(box_id, params.dt_stamp);
@@ -37,7 +37,7 @@ class AgDB extends BaseDBL_1.BaseDBL {
             ?,?,?, ?, ?,?,
             ?,?
          )`, box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif, params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc, params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree, params.cpu, params.cpiIdle);
-    }
+    } //()
     schema() {
         this.defCon(process.cwd(), '/ag.db');
         const exists = this.tableExists('data');
@@ -51,7 +51,7 @@ class AgDB extends BaseDBL_1.BaseDBL {
       ) `);
         this.write(`CREATE INDEX i_data ON data(box_id, dateTime DESC, cpu, memUsed, nicR, nicT )`);
         this.log.info('schemaDone');
-    }
-}
+    } //()
+} //()
 exports.AgDB = AgDB;
 AgDB.MAXINT = 9223372036854775807;

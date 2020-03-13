@@ -18,12 +18,12 @@
     "node": ">=12.16.0"
   },
   "dependencies": {
-    "http-rpc": ">=2.2.0",
-    "mbakex": ">=8.2.0",
+    "http-rpc": ">=2.3.0",
+    "mbakex": ">=8.3.0",
     "traceroute": ">=1.0.0",
     "murmurhash3js": ">=3.0.1"
   },
   "devDependencies": {
-    "@types/node": ">=13.7.4"
+    "@types/node": ">=13.9.1"
   }
 }

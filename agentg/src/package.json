@@ -34,7 +34,7 @@
         "uuid": ">=7.0.2"
     },
     "devDependencies": {
-        "@types/node": ">=13.9.0",
+        "@types/node": ">=13.9.1",
         "portscanner": ">=2.2.0",
         "stack-trace": ">=0.0.10",
         "table-parser": ">=1.0.1"

@@ -11,7 +11,7 @@ import {  Serv }  from 'http-rpc/lib/Serv'
 import {  AgentHandler }  from './handler/AgentHandler'
 import { AgDB } from './db/AgDB'
 
-const srv = new Serv(['*']) 
+const srv = new Serv(['*'], 64 ) // set the size of header
 
 let db = new AgDB()
 
