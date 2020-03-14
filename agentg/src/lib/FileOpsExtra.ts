@@ -63,7 +63,7 @@ export class DownloadC {
             let dic = yaml.load(data)
             resolve(dic[THIZ.key])
          }).catch(err => {
-            THIZ._log.info('err: where is the vfile?', err, DownloadC.truth)
+            THIZ._log.warn('err: where is the vfile?', err, DownloadC.truth)
          })
       })//pro
    }//()
@@ -79,7 +79,7 @@ export class DownloadC {
             THIZ._log.info('downloaded')
             resolve('OK')
          }).catch(err => {
-            THIZ._log.info('err: where is the file?', err, url)
+            THIZ._log.warn('err: where is the file?', err, url)
          })
       })//pro
    }//()
@@ -107,7 +107,7 @@ export class DownloadFrag {
    _log:any = new TerseB(this.constructor.name)
 
    constructor(dir) {
-      this._log.info('Extracting to', dir)
+      console.log('Extracting to', dir)
       new DownloadC('headFrag',dir).auto()
       
    }//()
@@ -138,7 +138,7 @@ export class Dirs {
    }
 
    getInDir(sub):any {
-      this._log.info('method renamed use getFilesIn')
+      this._log.info('method renamed, use getFilesIn')
       return this.getFilesIn(sub)
    }
    getFilesIn(sub) {

@@ -18,14 +18,14 @@ class GitDown {
         standard_input.on('data', (password) => {
             // User input exit.
             if (password == 'exit\n') {
-                this._log.info("Input failed.");
+                this._log.warn("Input failed.");
                 process.exit();
             }
             else {
                 this.pass = password.replace(/\n/g, '');
                 this.config = yaml.load(fs.readFileSync('gitdown.yaml'));
-                this._log.info(this.config.BRANCH);
-                this._log.info(this.config);
+                console.info(this.config.BRANCH);
+                console.info(this.config);
                 this.remote = 'https://' + this.config.LOGINName + ':';
                 this.remote += this.pass + '@';
                 this.remote += this.config.REPO + '/';
@@ -33,7 +33,7 @@ class GitDown {
                 this._emptyFolder();
                 this.process();
                 if (typeof (this.config.LOCALFolder) !== 'undefined')
-                    this._log.info('LOCALFolder is not used, will use REPOfolder, please remove from gitdown.yaml');
+                    this._log.warn('LOCALFolder is not used, will use REPOfolder, please remove from gitdown.yaml');
             }
         });
     } //()
@@ -64,7 +64,7 @@ class GitDown {
         fs.removeSync(dirR);
         this._log.info('removed temp', dirR);
         fs.writeJsonSync(dirTo + '/branch.json', { branch: branch, syncedOn: new Date().toISOString() });
-        this._log.info('DONE!');
+        console.info('DONE!');
         this._log.info();
         process.exit();
     }

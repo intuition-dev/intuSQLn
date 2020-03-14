@@ -1,5 +1,6 @@
 
-### 2.3.1
+### 2.3.2
+- added -d for disk
 - update to terse-b logger
 - remove .ts
 

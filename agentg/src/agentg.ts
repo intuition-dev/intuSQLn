@@ -11,7 +11,7 @@ import { GitDown  } from './lib/gitdown'
 import { Agent } from './lib/Agent'
 
 // imports done /////////////////////////////////////////////
-const ver = "v2.3.0"
+const ver = "v2.3.2"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)

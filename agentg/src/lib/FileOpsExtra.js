@@ -52,7 +52,7 @@ class DownloadC {
                 let dic = yaml.load(data);
                 resolve(dic[THIZ.key]);
             }).catch(err => {
-                THIZ._log.info('err: where is the vfile?', err, DownloadC.truth);
+                THIZ._log.warn('err: where is the vfile?', err, DownloadC.truth);
             });
         }); //pro
     } //()
@@ -68,7 +68,7 @@ class DownloadC {
                 THIZ._log.info('downloaded');
                 resolve('OK');
             }).catch(err => {
-                THIZ._log.info('err: where is the file?', err, url);
+                THIZ._log.warn('err: where is the file?', err, url);
             });
         }); //pro
     } //()
@@ -96,7 +96,7 @@ exports.YamlConfig = YamlConfig;
 class DownloadFrag {
     constructor(dir) {
         this._log = new terse_b_1.TerseB(this.constructor.name);
-        this._log.info('Extracting to', dir);
+        console.log('Extracting to', dir);
         new DownloadC('headFrag', dir).auto();
     } //()
 }
@@ -124,7 +124,7 @@ class Dirs {
         return path.resolve(dir, '..');
     }
     getInDir(sub) {
-        this._log.info('method renamed use getFilesIn');
+        this._log.info('method renamed, use getFilesIn');
         return this.getFilesIn(sub);
     }
     getFilesIn(sub) {
