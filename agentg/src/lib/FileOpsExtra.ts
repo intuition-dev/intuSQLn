@@ -1,8 +1,6 @@
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 
-const bunyan = require('bunyan')
-const bformat = require('bunyan-format2')  
-const formatOut = bformat({ outputMode: 'short' })
+import { TerseB } from "terse-b/terse-b"
 
 import fs = require('fs-extra')
 
@@ -15,7 +13,7 @@ import path = require("path")
 import FileHound = require('filehound')
 
 export class DownloadC {
-   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   _log:any = new TerseB(this.constructor.name)
 
    // in docs root via git
    static truth: string = 'https://INTUITION-dev.github.io/mbCLI/versions.yaml'
@@ -96,7 +94,7 @@ export class DownloadC {
 
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export class YamlConfig {
-   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   _log:any = new TerseB(this.constructor.name)
 
    constructor(fn) {
       let cfg = yaml.load(fs.readFileSync(fn))
@@ -106,7 +104,7 @@ export class YamlConfig {
 }//class
 
 export class DownloadFrag {
-   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   _log:any = new TerseB(this.constructor.name)
 
    constructor(dir) {
       this._log.info('Extracting to', dir)
@@ -116,7 +114,7 @@ export class DownloadFrag {
 }
 
 export class VersionNag {
-   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   _log:any = new TerseB(this.constructor.name)
 
    static isCurrent(prod, ver): Promise<boolean> {
       const down = new DownloadC(prod, null)
@@ -125,7 +123,7 @@ export class VersionNag {
 }
 
 export class Dirs {
-   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   _log:any = new TerseB(this.constructor.name)
 
    dir: string
    constructor(dir_: string) {

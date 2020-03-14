@@ -1,15 +1,13 @@
 "use strict";
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
+const terse_b_1 = require("terse-b/terse-b");
 const fs = require("fs-extra");
 const execa = require("execa");
 const yaml = require("js-yaml");
 class GitDown {
     constructor() {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         this.dir = process.cwd();
         var standard_input = process.stdin;
         // Set input character encoding.

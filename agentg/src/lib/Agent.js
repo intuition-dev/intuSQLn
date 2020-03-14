@@ -4,12 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SysAgent_1 = require("./SysAgent");
 const SrvRPC_1 = require("http-rpc/lib/SrvRPC");
 const FileOpsExtra_1 = require("./FileOpsExtra");
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
+const terse_b_1 = require("terse-b/terse-b");
 class Agent {
     constructor() {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         this.config = new FileOpsExtra_1.YamlConfig(process.cwd() + '/agentg.yaml');
         Agent.rpc = new SrvRPC_1.HttpRPC(this.config['proto'], this.config['host'], this.config['port']);
     }

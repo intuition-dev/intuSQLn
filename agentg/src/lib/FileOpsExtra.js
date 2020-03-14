@@ -1,9 +1,7 @@
 "use strict";
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
+const terse_b_1 = require("terse-b/terse-b");
 const fs = require("fs-extra");
 const AdmZip = require("adm-zip");
 const download = require("download");
@@ -13,7 +11,7 @@ const path = require("path");
 const FileHound = require("filehound");
 class DownloadC {
     constructor(key_, targetDir_) {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         this.key = key_;
         this.targetDir = targetDir_;
     } // cons
@@ -88,7 +86,7 @@ DownloadC.truth = 'https://INTUITION-dev.github.io/mbCLI/versions.yaml';
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class YamlConfig {
     constructor(fn) {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         let cfg = yaml.load(fs.readFileSync(fn));
         this._log.info(cfg);
         return cfg;
@@ -97,7 +95,7 @@ class YamlConfig {
 exports.YamlConfig = YamlConfig;
 class DownloadFrag {
     constructor(dir) {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         this._log.info('Extracting to', dir);
         new DownloadC('headFrag', dir).auto();
     } //()
@@ -105,7 +103,7 @@ class DownloadFrag {
 exports.DownloadFrag = DownloadFrag;
 class VersionNag {
     constructor() {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
     }
     static isCurrent(prod, ver) {
         const down = new DownloadC(prod, null);
@@ -115,7 +113,7 @@ class VersionNag {
 exports.VersionNag = VersionNag;
 class Dirs {
     constructor(dir_) {
-        this._log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         let dir = Dirs.slash(dir_);
         this.dir = dir;
     }

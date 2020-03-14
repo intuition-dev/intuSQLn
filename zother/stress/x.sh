@@ -1,4 +1,4 @@
 clear
 tsc
 
-node index.js
+DEV=true node index.js

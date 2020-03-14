@@ -1,7 +1,7 @@
 
-const bunyan = require('bunyan')
-const bformat = require('bunyan-format2')  
-const formatOut = bformat({ outputMode: 'short' })
+
+ 
+
 
 const csv = require('csv-parser')
 const fs = require('fs-extra')
@@ -15,7 +15,7 @@ const perfy = require('perfy')
 
 export class GDB extends BaseDBL  {
 
-   log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   log:any = new TerseB(this.constructor.name)
 
    constructor() {
       super()

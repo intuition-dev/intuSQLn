@@ -1,15 +1,13 @@
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 
-const bunyan = require('bunyan')
-const bformat = require('bunyan-format2')  
-const formatOut = bformat({ outputMode: 'short' })
+import { TerseB } from "terse-b/terse-b"
 
 const checkDiskSpace = require('check-disk-space')
 const psList = require('ps-list')
 const find = require('find-process')
 
 export class SysAgent { 
-    _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+    _log:any = new TerseB(this.constructor.name)
 
     static guid = require('uuid/v4')
 

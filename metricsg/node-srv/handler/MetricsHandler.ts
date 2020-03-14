@@ -1,15 +1,15 @@
 import { MeDB } from "../db/MeDB"
 import { Utils } from "../db/Utils"
 
-const bunyan = require('bunyan')
-const bformat = require('bunyan-format2')  
-const formatOut = bformat({ outputMode: 'short' })
+
+ 
+
 
 const hash = require("murmurhash3js")
 
 export class MetricsHandler {
   
-   _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+   _log:any = new TerseB(this.constructor.name)
 
 
    static _db:MeDB

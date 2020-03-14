@@ -5,13 +5,11 @@ import { SysAgent } from "./SysAgent"
 import { HttpRPC } from "http-rpc/lib/SrvRPC"
 import { YamlConfig } from "./FileOpsExtra"
 
-const bunyan = require('bunyan')
-const bformat = require('bunyan-format2')  
-const formatOut = bformat({ outputMode: 'short' })
+import { TerseB } from "terse-b/terse-b"
 
 export class Agent {
 
-    _log = bunyan.createLogger({src: true, stream: formatOut, name: this.constructor.name })
+    _log:any = new TerseB(this.constructor.name) 
     
     config
     constructor() {
