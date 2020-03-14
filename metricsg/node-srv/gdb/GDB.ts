@@ -1,7 +1,5 @@
 
-
- 
-
+import { TerseB } from "terse-b/terse-b"
 
 const csv = require('csv-parser')
 const fs = require('fs-extra')

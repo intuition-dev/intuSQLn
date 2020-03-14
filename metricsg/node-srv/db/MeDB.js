@@ -4,11 +4,12 @@ const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
 const Geo_1 = require("../gdb/Geo");
 const Utils_1 = require("./Utils");
 const luxon_1 = require("luxon");
+const terse_b_1 = require("terse-b/terse-b");
 // SEO
 class MeDB extends BaseNDBSi_1.BaseNDBSi {
     constructor() {
         super();
-        this.log = new TerseB(this.constructor.name);
+        this.log = new terse_b_1.TerseB(this.constructor.name);
         MeDB._geo = new Geo_1.Geo();
         this.schema();
     } //()

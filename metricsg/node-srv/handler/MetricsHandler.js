@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Utils_1 = require("../db/Utils");
+const terse_b_1 = require("terse-b/terse-b");
 const hash = require("murmurhash3js");
 class MetricsHandler {
     constructor(db) {
-        this._log = new TerseB(this.constructor.name);
+        this._log = new terse_b_1.TerseB(this.constructor.name);
         MetricsHandler._db = db;
     }
     // perf trace route on ip

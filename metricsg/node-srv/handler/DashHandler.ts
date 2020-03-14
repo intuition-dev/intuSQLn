@@ -2,9 +2,7 @@ import { BaseRPCMethodHandler } from 'http-rpc/lib/Serv'
 
 import { MeDB } from '../db/MeDB'
 
-
- 
-
+import { TerseB } from "terse-b/terse-b"
 
 export class DashHandler extends BaseRPCMethodHandler {
  

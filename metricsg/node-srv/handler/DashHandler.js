@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Serv_1 = require("http-rpc/lib/Serv");
+const terse_b_1 = require("terse-b/terse-b");
 class DashHandler extends Serv_1.BaseRPCMethodHandler {
     constructor(mdb) {
         super(1);
-        this.log = new TerseB(this.constructor.name);
+        this.log = new terse_b_1.TerseB(this.constructor.name);
         this.mdb = mdb;
     }
     async pageViews(params) {

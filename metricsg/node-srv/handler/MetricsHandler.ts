@@ -1,8 +1,7 @@
 import { MeDB } from "../db/MeDB"
 import { Utils } from "../db/Utils"
 
-
- 
+import { TerseB } from "terse-b/terse-b"
 
 
 const hash = require("murmurhash3js")

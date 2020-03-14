@@ -1,7 +1,8 @@
 "use strict";
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
-const log = bunyan.createLogger({ src: true, stream: formatOut, name: "main" });
+const terse_b_1 = require("terse-b/terse-b");
+const log = new terse_b_1.TerseB('main');
 const Serv_1 = require("http-rpc/lib/Serv");
 const MetricsHandler_1 = require("./handler/MetricsHandler");
 const DashHandler_1 = require("./handler/DashHandler");

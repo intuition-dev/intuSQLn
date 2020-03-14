@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const terse_b_1 = require("terse-b/terse-b");
 const csv = require('csv-parser');
 const fs = require('fs-extra');
 const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
@@ -8,7 +9,7 @@ const perfy = require('perfy');
 class GDB extends BaseNDBSi_1.BaseNDBSi {
     constructor() {
         super();
-        this.log = new TerseB(this.constructor.name);
+        this.log = new terse_b_1.TerseB(this.constructor.name);
         this.schema();
     } //()
     _ins(p) {

@@ -1,7 +1,5 @@
 
-
- 
-
+import { TerseB } from "terse-b/terse-b"
 
 import { GDB } from "./GDB"
 
@@ -19,7 +17,6 @@ const options = {
 
 export class Geo {
    //  https://www.npmjs.com/package/@maxmind/geoip2-node
-
 
    log:any = new TerseB(this.constructor.name)
 

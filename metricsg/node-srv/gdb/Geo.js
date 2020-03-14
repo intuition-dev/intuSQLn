@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const terse_b_1 = require("terse-b/terse-b");
 const GDB_1 = require("./GDB");
 const perfy = require('perfy');
 const fs = require('fs-extra');
@@ -11,7 +12,7 @@ const options = {
 class Geo {
     constructor() {
         //  https://www.npmjs.com/package/@maxmind/geoip2-node
-        this.log = new TerseB(this.constructor.name);
+        this.log = new terse_b_1.TerseB(this.constructor.name);
         this.gdb = new GDB_1.GDB();
     }
     async getG(ip) {

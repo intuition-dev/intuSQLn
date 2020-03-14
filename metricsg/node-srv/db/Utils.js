@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const terse_b_1 = require("terse-b/terse-b");
 class Utils {
     constructor() {
-        this.log = new TerseB(this.constructor.name);
+        this.log = new terse_b_1.TerseB(this.constructor.name);
     }
     static getHostname(url) {
         var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);

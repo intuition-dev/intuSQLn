@@ -3,9 +3,7 @@ import { Geo } from '../gdb/Geo'
 import { Utils } from './Utils'
 import { DateTime } from 'luxon'
 
-
- 
-
+import { TerseB } from "terse-b/terse-b"
 
 // SEO
 
