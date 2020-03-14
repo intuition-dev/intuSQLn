@@ -27,8 +27,9 @@ function help() {
     console.info('agentg CLI version: ' + ver);
     console.info();
     console.info('Usage:');
-    console.info('  List ports in use w/ process ID:                          agentg -p');
     console.info('  To start agent monitoring:                                agentg -s');
+    console.info('  List ports in use w/ process ID:                          agentg -p');
+    console.info('  Show avialabe free disk space:                            agentg -d');
     console.info();
     console.info('  To download branch from git, in folder with gitdown.yaml: agentg -g');
     console.info();
@@ -38,11 +39,12 @@ function help() {
 // args: //////////////////////////////////////////////////////////////////////////////////////////////////////
 const optionDefinitions = [
     { name: 'agentg', defaultOption: true },
+    { name: 'start', alias: 's', type: Boolean },
     { name: 'help', alias: 'h', type: Boolean },
     { name: 'version', alias: 'v', type: Boolean },
     { name: 'gitDown', alias: 'g', type: Boolean },
     { name: 'ports', alias: 'p', type: Boolean },
-    { name: 'start', alias: 's', type: Boolean },
+    { name: 'disk', alias: 'd', type: Boolean },
 ];
 const argsParsed = commandLineArgs(optionDefinitions);
 let arg = argsParsed.agentg;
@@ -70,6 +72,10 @@ if (arg) {
     } // inner
 } //outer
 //  ////////////////////////////////////////////////////////////////////////////////////////////////
+async function disk() {
+    let disk = await SysAgent_1.SysAgent.disk();
+    console.log(disk);
+}
 function start() {
     new Agent_1.Agent().runSmall();
 }
@@ -83,6 +89,8 @@ function git() {
 // start: ///////////////////////////////////////////////////////////////////////////////////// if (argsParsed.pug)
 if (argsParsed.ports)
     ports();
+else if (argsParsed.disk)
+    disk();
 else if (argsParsed.gitDown)
     git();
 else if (argsParsed.start)
