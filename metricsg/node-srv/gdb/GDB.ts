@@ -7,13 +7,13 @@ const csv = require('csv-parser')
 const fs = require('fs-extra')
 
 
-import { BaseDBL } from 'mbakex/lib/BaseDBL'
+import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
 
 const ip = require('ip') //
 
 const perfy = require('perfy')
 
-export class GDB extends BaseDBL  {
+export class GDB extends BaseNDBSi  {
 
    log:any = new TerseB(this.constructor.name)
 

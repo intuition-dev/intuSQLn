@@ -4,7 +4,6 @@
   "private": true,
   "version": "0.11.12",
   "description": "agentg-srv",
-
   "license": "AGPL-1.0-only",
   "homepage": "http://www.INTUITION.DEV",
   "repository": {
@@ -18,9 +17,8 @@
     "node": ">=12.16.0"
   },
   "dependencies": {
-    "http-rpc": ">=2.3.0",
-    "mbakex": ">=8.3.0",
-    "traceroute": ">=1.0.0",
+    "http-rpc": ">=2.3.2",
+    "mbakex": ">=8.3.2",
     "murmurhash3js": ">=3.0.1"
   },
   "devDependencies": {

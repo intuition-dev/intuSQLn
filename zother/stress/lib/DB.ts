@@ -4,9 +4,9 @@
 
 const log = bunyan.createLogger({src: true, stream: formatOut, name: "some name"})
 
-import { BaseDBL } from 'mbakex/lib/BaseDBL'
+import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
 
-export class DB extends BaseDBL  {
+export class DB extends BaseNDBSi  {
 
    constructor() {
       super()
@@ -18,7 +18,7 @@ export class DB extends BaseDBL  {
    fastCon(path,  fn) {
       this._fn = path + fn
       log.info(this._fn)
-      this._db = new BaseDBL.Database(this._fn)//, {memory:true})
+      this._db = new BaseNDBSi.Database(this._fn)//, {memory:true})
 
       this._db.pragma('cache_size = 5000')//20meg in 4K
       log.info(this._db.pragma('cache_size', { simple: true }))

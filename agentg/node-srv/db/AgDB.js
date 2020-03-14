@@ -1,14 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseDBL_1 = require("mbakex/lib/BaseDBL");
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
+const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
 const hash = require("murmurhash3js");
-class AgDB extends BaseDBL_1.BaseDBL {
+class AgDB extends BaseNDBSi_1.BaseNDBSi {
     constructor() {
         super();
-        this.log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this.log = new TerseB(this.constructor.name);
         this.schema();
     } //()
     _getPriorTimeDiff(box_id, curDate) {

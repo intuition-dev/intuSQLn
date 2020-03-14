@@ -1,4 +1,4 @@
-import { BaseDBL } from 'mbakex/lib/BaseDBL'
+import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
 
 import { DateTime } from 'luxon'
 
@@ -8,7 +8,7 @@ import { DateTime } from 'luxon'
 
 const hash = require("murmurhash3js")
 
-export class AgDB extends BaseDBL  {
+export class AgDB extends BaseNDBSi  {
    static MAXINT:number = 9223372036854775807 
 
    log:any = new TerseB(this.constructor.name)
