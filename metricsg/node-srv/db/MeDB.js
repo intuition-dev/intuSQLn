@@ -1,23 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseDBL_1 = require("mbakex/lib/BaseDBL");
+const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
 const Geo_1 = require("../gdb/Geo");
 const Utils_1 = require("./Utils");
 const luxon_1 = require("luxon");
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
-class MeDB extends BaseDBL_1.BaseDBL {
+// SEO
+class MeDB extends BaseNDBSi_1.BaseNDBSi {
     constructor() {
         super();
-        this.log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this.log = new TerseB(this.constructor.name);
         MeDB._geo = new Geo_1.Geo();
         this.schema();
-    }
+    } //()
     _getPriorDateTimeDiff(fullFinger, curDate) {
         const rows = this.read(`SELECT dateTime FROM met
          WHERE fullFinger = ?
-         ORDER BY rowid DESC 
+         ORDER BY dateTime DESC 
          LIMIT 1
          `, fullFinger);
         if ((!rows) || rows.length != 1)
@@ -27,9 +25,10 @@ class MeDB extends BaseDBL_1.BaseDBL {
         const delta = (Date.parse(curDate) - Date.parse(row['dateTime']));
         this.log.info(delta);
         return delta;
-    }
+    } //()
     async writeMetrics(domain, fullFinger, params, ip) {
         const date = luxon_1.DateTime.local().toString();
+        // sameDomain
         let referrerLocalFlag = 0;
         const refHost = Utils_1.Utils.getHostname(params.referrer);
         const curHost = Utils_1.Utils.getHostname(params.domain);
@@ -37,6 +36,8 @@ class MeDB extends BaseDBL_1.BaseDBL {
             referrerLocalFlag = 1;
         let priorDateTimeDiff = this._getPriorDateTimeDiff(fullFinger, date);
         this.log.info(priorDateTimeDiff);
+        // pk is assigned by db in this case
+        // priorDateTimeDiff is how long since the last load page event - look for last record. Max for never
         this.write(`INSERT INTO met( fullFinger, dateTime, 
          url, title, referrer, domTime,
          referrerLocalFlag, priorDateTimeDiff )
@@ -47,11 +48,13 @@ class MeDB extends BaseDBL_1.BaseDBL {
          )`, fullFinger, date, params.domain, params.title, params.referrer, params.domTime, referrerLocalFlag, priorDateTimeDiff);
         this.log.info('met');
         this.writeDevice(fullFinger, ip, params, domain, date);
-    }
+    } //()
     async writeDevice(fullFinger, ip, params, domain, date) {
+        // check if fullFinger exists
         if (MeDB._fingeExists(fullFinger, this))
             return;
         const geo = await MeDB._geo.getG(ip);
+        // also get sqlite 
         let langCou = null;
         try {
             if (params.lang.includes('-')) {
@@ -62,6 +65,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
         catch (err) {
             this.log.err(err);
         }
+        // fullFinger is PK
         this.write(`INSERT INTO device( domain, fullFinger, ip,
          lat, long, geoTz,  cou, cou2, sub,  state, city, 
          city2, post, aso,  proxy,
@@ -73,9 +77,9 @@ class MeDB extends BaseDBL_1.BaseDBL {
        ?,?,?, ?,
        ?,?,?, ?,?,?,?,
        ?,?
-      )`, domain, fullFinger, ip, geo.lat, geo.long, geo.geoTz, geo.cou, geo.cou2, geo.sub, geo.state, geo.city, geo.city2, geo.post, geo.aso, geo.proxy, params.bro, params.os, params.mobile, params.tz, params.lang, langCou, params.ie, params.h + 'x' + params.w, date);
+      )`, domain, fullFinger, ip, geo.lat, geo.long, geo.geoTz, geo.cou, geo.cou2, geo.sub, geo.state, geo.city, geo.city2, geo.post, geo.aso, geo.proxy, params.bro, params.os, params.mobile, params.tz, params.lang, langCou, params.ie, params.h + 'x' + params.w, date); //
         this.log.info('dev');
-    }
+    } //()
     writeError(domain, fullFinger, ip, url, message, extra, mode, name, stack) {
         const date = luxon_1.DateTime.local().toString();
         if (!message)
@@ -88,15 +92,16 @@ class MeDB extends BaseDBL_1.BaseDBL {
             stack = null;
         if (typeof stack !== 'string')
             stack = JSON.stringify(stack);
+        // is error new
         this.write(`INSERT INTO error( domain, dateTime, fullFinger, ip, url,
          message, mode, name, stack)
          VALUES
       (  ?, ?, ?, ?, ?,
          ?,?,?,?
-      )`, domain, date, fullFinger, ip, url, message, mode, name, stack);
+      )`, domain, date, fullFinger, ip, url, message, mode, name, stack); //
         this.log.info('err');
         this.writeDevice(fullFinger, ip, extra, domain, date);
-    }
+    } //()
     static _fingeExists(fullFinger, ctx) {
         const rows = ctx.read(`SELECT fullFinger FROM device
          WHERE fullFinger = ?
@@ -105,7 +110,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
         if ((!rows) || rows.length != 1)
             return false;
         return true;
-    }
+    } //()
     schema() {
         this.defCon(process.cwd(), '/met.db');
         const exists = this.tableExists('met');
@@ -124,10 +129,10 @@ class MeDB extends BaseDBL_1.BaseDBL {
             lat, long, geoTz, cou, cou2, sub, state, city, city2, post, aso, proxy INTEGER,
             bro, os, mobile INTEGER, tz, lang, langCou, ie INTEGER, 
             hw, dateTime TEXT
-         ) WITHOUT ROWID `);
+         ) `);
         this.write(`CREATE INDEX i_device ON device(domain, fullFinger, dateTime DESC)`);
         this.log.info('schemaDone');
-    }
+    } //()
     dashPageViews(domain) {
         const dau = `SELECT date(dateTime) AS date, count(*) AS COUNT 
       FROM met 
@@ -135,6 +140,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
       GROUP BY date 
       ORDER by date DESC 
       `;
+        //date
         let weeksAgo = luxon_1.DateTime.local().minus({ days: 45 + 1 });
         this.log.info(weeksAgo.toString());
         const rows = this.read(dau, domain, weeksAgo.toString());
@@ -145,6 +151,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
       GROUP BY met.fullFinger, first, visited
       ORDER by first, visited DESC 
       `;
+        // WHERE domain = ? and dateTime >= ? 
     }
     dashPgPopular(domain) {
         let weeksAgo = luxon_1.DateTime.local().minus({ days: 30 + 1 });
@@ -159,6 +166,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
         return rows;
     }
     dashRef(domain) {
+        //let weeksAgo = DateTime.local().minus({days:  30 + 1 })
         let s = ` SELECT referrer, count(*) AS COUNT 
       FROM met
       WHERE domain = ? AND referrerLocalFlag = 0 
@@ -168,7 +176,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
       `;
         const rows = this.read(s, domain);
         return rows;
-    }
+    } //()
     dashGeo(domain) {
         let weeksAgo = luxon_1.DateTime.local().minus({ days: 30 + 1 });
         let state = ` SELECT  lang, cou, sub, count(*) AS COUNT
@@ -185,7 +193,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
       FROM device
       GROUP BY tz, lang, cou, sub, aso
       `;
-    }
+    } //()
     dashRecentUsers(domain) {
         const rows = this.read(`
       SELECT m.dateTime, d.ip, m.title, d.cou, d.sub, d.aso, d.mobile
@@ -197,7 +205,7 @@ class MeDB extends BaseDBL_1.BaseDBL {
       LIMIT 60
        `, domain);
         return rows;
-    }
-}
+    } //()
+} //()
 exports.MeDB = MeDB;
 MeDB.MAXINT = 9223372036854775807;

@@ -1,21 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
 const GDB_1 = require("./GDB");
 const perfy = require('perfy');
 const fs = require('fs-extra');
 const Reader = require('@maxmind/geoip2-node').Reader;
-const options = {};
+const options = {
+// you can use options like `cache` or `watchForUpdates`
+};
+// https://simplemaps.com/data/us-zips
 class Geo {
     constructor() {
-        this.log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        //  https://www.npmjs.com/package/@maxmind/geoip2-node
+        this.log = new TerseB(this.constructor.name);
         this.gdb = new GDB_1.GDB();
     }
     async getG(ip) {
         const aresp = await Geo.asnReader.asn(ip);
         const ctresp = await Geo.cityReader.city(ip);
+        //const cnresp = Geo.cntryReader.country(ip)
+        //console.log(ctresp.subdivisions[0].names)
         let geo = await this.gdb.get(ip);
         if (!geo)
             geo = {};
@@ -46,7 +49,7 @@ class Geo {
             this.log.info(err);
         }
         return geo;
-    }
+    } //()
 }
 exports.Geo = Geo;
 Geo.asnBuffer = fs.readFileSync('./gdb/GeoLite2-ASN.mmdb');

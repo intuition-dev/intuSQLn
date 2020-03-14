@@ -1,8 +1,6 @@
 "use strict";
+// All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
 const log = bunyan.createLogger({ src: true, stream: formatOut, name: "main" });
 const Serv_1 = require("http-rpc/lib/Serv");
 const MetricsHandler_1 = require("./handler/MetricsHandler");
@@ -17,9 +15,11 @@ Serv_1.Serv._expInst.use(function (req, resp, next) {
     log.info(req.originalUrl);
     next();
 });
+// old school ajax, not rpc
 Serv_1.Serv._expInst.post('/metrics', mh.metrics);
 Serv_1.Serv._expInst.post('/error', mh.error);
 Serv_1.Serv._expInst.post('/log', mh.log);
+//DASH
 const dashH = new DashHandler_1.DashHandler(db);
 srv.routeRPC('api', dashH);
 srv.serveStatic('../wwwApp', 60 * 60, 60);

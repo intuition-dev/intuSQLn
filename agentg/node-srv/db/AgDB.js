@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
+const terse_b_1 = require("terse-b/terse-b");
 const hash = require("murmurhash3js");
 class AgDB extends BaseNDBSi_1.BaseNDBSi {
     constructor() {
         super();
-        this.log = new TerseB(this.constructor.name);
+        this.log = new terse_b_1.TerseB(this.constructor.name);
         this.schema();
     } //()
     _getPriorTimeDiff(box_id, curDate) {

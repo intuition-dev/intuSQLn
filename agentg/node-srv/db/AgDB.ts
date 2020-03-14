@@ -2,9 +2,7 @@ import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
 
 import { DateTime } from 'luxon'
 
-
- 
-
+import { TerseB } from "terse-b/terse-b"
 
 const hash = require("murmurhash3js")
 

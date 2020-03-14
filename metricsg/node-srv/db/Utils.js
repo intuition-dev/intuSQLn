@@ -1,11 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const bunyan = require('bunyan');
-const bformat = require('bunyan-format2');
-const formatOut = bformat({ outputMode: 'short' });
 class Utils {
     constructor() {
-        this.log = bunyan.createLogger({ src: true, stream: formatOut, name: this.constructor.name });
+        this.log = new TerseB(this.constructor.name);
     }
     static getHostname(url) {
         var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
@@ -13,7 +10,7 @@ class Utils {
             return match[2];
         else
             return null;
-    }
+    } //()
     static getDomain(url) {
         var hostName = Utils.getHostname(url);
         var domain = hostName;
@@ -26,6 +23,6 @@ class Utils {
             }
         }
         return domain;
-    }
-}
+    } //()
+} //class
 exports.Utils = Utils;
