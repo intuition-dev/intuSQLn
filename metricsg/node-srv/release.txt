@@ -1,7 +1,7 @@
 
 ftp the ip db
 
-node version, gyp
+node version
 
 
 configure ip tables.sh

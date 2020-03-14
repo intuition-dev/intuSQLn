@@ -2,7 +2,7 @@
     "name": "agentg",
     "author": "www.INTUITION.DEV",
     "preferGlobal": true,
-    "version": "2.3.2",
+    "version": "2.3.3",
     "description": "A good agent, lets you download a branch, or tell you about the local container/box",
     "bin": "agentg.js",
     "license": "LGPL-3.0-only",
@@ -24,7 +24,6 @@
         "download": ">=7.1.0",
         "execa": ">=4.0.0",
         "filehound": ">=1.17.4",
-        "find-process": ">=1.4.3",
         "fs-extra": ">=8.1.0",
         "http-rpc": ">=2.3.2",
         "js-yaml": ">=3.13.1",
@@ -35,8 +34,6 @@
     },
     "devDependencies": {
         "@types/node": ">=13.9.1",
-        "portscanner": ">=2.2.0",
-        "stack-trace": ">=0.0.10",
-        "table-parser": ">=1.0.1"
+        "stack-trace": ">=0.0.10"
     }
 }

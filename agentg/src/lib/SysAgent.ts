@@ -4,7 +4,6 @@ import { TerseB } from "terse-b/terse-b"
 
 const checkDiskSpace = require('check-disk-space')
 const psList = require('ps-list')
-const find = require('find-process')
 
 export class SysAgent { 
     _log:any = new TerseB(this.constructor.name)
@@ -35,32 +34,22 @@ export class SysAgent {
       let ports = []
       await SysAgent.si.networkConnections().then(data => { 
          data.forEach(function(v){
-            ports.push(v.localport)
+            //THIZ._log.info(v)            
+            let row = {}
+            row['port'] = v.localport
+            row['pid'] = v.pid
+            row['name'] = v.process
+            ports.push(row)
          }) 
       })
-      //console.log(ports)
-      let results = []
-      let pids = {}
-      for (let i = 0; i < ports.length; i++) {
-            try {
-                let row = await find('port', ports[i])
-                //console.log(ports[i], row)
-                if(!row) continue
-                if(row[0]) row = row[0]
-
-                let pid = row['pid'] 
-                if(!pid) continue
-                // do we have that port already?
-                if(pids.hasOwnProperty(pid)) continue
-                pids[pid]= 'X' //just track the pid
-                
-                let ins = {port: ports[i], pid:pid, name:row['name']}
-                results.push(ins)
-            } catch(err) { THIZ._log.info(err)}
-      }//for
-
-      //console.log(results)
-      return results
+      let dupes = {}
+      let result = []
+      for(let i = 0; i < ports.length; i++) {
+        if(dupes.hasOwnProperty(ports[i].port)) continue
+        dupes[ports[i].port] = ports[i].port
+        result.push(ports[i])
+      }
+      return result
    }//()
 
     static async statsBig() { // often like 1 second
