@@ -77,7 +77,7 @@ async function disk() {
     console.log(disk);
 }
 function start() {
-    new Agent_1.Agent().runSmall();
+    new Agent_1.Agent().runBig();
 }
 async function ports() {
     let ports = await new SysAgent_1.SysAgent().ports();

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Serv_1 = require("http-rpc/lib/Serv");
 const AgentHandler_1 = require("./handler/AgentHandler");
 const AgDB_1 = require("./db/AgDB");
-const srv = new Serv_1.Serv(['*'], 64); // set the size of header
+const srv = new Serv_1.Serv(['*'], 32 * 1024); // set the size of header
 let db = new AgDB_1.AgDB();
 const ah = new AgentHandler_1.AgentHandler(db);
 srv.routeRPC('agent', ah);

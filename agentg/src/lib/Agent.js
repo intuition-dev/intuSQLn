@@ -39,7 +39,7 @@ class Agent {
             this._log.warn(err);
         }
         console.log(params);
-        await SysAgent_1.SysAgent.wait(20 * 1000);
+        await SysAgent_1.SysAgent.wait(2 * 1000);
         this.runBig();
     }
 }
