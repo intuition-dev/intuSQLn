@@ -15,7 +15,7 @@
         "monitoring"
     ],
     "engines": {
-        "node": ">=10.16.1"
+        "node": ">=12.16.1"
     },
     "dependencies": {
         "adm-zip": ">=0.4.14",
