@@ -11,7 +11,7 @@ import { GitDown  } from './lib/gitdown'
 import { Agent } from './lib/Agent'
 
 // imports done /////////////////////////////////////////////
-const ver = "v2.3.3"
+const ver = "v2.3.4"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
@@ -34,7 +34,8 @@ function help() {
    console.info('Usage:')
    console.info('  To start agent monitoring:                                agentg -s')
    console.info('  List ports in use w/ process ID:                          agentg -p')
-   console.info('  Show avialabe free disk space:                            agentg -d')
+   console.info('  Show available/free disk space:                           agentg -d')
+   console.info('  Show available/free memory:                               agentg -m')
 
    console.info()
 
@@ -57,7 +58,8 @@ const optionDefinitions = [
    { name: 'gitDown', alias: 'g', type: Boolean },
 
    { name: 'ports', alias: 'p', type: Boolean },
-   { name: 'disk', alias: 'd', type: Boolean },
+   { name: 'disk',  alias: 'd', type: Boolean },
+   { name: 'mem',   alias: 'm', type: Boolean },
 
 ]
 
@@ -90,6 +92,11 @@ if (arg) {
 
 //  ////////////////////////////////////////////////////////////////////////////////////////////////
 
+async function mem() { 
+   let disk = await SysAgent.mem() 
+   console.log(disk)
+}
+
 async function disk() { 
    let disk = await SysAgent.disk() 
    console.log(disk)
@@ -114,6 +121,8 @@ if (argsParsed.ports)
    ports()
 else if (argsParsed.disk)
    disk()
+else if (argsParsed.mem)
+   mem()
 else if (argsParsed.gitDown)
    git()
 else if (argsParsed.start)

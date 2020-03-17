@@ -12,7 +12,7 @@ import { MeDB } from "./db/MeDB"
 
 const express = require('express')
 
-const srv = new Serv(['*']) 
+const srv = new Serv(['*'],4 *1024) 
 
 const db =  new MeDB()
 

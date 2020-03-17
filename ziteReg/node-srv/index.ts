@@ -12,7 +12,7 @@ const m = new MDB()
 
 m.showLastPerSecond()
 
-const dashSrv = new Serv(['*'])
+const dashSrv = new Serv(['*'],4 *1024)
 
 const handler = new BaseRPCMethodHandler()
 dashSrv.routeRPC('monitor', 'monitor', (req, res) => { 

@@ -21,6 +21,16 @@ class SysAgent {
             });
         });
     } //()
+    static async mem() {
+        let track = {};
+        await SysAgent.si.mem().then(data => {
+            track['memFree'] = data.free;
+            track['memUsed'] = data.used;
+            track['swapUsed'] = data.swapused;
+            track['swapFree'] = data.swapfree;
+        });
+        return track;
+    }
     async ports() {
         const THIZ = this;
         let ports = [];

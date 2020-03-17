@@ -8,7 +8,7 @@ const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
 const Agent_1 = require("./lib/Agent");
 // imports done /////////////////////////////////////////////
-const ver = "v2.3.3";
+const ver = "v2.3.4";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
@@ -29,7 +29,8 @@ function help() {
     console.info('Usage:');
     console.info('  To start agent monitoring:                                agentg -s');
     console.info('  List ports in use w/ process ID:                          agentg -p');
-    console.info('  Show avialabe free disk space:                            agentg -d');
+    console.info('  Show available/free disk space:                           agentg -d');
+    console.info('  Show available/free memory:                               agentg -m');
     console.info();
     console.info('  To download branch from git, in folder with gitdown.yaml: agentg -g');
     console.info();
@@ -45,6 +46,7 @@ const optionDefinitions = [
     { name: 'gitDown', alias: 'g', type: Boolean },
     { name: 'ports', alias: 'p', type: Boolean },
     { name: 'disk', alias: 'd', type: Boolean },
+    { name: 'mem', alias: 'm', type: Boolean },
 ];
 const argsParsed = commandLineArgs(optionDefinitions);
 let arg = argsParsed.agentg;
@@ -72,12 +74,16 @@ if (arg) {
     } // inner
 } //outer
 //  ////////////////////////////////////////////////////////////////////////////////////////////////
+async function mem() {
+    let disk = await SysAgent_1.SysAgent.mem();
+    console.log(disk);
+}
 async function disk() {
     let disk = await SysAgent_1.SysAgent.disk();
     console.log(disk);
 }
 function start() {
-    new Agent_1.Agent().runBig();
+    new Agent_1.Agent().runSmall();
 }
 async function ports() {
     let ports = await new SysAgent_1.SysAgent().ports();
@@ -91,6 +97,8 @@ if (argsParsed.ports)
     ports();
 else if (argsParsed.disk)
     disk();
+else if (argsParsed.mem)
+    mem();
 else if (argsParsed.gitDown)
     git();
 else if (argsParsed.start)
