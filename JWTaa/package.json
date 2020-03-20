@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+
   "author": "",
+
   "license": "ISC",
+
   "dependencies": {
     "http-rpc": ">=2.3.7",
     "jsonwebtoken": ">=8.5.1",
-    "redis": ">=3.0.2"
+    "minio": ">=7.0.15"
   },
   "devDependencies": {
     "@types/node": ">=13.9.1"

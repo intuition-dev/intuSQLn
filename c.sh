@@ -1,2 +1,2 @@
 
-find . -name *.md -delete
+find . -name *.db -delete

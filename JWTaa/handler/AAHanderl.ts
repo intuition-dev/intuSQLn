@@ -8,8 +8,8 @@ export class AAHandler extends BaseRPCMethodHandler {
     log:any = new TerseB(this.constructor.name) 
 
     tokenGet(email, pswd){
-        // go to redis. If email = 'admin'
-
+        //  If email = 'admin', else go to redis
+        // else return ?
     }
 
     _tokenIsUser(){}

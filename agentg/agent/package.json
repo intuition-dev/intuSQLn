@@ -24,16 +24,17 @@
         "download": ">=7.1.0",
         "execa": ">=4.0.0",
         "filehound": ">=1.17.4",
-        "fs-extra": ">=8.1.0",
+        "fs-extra": ">=9.0.0",
         "http-rpc": ">=2.3.7",
         "js-yaml": ">=3.13.1",
+        "node-downloader-helper": ">=1.0.12",
         "perfy": ">=1.1.5",
         "ps-list": ">=7.0.0",
         "systeminformation": ">=4.23.1",
         "uuid": ">=7.0.2"
     },
     "devDependencies": {
-        "@types/node": ">=13.9.1",
+        "@types/node": ">=13.9.2",
         "stack-trace": ">=0.0.10"
     }
 }
