@@ -23,7 +23,7 @@ guid() {
 hashPass(password, salt) {
     return bcrypt.hashSync(password, salt) 
 }
-getSalt() {
+genSalt() {
     return bcrypt.genSaltSync(10)
 }
 

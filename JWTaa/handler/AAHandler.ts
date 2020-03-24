@@ -14,12 +14,10 @@ export class AAHandler extends BaseRPCMethodHandler {
         super(1,1)
         this.sdb = sdb
     }
-
-    prefix = '/users/'
+    
     async _addUser(email, pswd) {
         
-
-        await this.sdb.writeOne(this.prefix+email, {pswd:pswd})
+        await this.sdb._addUser(email, pswd)
 
     }
 
