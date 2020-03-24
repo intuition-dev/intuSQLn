@@ -6,6 +6,11 @@ const { Readable } = require('stream')
 const uuid = require('uuid/v4')
 const bcrypt = require('bcryptjs') // to hash passwords
 
+const NodeCache = require( "node-cache" )
+const cache = new NodeCache({stdTTL: 100, maxKeys: 10*1000})
+
+
+// could be msgPack, but using json for now
 
 /**
  * S3 DB
@@ -18,6 +23,10 @@ bucket
 
 guid() {
     return uuid()
+}
+
+get cache() {
+    return cache
 }
 
 hashPass(password, salt) {

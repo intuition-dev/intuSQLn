@@ -1,9 +1,8 @@
 
 import { TerseB } from "terse-b/terse-b"
 import { BaseRPCMethodHandler } from 'http-rpc/lib/Serv'
-import { User } from "../db/User"
+import { User } from "../bl/User"
 
-var jwt = require('jsonwebtoken')
 
 export class AAHandler extends BaseRPCMethodHandler {
     log:any = new TerseB(this.constructor.name) 
@@ -16,10 +15,10 @@ export class AAHandler extends BaseRPCMethodHandler {
     }
     
     async _addUser(email, pswd) {
-        
-        await this.sdb._addUser(email, pswd)
-
+    
     }
+
+    tokenCheckNRenew(token) {}
 
     tokenGet(email, pswd){
         //  If email = 'admin', else go to redis
@@ -33,13 +32,11 @@ export class AAHandler extends BaseRPCMethodHandler {
     
     adminAddUser(email, pswd){ // store as hash
     }
-    adminChangeUser(oldEmail, newEmail){}
+    adminChangeUserEmail(oldEmail, newEmail){}
     adminListUsers(){}
-    adminDisableUser(email){}
-    adminEnableUser(email){}
+
     
-    
-    uPswdEmailCode(email){}
-    uPswdResetIfMatch(email, code, pswd){}
+    pswdEmailCode(email){}
+    pswdResetIfMatch(email, code, pswd){}
     
 }
