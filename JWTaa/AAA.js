@@ -6,7 +6,7 @@ const AAHandler_1 = require("./handler/AAHandler");
 class AAA extends Serv_1.Serv {
     constructor(origins) {
         super(origins, 4 * 1024);
-        const ha = new AAHandler_1.AAHandler();
+        const ha = new AAHandler_1.AAHandler(null);
         this.routeRPC('aaAPI', ha);
         this.serveStatic('webApp', null, null);
         this.listen(8080);

@@ -1,14 +1,26 @@
 
 import { TerseB } from "terse-b/terse-b"
 import { BaseRPCMethodHandler } from 'http-rpc/lib/Serv'
+import { User } from "../db/User"
 
 var jwt = require('jsonwebtoken')
 
 export class AAHandler extends BaseRPCMethodHandler {
     log:any = new TerseB(this.constructor.name) 
 
-    constructor() {
+    sdb:User
+
+    constructor(sdb) {
         super(1,1)
+        this.sdb = sdb
+    }
+
+    prefix = '/users/'
+    async _addUser(email, pswd) {
+        
+
+        await this.sdb.writeOne(this.prefix+email, {pswd:pswd})
+
     }
 
     tokenGet(email, pswd){

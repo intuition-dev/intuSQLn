@@ -3,39 +3,36 @@ import { TerseB } from "terse-b/terse-b"
 
 const Minio = require('minio')
 const { Readable } = require('stream')
-
-// GUID
-
-// handle
+const uuid = require('uuid/v4')
+const bcrypt = require('bcryptjs') // to hash passwords
 
 
-export class SDB {
+/**
+ * S3 DB
+ */
+export class BaseSDB {
 log:any = new TerseB(this.constructor.name) 
 
 minioClient
 bucket 
 
-constructor() {
-    this.minioClient = new Minio.Client({
-        endPoint:  'ewr1.vultrobjects.com',
-        accessKey: '0X4E06GBGUV1H1C5T0VE',
-        secretKey: 'AdIr5P13vmvXl0IHsh7i1xCWhMafth8XPhxRV8Ju'
-    })
-
-    this.bucket = 'aausers'
-}//()
-
-
-async tst() {
-    //await this.writeOne('/one/me', {d:'c'})
-
-    const data = this.readOne('/one/me')
-    this.log.info(data)
-
-    //const l = this.list('/one')
-    //this.log.warn(l)
-
+guid() {
+    return uuid()
 }
+
+hashPass(password, salt) {
+    return bcrypt.hashSync(password, salt) 
+}
+getSalt() {
+    return bcrypt.genSaltSync(10)
+}
+
+constructor(config, bucket) {
+    this.minioClient = new Minio.Client(
+        config
+    )
+    this.bucket = bucket
+}//()
 
 writeOne(fullPath, data) {  // will overwrite
     const str = JSON.stringify(data) //encode
@@ -86,20 +83,36 @@ readOne(fullPath) {
 }
 
 list(path) {
+    let objects = []
 
     const THIZ = this
     return new Promise(function(resolve, reject) {
-        const stream = THIZ.minioClient.listObjectsV2(THIZ.bucket, path, true,'')
+        const stream = THIZ.minioClient.listObjectsV2(THIZ.bucket, path, true)
         stream.on('data', function(obj) { 
             THIZ.log.info(obj) 
-            resolve(obj)
+            objects.push(obj)
         } )
-
+        stream.on('end', function() {
+            resolve(objects)
+        })
         stream.on('error', function(err) { 
             THIZ.log.warn(err) 
             reject(err)
         } )
 
+    })//pro
+}//()
+
+delOne(fullPath) {
+    const THIZ = this
+    return new Promise(function(resolve, reject) {
+        THIZ.minioClient.removeObject(THIZ.bucket, fullPath, function(err) {
+            if (err) {
+                THIZ.log.warn(err)
+                reject(err)
+            }
+            resolve()
+        })
     })//pro
 }//()
 

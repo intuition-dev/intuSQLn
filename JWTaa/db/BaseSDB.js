@@ -3,24 +3,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const terse_b_1 = require("terse-b/terse-b");
 const Minio = require('minio');
 const { Readable } = require('stream');
-// GUID
-// handle
-class SDB {
-    constructor() {
+const uuid = require('uuid/v4');
+const bcrypt = require('bcryptjs'); // to hash passwords
+/**
+ * S3 DB
+ */
+class BaseSDB {
+    constructor(config, bucket) {
         this.log = new terse_b_1.TerseB(this.constructor.name);
-        this.minioClient = new Minio.Client({
-            endPoint: 'ewr1.vultrobjects.com',
-            accessKey: '0X4E06GBGUV1H1C5T0VE',
-            secretKey: 'AdIr5P13vmvXl0IHsh7i1xCWhMafth8XPhxRV8Ju'
-        });
-        this.bucket = 'aausers';
+        this.minioClient = new Minio.Client(config);
+        this.bucket = bucket;
     } //()
-    async tst() {
-        //await this.writeOne('/one/me', {d:'c'})
-        const data = this.readOne('/one/me');
-        this.log.info(data);
-        //const l = this.list('/one')
-        //this.log.warn(l)
+    guid() {
+        return uuid();
+    }
+    hashPass(password, salt) {
+        return bcrypt.hashSync(password, salt);
+    }
+    getSalt() {
+        return bcrypt.genSaltSync(10);
     }
     writeOne(fullPath, data) {
         const str = JSON.stringify(data); //encode
@@ -54,6 +55,7 @@ class SDB {
                     const json = Buffer.concat(chunks).toString();
                     THIZ.log.info(json);
                     const data = JSON.parse(json);
+                    THIZ.log.info(data);
                     resolve(data);
                 });
                 dataStream.on('error', function (err) {
@@ -64,12 +66,16 @@ class SDB {
         }); //pro
     }
     list(path) {
+        let objects = [];
         const THIZ = this;
         return new Promise(function (resolve, reject) {
-            const stream = THIZ.minioClient.listObjectsV2(THIZ.bucket, path, true, '');
+            const stream = THIZ.minioClient.listObjectsV2(THIZ.bucket, path, true);
             stream.on('data', function (obj) {
                 THIZ.log.info(obj);
-                resolve(obj);
+                objects.push(obj);
+            });
+            stream.on('end', function () {
+                resolve(objects);
             });
             stream.on('error', function (err) {
                 THIZ.log.warn(err);
@@ -77,5 +83,17 @@ class SDB {
             });
         }); //pro
     } //()
+    delOne(fullPath) {
+        const THIZ = this;
+        return new Promise(function (resolve, reject) {
+            THIZ.minioClient.removeObject(THIZ.bucket, fullPath, function (err) {
+                if (err) {
+                    THIZ.log.warn(err);
+                    reject(err);
+                }
+                resolve();
+            });
+        }); //pro
+    } //()
 } //class
-exports.SDB = SDB;
+exports.BaseSDB = BaseSDB;

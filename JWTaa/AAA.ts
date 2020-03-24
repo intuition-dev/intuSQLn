@@ -9,7 +9,7 @@ export class AAA extends Serv {
     constructor(origins: Array<string>) {
         super(origins, 4 * 1024 )
 
-        const ha = new AAHandler()
+        const ha = new AAHandler(null)
 
         this.routeRPC('aaAPI', ha)
 
