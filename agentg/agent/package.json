@@ -34,7 +34,7 @@
         "uuid": ">=7.0.2"
     },
     "devDependencies": {
-        "@types/node": ">=13.9.2",
+        "@types/node": ">=13.9.3",
         "stack-trace": ">=0.0.10"
     }
 }

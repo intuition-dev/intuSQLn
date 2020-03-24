@@ -2,13 +2,14 @@
 // Auth & Auth App
 
 import { Serv } from 'http-rpc/lib/Serv'
+import { AAHandler } from './handler/AAHandler'
 
 export class AAA extends Serv {
 
     constructor(origins: Array<string>) {
         super(origins, 4 * 1024 )
 
-        const ha = new EditorHandler(this.db, this.configIntu)
+        const ha = new AAHandler()
 
         this.routeRPC('aaAPI', ha)
 

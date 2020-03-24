@@ -5,7 +5,7 @@ const Serv_1 = require("http-rpc/lib/Serv");
 var jwt = require('jsonwebtoken');
 class AAHandler extends Serv_1.BaseRPCMethodHandler {
     constructor() {
-        super(...arguments);
+        super(1, 1);
         this.log = new terse_b_1.TerseB(this.constructor.name);
     }
     tokenGet(email, pswd) {

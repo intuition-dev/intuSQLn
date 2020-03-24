@@ -8,9 +8,8 @@ const { Readable } = require('stream')
 
 // handle
 
-// single file 
 
-export class FDB {
+export class SDB {
 log:any = new TerseB(this.constructor.name) 
 
 minioClient
@@ -18,13 +17,25 @@ bucket
 
 constructor() {
     this.minioClient = new Minio.Client({
-        endPoint: 'ewr1.vultrobjects.com',
+        endPoint:  'ewr1.vultrobjects.com',
         accessKey: '0X4E06GBGUV1H1C5T0VE',
         secretKey: 'AdIr5P13vmvXl0IHsh7i1xCWhMafth8XPhxRV8Ju'
     })
 
     this.bucket = 'aausers'
 }//()
+
+
+async tst() {
+    //await this.writeOne('/one/me', {d:'c'})
+
+    const data = this.readOne('/one/me')
+    this.log.info(data)
+
+    //const l = this.list('/one')
+    //this.log.warn(l)
+
+}
 
 writeOne(fullPath, data) {  // will overwrite
     const str = JSON.stringify(data) //encode
@@ -59,12 +70,13 @@ readOne(fullPath) {
             })
             dataStream.on('end', function() {
                 const json = Buffer.concat(chunks).toString()
-
+                THIZ.log.info(json)
                 const data = JSON.parse(json)
                 THIZ.log.info(data)
                 resolve(data)
 
             })
+
             dataStream.on('error', function(err) {
                 THIZ.log.warn(err)
                 reject(err)
@@ -74,14 +86,21 @@ readOne(fullPath) {
 }
 
 list(path) {
-    const stream = this.minioClient.listObjectsV2WithMetadata(this.bucket,path, true,'')
-    
-    stream.on('data', function(obj) { 
-        THIZ.log.warn(obj) 
-        
-    } )
 
-    stream.on('error', function(err) { THIZ.log.warn(err) } )
+    const THIZ = this
+    return new Promise(function(resolve, reject) {
+        const stream = THIZ.minioClient.listObjectsV2(THIZ.bucket, path, true,'')
+        stream.on('data', function(obj) { 
+            THIZ.log.info(obj) 
+            resolve(obj)
+        } )
+
+        stream.on('error', function(err) { 
+            THIZ.log.warn(err) 
+            reject(err)
+        } )
+
+    })//pro
 }//()
 
 }//class

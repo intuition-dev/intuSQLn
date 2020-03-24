@@ -1,4 +1,7 @@
 
-import { BaseRPCMethodHandler, Serv, iAuth } from './lib/Serv'
+import { SDB } from './db/sdb'
 
 
+const db = new SDB()
+
+db.tst()
