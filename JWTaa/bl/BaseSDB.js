@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const terse_b_1 = require("terse-b/terse-b");
 const Minio = require('minio');
 const { Readable } = require('stream');
-const bcrypt = require('bcryptjs'); // to hash passwords
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL: 100, maxKeys: 10 * 1000 });
+const uuid = require('uuid/v4');
 // could be msgPack, but using json for now
 /**
  * S3 DB
@@ -16,14 +16,11 @@ class BaseSDB {
         this.minioClient = new Minio.Client(config);
         this.bucket = bucket;
     } //()
+    guid() {
+        return uuid();
+    }
     get cache() {
         return cache;
-    }
-    hashPass(password, salt) {
-        return bcrypt.hashSync(password, salt);
-    }
-    genSalt() {
-        return bcrypt.genSaltSync(10);
     }
     writeOne(fullPath, data) {
         const str = JSON.stringify(data); //encode

@@ -18,8 +18,12 @@ export class Email {
         this.log.info('email_to: ', to_email)
 
         fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                method: 'POST', 
-                body: {
+                method: 'post', 
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
                     service_id: emailjsService_id,
                     template_id: emailjsTemplate_id,
                     user_id: emailjsUser_id,
@@ -31,14 +35,15 @@ export class Email {
                         ,subject:subject
                         ,body:body
                     }
-                }
+                })//json
             })
             .then(res => {
-                this.log.info('Email has been sent. ')
+                this.log.info(res)
+                console.log(res.statusText)
             })
             .catch(err => {
                 this.log.warn('send mail error: ', err)
-            });
+            })
     }//()
     
 }//class

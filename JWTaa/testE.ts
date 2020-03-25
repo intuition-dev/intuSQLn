@@ -1,22 +1,18 @@
 
 import { Email } from './bl/Email'
-
-
-const e = new Email()
-
+const em = new Email()
 
 var to_name = 'Vic'
-,to_email = 'uptimevic@gmail.com'
+,to_email = 'vic@eml.cc'
 ,from_name = 'Al'
 ,from_email = 'al@gore.com'
 ,subject = 'oh hi'
-,body = '<p>Now this</p>'
+,body = 'Now this'
 
 
-
-e.send(
+em.send(
   'gmail',  'tone', 'user_4aWUwDyNvJDTKwiCEtCgz',
-  to_name
+   to_name
   ,to_email
   ,from_name
   ,from_email

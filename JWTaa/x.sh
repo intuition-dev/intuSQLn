@@ -1,4 +1,4 @@
 clear
 tsc
 
-DEV=true node test.js
+DEV=true node testE.js
