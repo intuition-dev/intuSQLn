@@ -1,7 +1,6 @@
 
 import { BaseSDB } from './BaseSDB'
 
-const fetch = require('make-fetch-happen')
 
 export class User extends BaseSDB {
 
@@ -63,5 +62,6 @@ pswdResetIfMatch(email, guessCode, pswd) {
 // rpc
 // jwt
 // high bug on decoder for download
-    
+// new bake api
+
 }//class
