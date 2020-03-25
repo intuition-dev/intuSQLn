@@ -38,8 +38,26 @@ async adminWriteUser(email, pswd) {
     await this.writeOne(this.prefix+email, {pswd:hpswd, email:email})
 }
 
+// /////////////////////////////////
+tokenCheckNRenew(token, ip, finger) {
 
-async checkUser(email, pswd) {
+}
+
+
+tokenLoginGet(email, pswd){
+    //  If email = 'admin', else go to redis
+    // else return ?
+}
+
+_tokenIsUser(){
+
+}
+_tokenIsAdmin(){
+
+}
+
+
+async _checkUser(email, pswd) {
     if(!this.salt) throw new Error('no salt')
     const hpswd = jwt.hashPass(pswd, this.salt)
     let dat = await this.readOne(this.prefix+email)
@@ -57,7 +75,7 @@ async listUsers() {
     return users
 }
 
-pswdEmailCode(email){
+async pswdEmailCode(email){
 
     let vcode = Math.floor(1000 + Math.random() * 9000);
 
@@ -79,16 +97,21 @@ pswdEmailCode(email){
         ,body
     )
 
-    let obj =    this.readOne(this.prefix+email)
+    let obj =  await this.readOne(this.prefix+email)
     obj['vcode'] = vcode
     obj['vcode_ts'] = new Date()
-    
-    this.writeOne(this.prefix+email, {})
+    this.writeOne(this.prefix+email, obj)
 
 }//()
 
-pswdResetIfMatch(email, guessCode, pswd) {
+async pswdResetIfMatch(email, guessCode, newPswd) {
+    let obj =  await this.readOne(this.prefix+email)
+    const vcode = obj['vcode']
+    if(vcode!=guessCode) return false
 
+    // set new password
+    const hpswd = jwt.hashPass(newPswd, this.salt)
+    this.writeOne(this.prefix+email, obj)
 }
 
 

@@ -14,19 +14,17 @@ export class AAHandler extends BaseRPCMethodHandler {
         this.sdb = sdb
     }
     
-    async _addUser(email, pswd) {
-    
+
+    tokenCheckNRenew(token, ip, finger) {
+
     }
 
-    tokenCheckNRenew(token) {}
 
-    tokenGet(email, pswd){
+    tokenLoginGet(email, pswd){
         //  If email = 'admin', else go to redis
         // else return ?
     }
 
-    _tokenIsUser(){}
-    _tokenIsAdmin(){}
     tokenLogOut(){}
     
     
