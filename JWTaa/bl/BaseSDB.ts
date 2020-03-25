@@ -3,12 +3,11 @@ import { TerseB } from "terse-b/terse-b"
 
 const Minio = require('minio')
 const { Readable } = require('stream')
-const uuid = require('uuid/v4')
-const bcrypt = require('bcryptjs') // to hash passwords
 
 const NodeCache = require( "node-cache" )
 const cache = new NodeCache({stdTTL: 100, maxKeys: 10*1000})
 
+const uuid = require('uuid/v4')
 
 // could be msgPack, but using json for now
 
@@ -27,13 +26,6 @@ guid() {
 
 get cache() {
     return cache
-}
-
-hashPass(password, salt) {
-    return bcrypt.hashSync(password, salt) 
-}
-genSalt() {
-    return bcrypt.genSaltSync(10)
 }
 
 constructor(config, bucket) {

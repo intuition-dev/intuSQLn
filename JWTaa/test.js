@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseSDB_1 = require("./db/BaseSDB");
+const BaseSDB_1 = require("./bl/BaseSDB");
 const db = new BaseSDB_1.BaseSDB({
     endPoint: 'ewr1.vultrobjects.com',
     accessKey: '0X4E06GBGUV1H1C5T0VE',

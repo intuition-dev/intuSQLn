@@ -1,11 +1,14 @@
 
 import { BaseSDB } from './BaseSDB'
-const jwt = require('jsonwebtoken')
+
+const fetch = require('make-fetch-happen')
 
 export class User extends BaseSDB {
 
 prefix = '/users/'
 salt 
+
+jwtSharedSecret = '123'
 
 constructor() {
     super({}, '')
@@ -59,6 +62,6 @@ pswdResetIfMatch(email, guessCode, pswd) {
 // CRM
 // rpc
 // jwt
-
+// high bug on decoder for download
     
 }//class
