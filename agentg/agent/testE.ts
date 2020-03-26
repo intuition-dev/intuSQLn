@@ -1,5 +1,5 @@
 
-import { Email } from './bl/Email'
+import { Email } from './lib/Email'
 const em = new Email()
 
 var to_name = 'Vic'

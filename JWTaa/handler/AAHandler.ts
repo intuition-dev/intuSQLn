@@ -13,12 +13,10 @@ export class AAHandler extends BaseRPCMethodHandler {
         super(1,1)
         this.sdb = sdb
     }
-    
 
     tokenCheckNRenew(token, ip, finger) {
 
     }
-
 
     tokenLoginGet(email, pswd){
         //  If email = 'admin', else go to redis

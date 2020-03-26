@@ -1,5 +1,5 @@
 
-import { BaseSDB } from './bl/BaseSDB'
+import { BaseSDB } from './lib/BaseSDB'
 
 
 const db = new BaseSDB({

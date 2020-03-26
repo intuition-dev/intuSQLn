@@ -6,9 +6,7 @@ const email = new Email()
 import { JWT } from './jwtUtil'
 const jwt = new JWT()
 
-
 import { DateTime } from 'luxon'
-
 
 export class User extends BaseSDB {
 
@@ -47,13 +45,6 @@ tokenCheckNRenew(token, ip, finger) {
 tokenLoginGet(email, pswd){
     //  If email = 'admin', else go to redis
     // else return ?
-}
-
-_tokenIsUser(){
-
-}
-_tokenIsAdmin(){
-
 }
 
 
@@ -114,12 +105,5 @@ async pswdResetIfMatch(email, guessCode, newPswd) {
     this.writeOne(this.prefix+email, obj)
 }
 
-
-// CRM
-// rpc
-// jwt
-// high bug on decoder for download
-// new bake api
-// agent
 
 }//class
