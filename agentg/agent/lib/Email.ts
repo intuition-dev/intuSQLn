@@ -11,7 +11,7 @@ export class Email {
         to_name
         ,to_email
         ,from_name
-        ,from_email
+        ,reply_to
         ,subject
         ,body) {
 
@@ -31,7 +31,7 @@ export class Email {
                         to_name:to_name 
                         ,to_email:to_email
                         ,from_name:from_name
-                        ,from_email:from_email
+                        ,reply_to:reply_to
                         ,subject:subject
                         ,body:body
                     }

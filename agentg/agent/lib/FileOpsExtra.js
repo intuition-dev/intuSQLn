@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const terse_b_1 = require("terse-b/terse-b");
 const fs = require("fs-extra");
 const AdmZip = require("adm-zip");
-const download = require("download");
 const yaml = require("js-yaml");
-//
+const { DownloaderHelper } = require('node-downloader-helper');
+const fetch = require('make-fetch-happen');
 const path = require("path");
 const FileHound = require("filehound");
 class DownloadC {
@@ -21,7 +21,7 @@ class DownloadC {
             THIZ._log.info(url);
             const fn = THIZ.getFn(url);
             THIZ._log.info(fn);
-            THIZ.down(url, fn).then(function () {
+            THIZ.down(url).then(function () {
                 THIZ.unzip(fn);
             });
         });
@@ -29,8 +29,8 @@ class DownloadC {
     auto() {
         const THIZ = this;
         this.getVal().then(function (url) {
-            const fn = THIZ.getFn(url);
-            THIZ.down(url, fn);
+            console.log(url);
+            THIZ.down(url);
         });
     }
     checkVer(lver) {
@@ -48,7 +48,10 @@ class DownloadC {
     getVal() {
         const THIZ = this;
         return new Promise(function (resolve, reject) {
-            download(DownloadC.truth).then(data => {
+            fetch(DownloadC.truth).then((response) => {
+                return response.text();
+            })
+                .then(data => {
                 let dic = yaml.load(data);
                 resolve(dic[THIZ.key]);
             }).catch(err => {
@@ -60,16 +63,16 @@ class DownloadC {
         const pos = url.lastIndexOf('/');
         return url.substring(pos);
     }
-    down(url, fn) {
+    down(url) {
         const THIZ = this;
         return new Promise(function (resolve, reject) {
-            download(url).then(data => {
-                fs.writeFileSync(THIZ.targetDir + '/' + fn, data);
+            const dl = new DownloaderHelper(url, THIZ.targetDir);
+            dl.on('end', () => {
                 THIZ._log.info('downloaded');
                 resolve('OK');
-            }).catch(err => {
-                THIZ._log.warn('err: where is the file?', err, url);
             });
+            dl.on('error', err => console.error('Where is the file ' + url, err));
+            dl.start();
         }); //pro
     } //()
     unzip(fn) {

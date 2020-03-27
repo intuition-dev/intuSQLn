@@ -7,7 +7,7 @@ class Email {
     constructor() {
         this.log = new terse_b_1.TerseB(this.constructor.name);
     }
-    send(emailjsService_id, emailjsTemplate_id, emailjsUser_id, to_name, to_email, from_name, from_email, subject, body) {
+    send(emailjsService_id, emailjsTemplate_id, emailjsUser_id, to_name, to_email, from_name, reply_to, subject, body) {
         this.log.info('email_to: ', to_email);
         fetch('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'post',
@@ -23,7 +23,7 @@ class Email {
                     to_name: to_name,
                     to_email: to_email,
                     from_name: from_name,
-                    from_email: from_email,
+                    reply_to: reply_to,
                     subject: subject,
                     body: body
                 }

@@ -5,10 +5,12 @@ import { TerseB } from "terse-b/terse-b"
 import fs = require('fs-extra')
 
 import AdmZip = require('adm-zip')
-import download = require('download')
+
 import yaml = require('js-yaml')
 
-//
+const { DownloaderHelper } = require('node-downloader-helper')
+const fetch = require('make-fetch-happen')
+
 import path = require("path")
 import FileHound = require('filehound')
 
@@ -31,7 +33,7 @@ export class DownloadC {
          THIZ._log.info(url)
          const fn = THIZ.getFn(url)
          THIZ._log.info(fn)
-         THIZ.down(url, fn).then(function () {
+         THIZ.down(url).then(function () {
             THIZ.unzip(fn)
          })
       })
@@ -40,8 +42,8 @@ export class DownloadC {
    auto() {
       const THIZ = this
       this.getVal().then(function (url: string) {
-         const fn = THIZ.getFn(url)
-         THIZ.down(url, fn)
+         console.log(url)
+         THIZ.down(url)
       })
    }
 
@@ -59,30 +61,40 @@ export class DownloadC {
    getVal() { // from truth
       const THIZ = this
       return new Promise(function (resolve, reject) {
-         download(DownloadC.truth).then(data => {
+
+         fetch(DownloadC.truth).then((response) => {
+               return response.text()
+            })
+         .then(data => {
             let dic = yaml.load(data)
             resolve(dic[THIZ.key])
          }).catch(err => {
             THIZ._log.warn('err: where is the vfile?', err, DownloadC.truth)
          })
+
       })//pro
    }//()
+
    getFn(url: string): string {
       const pos = url.lastIndexOf('/')
       return url.substring(pos)
    }
-   down(url, fn) {
+   
+   down(url) {
       const THIZ = this
       return new Promise(function (resolve, reject) {
-         download(url).then(data => {
-            fs.writeFileSync(THIZ.targetDir + '/' + fn, data)
+
+         const dl = new DownloaderHelper(url, THIZ.targetDir )
+         dl.on('end', () => {
             THIZ._log.info('downloaded')
             resolve('OK')
-         }).catch(err => {
-            THIZ._log.warn('err: where is the file?', err, url)
          })
+         dl.on('error', err => console.error('Where is the file '+url, err))
+         dl.start()
+
       })//pro
    }//()
+   
    unzip(fn) {
       const zfn = this.targetDir + fn
       this._log.info(zfn)
