@@ -6,7 +6,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "terse-b": ">=0.9.1",
     "http-rpc": ">=2.3.7"
   },
   "devDependencies": {
