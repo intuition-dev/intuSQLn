@@ -3,10 +3,8 @@ const faker = require('faker')
 const guid = require('uuid/v4')
 const perfy = require('perfy')
 
-
- 
-
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "pup"})
+import { TerseB } from "terse-b/terse-b"
+const log:any = new TerseB("example")
 
 import { DB } from "./DB"
 

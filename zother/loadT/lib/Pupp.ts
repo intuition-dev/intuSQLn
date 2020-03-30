@@ -1,12 +1,9 @@
 
 declare var window: any // needed to compile ts
 
-import puppeteer from 'puppeteer'
+import { TerseB } from "terse-b/terse-b"
+const log:any = new TerseB("example")
 
-
- 
-
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "pup"})
 
 export class Pupp {
 

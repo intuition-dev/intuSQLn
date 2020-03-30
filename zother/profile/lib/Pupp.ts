@@ -13,9 +13,8 @@ import puppeteer from 'puppeteer'
 import { Utils } from './Utils'
 
 
- 
-
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "pup"})
+import { TerseB } from "terse-b/terse-b"
+const log:any = new TerseB("example")
 
 const perfy = require('perfy')
 

@@ -1,8 +1,8 @@
 
 
  
-
-const log = bunyan.createLogger({src: true, stream: formatOut, name: "some name"})
+import { TerseB } from "terse-b/terse-b"
+const log:any = new TerseB("example")
 
 import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
 
