@@ -2,6 +2,6 @@ clear
 
 tsc
 
-DEV=true node dev1.js
+ node dev1.js
 
-// nohup DEV=true node main.js &
+// nohup  node main.js &
