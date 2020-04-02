@@ -25,7 +25,7 @@
         "execa": ">=4.0.0",
         "filehound": ">=1.17.4",
         "fs-extra": ">=9.0.0",
-        "http-rpc": ">=2.4.5",
+        "http-rpc": ">=2.4.6",
         "js-yaml": ">=3.13.1",
         "node-downloader-helper": ">=1.0.12",
         "perfy": ">=1.1.5",
@@ -33,10 +33,10 @@
         "systeminformation": ">=4.23.1",
         "luxon": ">=1.22.2",
         "node-cache": ">=5.1.0",
-        "uuid": ">=7.0.2"
+        "uuid": ">=7.0.3"
     },
     "devDependencies": {
-        "@types/node": ">=13.9.5",
+        "@types/node": ">=13.9.8",
         "stack-trace": ">=0.0.10"
     }
 }
