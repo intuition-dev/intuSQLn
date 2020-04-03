@@ -9,6 +9,6 @@
     "http-rpc": ">=2.3.7"
   },
   "devDependencies": {
-    "@types/node": ">=13.9.1"
+    "@types/node": ">=13.11.0"
   }
 }
