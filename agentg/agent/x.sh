@@ -3,4 +3,4 @@ tsc
 
 #  node agentg.js -m
 
- node testDown.js
+ node agentg.js -t ~/Downloads
