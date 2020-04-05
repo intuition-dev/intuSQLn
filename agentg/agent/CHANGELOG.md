@@ -1,5 +1,5 @@
 
-### 2.4.7
+### 2.4.12
 - fix ports
 - added -d for disk
 - update to terse-b logger
