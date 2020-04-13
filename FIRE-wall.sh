@@ -27,6 +27,7 @@ iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 
 iptables -A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 3000 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 2015 -j ACCEPT
 
 
 # ddos
