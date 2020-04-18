@@ -34,7 +34,7 @@ Serv._expInst.post('/log', mh.log)
 const dashH = new DashHandler(db)
 srv.routeRPC('api',  dashH)
 
-srv.serveStatic('../wwwApp', 60*60, 60)
+srv.serveStatic('./webApp', 60*60, 60)
 
 Serv._expInst.use(function(req,resp, next){
    log.warn('err, not found', req.originalUrl)
