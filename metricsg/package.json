@@ -1,15 +1,11 @@
 {
-  "name": "good-monitor",
+  "name": "gmetrics-intu",
   "author": "www.INTUITION.DEV",
-  "private": true,
-  "version": "0.11.20",
-  "description": " Monitoring",
-  "license": "AGPL-1.0-only",
+  "version": "0.11.21",
+  "description": "Monitoring. Commercial license",
+  "license": "Commercial, SEE LICENSE IN LICENSE.md",
   "homepage": "http://www.INTUITION.DEV",
-  "repository": {
-    "type": "git",
-    "url": "http://git.metabake.net"
-  },
+
   "keywords": [
     "monitoring"
   ],
@@ -19,9 +15,9 @@
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.4.0",
     "csv-parser": ">=2.3.2",
-    "http-rpc": ">=2.4.14",
+    "http-rpc": ">=2.4.17",
     "ip": ">=1.1.5",
-    "mbakex": ">=8.4.12",
+    "mbakex": ">=8.4.16",
     "minimist": "^1.2.5",
     "murmurhash3js": ">=3.0.1"
   },

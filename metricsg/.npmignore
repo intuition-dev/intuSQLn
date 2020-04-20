@@ -1,0 +1,10 @@
+*.pug
+*.ts
+*.db
+*.mmdb
+
+node-modules
+
+*.yaml
+
+*.gz
