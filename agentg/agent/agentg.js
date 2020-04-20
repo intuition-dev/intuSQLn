@@ -8,7 +8,7 @@ const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
 const Agent_1 = require("./lib/Agent");
 // imports done /////////////////////////////////////////////
-const ver = "v2.4.12";
+const ver = "v2.4.16";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
