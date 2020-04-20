@@ -42,6 +42,10 @@ var __gMetrics = (function() {
         __gMetrics.met['w'] = window.screen.width;
         __gMetrics.met['title'] = document.title;
         __gMetrics.met['domTime'] = __gMetrics._dom - __gMetrics._start;
+        try {
+            __gMetrics.met['memory'] = await performance.measureMemory()
+        } catch (error) {} // most browsers don't implement this
+
         __gMetrics.sendMet();
     };
     __gMetrics.sendMet = function() {
