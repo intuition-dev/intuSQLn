@@ -19,7 +19,8 @@
   "dependencies": {
     "http-rpc": ">=2.4.17",
     "mbakex": ">=8.4.16",
-    "murmurhash3js": ">=3.0.1"
+    "murmurhash3js": ">=3.0.1",
+    "sqlite3": ">= 4.1.1"
   },
   "devDependencies": {
     "@types/node": ">=13.13.1"

@@ -1,6 +1,9 @@
 
-//import { Geo } from "./gdb/Geo"
-//import { GDB } from "./gdb/GDB"
+import { AgDB } from "./db/AgDB"
+
+const d = new AgDB()
+
+
 
 
 
