@@ -4,10 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const terse_b_1 = require("terse-b/terse-b");
 const checkDiskSpace = require('check-disk-space');
 const psList = require('ps-list');
+const uuid_1 = require("uuid");
 class SysAgent {
-    constructor() {
-        this._log = new terse_b_1.TerseB(this.constructor.name);
-    }
     /*
     list of running processes
     */
@@ -54,18 +52,31 @@ class SysAgent {
         }
         return result;
     } //()
+    static async getAppVersions() {
+        let data = {};
+        await SysAgent.si.versions().then(d => {
+            data = d;
+        });
+        await SysAgent.si.osInfo().then(d => {
+            data['distro'] = d.distro;
+            data['release:'] = d.release;
+        });
+        SysAgent._log.info(data);
+        return data;
+    } //()
     static async statsBig() {
         const track = new Object();
-        track['guid'] = SysAgent.guid();
+        track['guid'] = uuid_1.v4();
         track['dt_stamp'] = new Date().toISOString();
         track['host'] = SysAgent.os.hostname();
         let disk = await SysAgent.disk();
         track['disk'] = disk;
+        track['app_versions'] = await SysAgent.getAppVersions();
         return track;
     } //()
     static async statsSmall() {
         const track = new Object();
-        track['guid'] = SysAgent.guid();
+        track['guid'] = uuid_1.v4();
         track['host'] = SysAgent.os.hostname();
         track['dt_stamp'] = new Date().toISOString();
         await SysAgent.si.disksIO().then(data => {
@@ -110,6 +121,6 @@ class SysAgent {
     } //()
 } //class
 exports.SysAgent = SysAgent;
-SysAgent.guid = require('uuid/v4');
+SysAgent._log = new terse_b_1.TerseB("SysAgent");
 SysAgent.si = require('systeminformation');
 SysAgent.os = require('os');

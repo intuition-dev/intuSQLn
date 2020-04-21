@@ -6,4 +6,4 @@ tsc
 
 // nohup NODE_ENV=production node agentg-srv.js &
 
-// Environment=NODE_ENV=production
+// NODE_ENV=production

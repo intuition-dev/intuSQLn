@@ -5,10 +5,13 @@ import { TerseB } from "terse-b/terse-b"
 const checkDiskSpace = require('check-disk-space')
 const psList = require('ps-list')
 
-export class SysAgent { 
-    _log:any = new TerseB(this.constructor.name)
 
-    static guid = require('uuid/v4')
+import { v4 as uuidv4 } from 'uuid'
+
+export class SysAgent { 
+
+    static _log:any = new TerseB("SysAgent")
+
 
     static si = require('systeminformation')
 
@@ -63,22 +66,39 @@ export class SysAgent {
       return result
    }//()
 
+   static async getAppVersions() {
+    let data = {}
+    await SysAgent.si.versions().then(d => { 
+        data = d
+    })
+
+    await SysAgent.si.osInfo().then(d => { 
+        data['distro']=d.distro
+        data['release:']=d.release
+    })
+
+    SysAgent._log.info(data)
+
+    return data
+   }//()
+
     static async statsBig() { // often like 1 second
         const track =  new Object() 
-        track['guid']= SysAgent.guid()
+        track['guid']= uuidv4()
         track['dt_stamp']= new Date().toISOString()
         track['host']=SysAgent.os.hostname() 
 
         let disk = await SysAgent.disk()
         track['disk'] = disk
         
+        track['app_versions'] = await SysAgent.getAppVersions()
         return track
     }//()
 
 
     static async statsSmall() { // often like 1 second
         const track =  new Object() 
-        track['guid']= SysAgent.guid()
+        track['guid']= uuidv4()
         track['host']=SysAgent.os.hostname() 
         track['dt_stamp']= new Date().toISOString()
 
