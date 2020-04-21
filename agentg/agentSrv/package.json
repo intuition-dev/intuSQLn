@@ -17,11 +17,11 @@
     "node": ">=13.13.0"
   },
   "dependencies": {
-    "http-rpc": ">=2.4.1",
-    "mbakex": ">=8.4.1",
+    "http-rpc": ">=2.4.17",
+    "mbakex": ">=8.4.16",
     "murmurhash3js": ">=3.0.1"
   },
   "devDependencies": {
-    "@types/node": ">=13.11.0"
+    "@types/node": ">=13.13.1"
   }
 }
