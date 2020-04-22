@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
+const BaseDBS_1 = require("mbakex/lib/BaseDBS");
 const Geo_1 = require("../gdb/Geo");
 const Utils_1 = require("./Utils");
 const luxon_1 = require("luxon");
 const terse_b_1 = require("terse-b/terse-b");
 // SEO
-class MeDB extends BaseNDBSi_1.BaseNDBSi {
+class MeDB extends BaseDBS_1.BaseDBS {
     constructor() {
         super();
         this.log = new terse_b_1.TerseB(this.constructor.name);

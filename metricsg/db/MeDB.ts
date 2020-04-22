@@ -1,4 +1,4 @@
-import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
+import { BaseDBS } from 'mbakex/lib/BaseDBS'
 import { Geo } from '../gdb/Geo'
 import { Utils } from './Utils'
 import { DateTime } from 'luxon'
@@ -7,7 +7,7 @@ import { TerseB } from "terse-b/terse-b"
 
 // SEO
 
-export class MeDB extends BaseNDBSi  {
+export class MeDB extends BaseDBS  {
 
    log:any = new TerseB(this.constructor.name)
 
@@ -146,7 +146,7 @@ export class MeDB extends BaseNDBSi  {
    }//()
 
 
-   static _fingeExists(fullFinger, ctx:BaseNDBSi) {
+   static _fingeExists(fullFinger, ctx:BaseDBS) {
       const rows = ctx.read(`SELECT fullFinger FROM device
          WHERE fullFinger = ?
          LIMIT 1

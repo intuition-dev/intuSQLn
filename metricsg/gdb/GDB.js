@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const terse_b_1 = require("terse-b/terse-b");
 const csv = require('csv-parser');
 const fs = require('fs-extra');
-const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
+const BaseDBS_1 = require("mbakex/lib/BaseDBS");
 const ip = require('ip'); //
 const perfy = require('perfy');
-class GDB extends BaseNDBSi_1.BaseNDBSi {
+class GDB extends BaseDBS_1.BaseDBS {
     constructor() {
         super();
         this.log = new terse_b_1.TerseB(this.constructor.name);

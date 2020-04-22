@@ -10,7 +10,7 @@
     "monitoring"
   ],
   "engines": {
-    "node": ">=13.13.0"
+    "node": ">=14.0.0"
   },
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.4.0",

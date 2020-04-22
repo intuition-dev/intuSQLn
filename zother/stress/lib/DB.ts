@@ -4,9 +4,9 @@
 import { TerseB } from "terse-b/terse-b"
 const log:any = new TerseB("example")
 
-import { BaseNDBSi } from 'mbakex/lib/BaseNDBSi'
+import { BaseDBS } from 'mbakex/lib/BaseDBS'
 
-export class DB extends BaseNDBSi  {
+export class DB extends BaseDBS  {
 
    constructor() {
       super()
@@ -18,7 +18,7 @@ export class DB extends BaseNDBSi  {
    fastCon(path,  fn) {
       this._fn = path + fn
       log.info(this._fn)
-      this._db = new BaseNDBSi.Database(this._fn)//, {memory:true})
+      this._db = new BaseDBS.Database(this._fn)//, {memory:true})
 
       this._db.pragma('cache_size = 5000')//20meg in 4K
       log.info(this._db.pragma('cache_size', { simple: true }))
