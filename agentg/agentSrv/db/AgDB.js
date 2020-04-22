@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseNDBSi_1 = require("mbakex/lib/BaseNDBSi");
+const BaseDBS_1 = require("./BaseDBS");
 const terse_b_1 = require("terse-b/terse-b");
 const hash = require("murmurhash3js");
-class AgDB extends BaseNDBSi_1.BaseNDBSi {
+class AgDB extends BaseDBS_1.BaseDBS {
     constructor() {
         super();
         this.log = new terse_b_1.TerseB(this.constructor.name);
@@ -22,7 +22,23 @@ class AgDB extends BaseNDBSi_1.BaseNDBSi {
         this.log.info(delta);
         return delta;
     } //()
-    async writeData(params) {
+    async tst() {
+        const row = await this.tableExists('data');
+        console.log(row);
+    }
+    async getBoxData(boxid) {
+        const rows = await this.read(`SELECT * 
+         FROM data
+         WHERE box_id =?
+         ORDER BY dateTime DESC`, boxid);
+        return rows;
+    }
+    async getBoxes() {
+        const rows = await this.read(`SELECT DISTINCT box_id
+         FROM data`);
+        return rows;
+    }
+    writeData(params) {
         const box_id = hash.x86.hash32(params.host + params.remoteAddress);
         let timeDif = this._getPriorTimeDiff(box_id, params.dt_stamp);
         this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
@@ -34,15 +50,18 @@ class AgDB extends BaseNDBSi_1.BaseNDBSi {
             ?,?,?, ?, ?,?,
             ?,?,?, ?, ?,?,
             ?,?
-         )`, box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif, params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc, params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree, params.cpu, params.cpiIdle);
+         )`, [box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif,
+            params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc,
+            params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree,
+            params.cpu, params.cpiIdle]);
     } //()
-    schema() {
-        this.defCon(process.cwd(), '/ag.db');
-        const exists = this.tableExists('data');
+    async schema() {
+        this.defCon(process.cwd() + '/ag.db');
+        const exists = await this.tableExists('data');
         this.log.info('schema', exists);
         if (exists)
             return;
-        this.write(` CREATE TABLE data( box_id TEXT, dateTime TEXT, host, ip TEXT,  timeDif,
+        this.write(`CREATE TABLE data( box_id TEXT, dateTime TEXT, host, ip TEXT,  timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
          cpu, cpiIdle
