@@ -1,4 +1,4 @@
-import { BaseDBS } from './BaseDBS'
+import { BaseDBS } from 'mbakex/lib/BaseDBS'
 
 import { DateTime } from 'luxon'
 
