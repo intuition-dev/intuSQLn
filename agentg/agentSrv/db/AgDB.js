@@ -22,19 +22,20 @@ class AgDB extends BaseDBS_1.BaseDBS {
         this.log.info(delta);
         return delta;
     } //()
-    async tst() {
-        const row = await this.tableExists('data');
+    tst() {
+        const row = this.tableExists('data');
         console.log(row);
+        console.log(this.getBoxes());
     }
-    async getBoxData(boxid) {
-        const rows = await this.read(`SELECT * 
+    getBoxData(boxid) {
+        const rows = this.read(`SELECT * 
          FROM data
          WHERE box_id =?
          ORDER BY dateTime DESC`, boxid);
         return rows;
     }
-    async getBoxes() {
-        const rows = await this.read(`SELECT DISTINCT box_id
+    getBoxes() {
+        const rows = this.read(`SELECT DISTINCT box_id
          FROM data`);
         return rows;
     }
@@ -55,9 +56,9 @@ class AgDB extends BaseDBS_1.BaseDBS {
             params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree,
             params.cpu, params.cpiIdle]);
     } //()
-    async schema() {
-        this.defCon(process.cwd(), '/ag.db');
-        const exists = await this.tableExists('data');
+    schema() {
+        this.defCon(process.cwd() + '/ag.db');
+        const exists = this.tableExists('data');
         this.log.info('schema', exists);
         if (exists)
             return;

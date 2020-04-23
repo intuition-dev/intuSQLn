@@ -19,13 +19,13 @@ export class AgentHandler extends BaseRPCMethodHandler {
 
       await this.db.writeData(params)
 
-      return "OK"
+      return ["123", "OK"]
    }//()
    
    agentBig(params) {
       const ip = params.remoteAddress
       //console.log(params)
-      return "OK"
+      return ["123", "OK"]
    }//()
 
 }//class

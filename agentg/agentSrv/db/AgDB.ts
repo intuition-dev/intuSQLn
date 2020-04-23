@@ -31,15 +31,17 @@ export class AgDB extends BaseDBS  {
       return delta 
    }//()
 
-   async tst() {
+    _tst() {
 
-      const row = await this.tableExists('data')
+      const row =  this.tableExists('data')
       console.log(row)
+
+      console.log(this.getBoxes())
 
    }
 
-   async getBoxData(boxid) {
-      const rows = await this.read(`SELECT * 
+   getBoxData(boxid) {
+      const rows =  this.read(`SELECT * 
          FROM data
          WHERE box_id =?
          ORDER BY dateTime DESC`, boxid)
@@ -47,8 +49,8 @@ export class AgDB extends BaseDBS  {
       return rows
    }
 
-   async getBoxes() {
-      const rows = await this.read(`SELECT DISTINCT box_id
+   getBoxes() {
+      const rows =  this.read(`SELECT DISTINCT box_id
          FROM data`)
          
       return rows
@@ -78,10 +80,10 @@ export class AgDB extends BaseDBS  {
 
    }//()
 
-   private async schema() {
+   private  schema() {
       this.defCon(process.cwd() + '/ag.db')
 
-      const exists = await this.tableExists('data')
+      const exists =  this.tableExists('data')
       this.log.info('schema', exists)
 
       if(exists) return

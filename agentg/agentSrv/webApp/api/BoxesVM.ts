@@ -1,0 +1,62 @@
+declare var defEventFlux
+
+
+import { EventFlux } from 'https://cdn.jsdelivr.net/gh/intuition-dev/mbToolBelt@v8.4.14/eventFlux/EventFlux.min.js';
+// req for rpc
+import { HttpRPC } from 'https://cdn.jsdelivr.net/npm/http-rpc@2.4.18/webApp/httpRPC.min.js';
+
+EventFlux.init()
+
+export class BoxesVM {
+    
+    static rpc
+
+    constructor() {
+        console.log('cons');
+        HttpRPC.regInst('vm', this)
+        let THIZ = this;
+        BoxesVM.rpc = new HttpRPC('http', 'localhost', 8888);
+        this.goFetch() // populate asap
+        
+        defEventFlux.register('contact-get', function (arg) {
+            THIZ.goFetch();
+        })
+
+        console.log(BoxesVM.rpc.getItem('jwt'))
+    } //
+
+    getBoxes() {
+        let args = {};
+      
+        console.log('fetch', args);
+        BoxesVM.rpc.invoke('api', 'contact', args)
+            .then(function (resp) {
+                console.log('got data');
+                defEventFlux.dispatch('contact-data', resp[1])
+            })
+            .catch(function(err) {
+                console.warn('goFetch err ', err);
+            
+        })
+    } //()
+
+
+    getBoxData(box_id) {
+        let args = {};
+      
+        console.log('fetch', args);
+        BoxesVM.rpc.invoke('api', 'contact', args)
+            .then(function (resp) {
+                console.log('got data');
+                defEventFlux.dispatch('contact-data', resp[1])
+            })
+            .catch(function(err) {
+                console.warn('goFetch err ', err);
+            
+        })
+    } //()
+
+   
+
+} //class
+new BoxesVM();
