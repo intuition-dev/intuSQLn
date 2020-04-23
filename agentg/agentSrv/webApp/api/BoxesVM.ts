@@ -16,10 +16,13 @@ export class BoxesVM {
         HttpRPC.regInst('vm', this)
         let THIZ = this;
         BoxesVM.rpc = new HttpRPC('http', 'localhost', 8888);
-        this.goFetch() // populate asap
+        this.getBoxes() // populate asap
         
-        defEventFlux.register('contact-get', function (arg) {
-            THIZ.goFetch();
+        defEventFlux.register('boxes_get', function (arg?) {
+            THIZ.getBoxes();
+        })
+        defEventFlux.register('boxes_get', function (arg) {
+            THIZ.getBox(arg['box_id']);
         })
 
         console.log(BoxesVM.rpc.getItem('jwt'))
@@ -29,30 +32,28 @@ export class BoxesVM {
         let args = {};
       
         console.log('fetch', args);
-        BoxesVM.rpc.invoke('api', 'contact', args)
+        BoxesVM.rpc.invoke('dash', 'getBoxes', args)
             .then(function (resp) {
                 console.log('got data');
-                defEventFlux.dispatch('contact-data', resp[1])
+                defEventFlux.dispatch('boxes_data', resp[1])
             })
             .catch(function(err) {
                 console.warn('goFetch err ', err);
-            
         })
     } //()
 
 
-    getBoxData(box_id) {
-        let args = {};
-      
+    getBox(box_id) {
+        let args:any = {};
+        args.box_id = box_id
         console.log('fetch', args);
-        BoxesVM.rpc.invoke('api', 'contact', args)
+        BoxesVM.rpc.invoke('dash', 'getBoxData', args)
             .then(function (resp) {
                 console.log('got data');
-                defEventFlux.dispatch('contact-data', resp[1])
+                defEventFlux.dispatch('box-data', resp[1])
             })
             .catch(function(err) {
                 console.warn('goFetch err ', err);
-            
         })
     } //()
 

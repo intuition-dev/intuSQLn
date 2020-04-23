@@ -64,7 +64,7 @@ export class AgDB extends BaseDBS  {
       this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
-         cpu, cpiIdle )
+         cpu, cpuIdle )
             VALUES
          (  ?,?,?, ?, ?,
             ?,?,?, ?, ?,?,
@@ -72,9 +72,12 @@ export class AgDB extends BaseDBS  {
             ?,?
          )`
          ,
-        [ box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif,
-         params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc,
-         params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree,
+        [ box_id, params.dt_stamp, params.host, params.remoteAddress, 
+         timeDif,
+         params.ioR, params.ioW, params.fsR, params.fsW, params.openMax,
+          params.openAlloc,
+         params.nicR, params.nicT, params.memFree, params.memUsed,
+          params.swapUsed, params.swapFree,
          params.cpu, params.cpiIdle ]
       )
 
@@ -88,13 +91,15 @@ export class AgDB extends BaseDBS  {
 
       if(exists) return
            
-      this.write(`CREATE TABLE data( box_id TEXT, dateTime TEXT, host, ip TEXT,  timeDif,
+      this.write(`CREATE TABLE data( box_id TEXT, dateTime TEXT, host, 
+         ip TEXT,  timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
-         cpu, cpiIdle
+         cpu, cpuIdle
       ) `)
 
-      this.write(`CREATE INDEX i_data ON data(box_id, dateTime DESC, cpu, memUsed, nicR, nicT )`)
+      this.write(`CREATE INDEX i_data ON data(box_id, dateTime DESC, cpu, memUsed, 
+         nicR, nicT )`)
 
       this.log.info('schemaDone')
 

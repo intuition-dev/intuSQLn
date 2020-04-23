@@ -1,0 +1,33 @@
+
+<head>
+  <title></title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <link rel="stylesheet" href="/sass/css/min.css"/>
+  <style>
+    html { touch-action: manipulation; }
+    .delayShowing { opacity: 0; }
+    .blur { -webkit-filter:blur(2px);filter:blur(2px); }
+  </style>
+  <script src="/api/ContactVM.js" type="module"></script>
+</head>
+<body>
+  <pg-custel> 
+    <p>Table:</p>
+    <div>
+      <input class="smooth" id="srchFld" type="text" placeholder="a"/><span>&nbsp;</span><a class="btn smooth btn-a btn-sm" id="srchBut">Search</a>
+    </div>
+    <div id="contactLst">
+      <table class="table">
+        <thead>
+          <th>FName</th>
+          <th>LName</th>
+          <th>Email</th>
+          <th>Org</th>
+        </thead>
+        <tbody class="list"></tbody>
+      </table>
+    </div>
+    <script type="module" src="/contactScreen/pg-custel.js"> // slot</script>
+  </pg-custel>
+<!-- mB v8.4.15 on 2020-04-15T22:04:49.743Z --></body>
