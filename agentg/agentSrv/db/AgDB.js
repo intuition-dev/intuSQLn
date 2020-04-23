@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const BaseDBS_1 = require("./BaseDBS");
+const BaseDBS_1 = require("mbakex/lib/BaseDBS");
 const terse_b_1 = require("terse-b/terse-b");
 const hash = require("murmurhash3js");
 class AgDB extends BaseDBS_1.BaseDBS {
@@ -56,7 +56,7 @@ class AgDB extends BaseDBS_1.BaseDBS {
             params.cpu, params.cpiIdle]);
     } //()
     async schema() {
-        this.defCon(process.cwd() + '/ag.db');
+        this.defCon(process.cwd(), '/ag.db');
         const exists = await this.tableExists('data');
         this.log.info('schema', exists);
         if (exists)

@@ -79,7 +79,7 @@ export class AgDB extends BaseDBS  {
    }//()
 
    private async schema() {
-      this.defCon(process.cwd()+ '/ag.db')
+      this.defCon(process.cwd() + '/ag.db')
 
       const exists = await this.tableExists('data')
       this.log.info('schema', exists)
