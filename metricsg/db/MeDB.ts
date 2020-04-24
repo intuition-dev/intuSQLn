@@ -157,7 +157,7 @@ export class MeDB extends BaseDBS  {
    }//()
 
    private schema() {
-      this.defCon(process.cwd(), '/met.db')
+      this.defCon(process.cwd() + '/met.db')
 
       const exists = this.tableExists('met')
       this.log.info('schema', exists)

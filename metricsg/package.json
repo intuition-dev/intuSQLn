@@ -5,7 +5,6 @@
   "description": "Monitoring. Commercial license",
   "license": "Commercial, SEE LICENSE IN LICENSE.md",
   "homepage": "http://www.INTUITION.DEV",
-
   "keywords": [
     "monitoring"
   ],
@@ -15,9 +14,9 @@
   "dependencies": {
     "@maxmind/geoip2-node": ">=1.4.0",
     "csv-parser": ">=2.3.2",
-    "http-rpc": ">=2.4.17",
+    "http-rpc": ">=2.4.19",
     "ip": ">=1.1.5",
-    "mbakex": ">=8.4.16",
+    "mbakex": ">=8.4.22",
     "minimist": "^1.2.5",
     "murmurhash3js": ">=3.0.1"
   },
