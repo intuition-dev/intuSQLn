@@ -20,20 +20,17 @@ export class Agent {
     static rpc 
 
     async runSmall() {
-      this._log.info('loop: S')
       let params = await SysAgent.statsSmall()
 
       try {
         await Agent.rpc.invoke('agent', 'agentSmall', params  )
       } catch(err) {this._log.warn(err)}
 
-      console.log(params)
       await  SysAgent.wait(1400)
       this.runSmall()
     }
 
     async runBig() {
-      this._log.info('loop: B')
       let params = {}
       params = await SysAgent.statsBig()
       let ports = await new SysAgent().ports()
@@ -45,7 +42,6 @@ export class Agent {
         await Agent.rpc.invoke('agent', 'agentBig', params  )
       } catch(err) {this._log.warn(err)}
 
-      console.log(params)
       await  SysAgent.wait(20*1000)
       this.runBig()
     }

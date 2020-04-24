@@ -1,8 +1,5 @@
-import { SysAgent } from "./lib/SysAgent"
+import { Agent } from './lib/Agent'
 
 
-SysAgent.statsSmall().then(function(data) {
-    console.log(data)
-})
-
+new Agent().runSmall()
 

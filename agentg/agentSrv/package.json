@@ -17,7 +17,8 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "mbakex": ">=8.4.21",
+    "http-rpc": ">=2.4.19",
+    "mbakex": ">=8.4.22",
     "murmurhash3js": ">=3.0.1"
   },
   "devDependencies": {

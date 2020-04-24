@@ -24,8 +24,6 @@ class AgDB extends BaseDBS_1.BaseDBS {
     } //()
     _tst() {
         const row = this.tableExists('data');
-        console.log(row);
-        console.log(this.getBoxes());
     }
     getBoxData(boxid) {
         const rows = this.read(`SELECT * 
@@ -42,7 +40,7 @@ class AgDB extends BaseDBS_1.BaseDBS {
     writeData(params) {
         const box_id = hash.x86.hash32(params.host + params.remoteAddress);
         let timeDif = this._getPriorTimeDiff(box_id, params.dt_stamp);
-        this.log.info(params);
+        //this.log.info(params)
         try {
             this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,

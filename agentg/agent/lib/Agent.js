@@ -12,7 +12,6 @@ class Agent {
         Agent.rpc = new SrvRPC_1.HttpRPC(this.config['proto'], this.config['host'], this.config['port']);
     }
     async runSmall() {
-        this._log.info('loop: S');
         let params = await SysAgent_1.SysAgent.statsSmall();
         try {
             await Agent.rpc.invoke('agent', 'agentSmall', params);
@@ -20,12 +19,10 @@ class Agent {
         catch (err) {
             this._log.warn(err);
         }
-        console.log(params);
         await SysAgent_1.SysAgent.wait(1400);
         this.runSmall();
     }
     async runBig() {
-        this._log.info('loop: B');
         let params = {};
         params = await SysAgent_1.SysAgent.statsBig();
         let ports = await new SysAgent_1.SysAgent().ports();
@@ -38,7 +35,6 @@ class Agent {
         catch (err) {
             this._log.warn(err);
         }
-        console.log(params);
         await SysAgent_1.SysAgent.wait(20 * 1000);
         this.runBig();
     }

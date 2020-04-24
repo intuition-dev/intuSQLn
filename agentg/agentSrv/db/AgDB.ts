@@ -34,9 +34,6 @@ export class AgDB extends BaseDBS  {
     _tst() {
 
       const row =  this.tableExists('data')
-      console.log(row)
-
-      console.log(this.getBoxes())
 
    }
 
