@@ -2,13 +2,8 @@ import { AbsSlotCustel } from 'https://cdn.jsdelivr.net/gh/intuition-dev/mbToolB
 class PgCustel extends AbsSlotCustel {
     constructor() {
         super();
-        this.template = `
-
-   <slot></slot>
-
-   `;
         console.log('pgComp');
-        this.setup(this.template);
+        this.setup(this.defTemplate);
         this.addScript('https://cdn.jsdelivr.net/npm/list.js@1.5.0/dist/list.min.js', function () {
             console.log('cons');
             defEventFlux.addListener('contact-data', PgCustel.onData);
@@ -17,12 +12,18 @@ class PgCustel extends AbsSlotCustel {
     static onData(data) {
         console.log('onData');
         let options = {
-            valueNames: ['fname', 'lname', 'email', 'pass'],
+            valueNames: ['cpu',
+                'memUsed',
+                'nicR',
+                'nicT',
+                'dateTime'],
             item: `<tr> 
-          <td class="fname"></td>
-          <td class="lname"></td>
-          <td class="email"></td>
-          <td class="org"> </td>
+          <td class="cpu"></td> 
+          <td class="memUsed"></td> 
+          <td class="nicR"></td> 
+          <td class="nicT"></td>
+          <td class="dateTime"></td>
+
        </tr>`
         };
         if (!(PgCustel.contactLst)) {

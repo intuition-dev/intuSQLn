@@ -22,7 +22,7 @@ class AgDB extends BaseDBS_1.BaseDBS {
         this.log.info(delta);
         return delta;
     } //()
-    tst() {
+    _tst() {
         const row = this.tableExists('data');
         console.log(row);
         console.log(this.getBoxes());
@@ -42,19 +42,22 @@ class AgDB extends BaseDBS_1.BaseDBS {
     writeData(params) {
         const box_id = hash.x86.hash32(params.host + params.remoteAddress);
         let timeDif = this._getPriorTimeDiff(box_id, params.dt_stamp);
-        this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
+        this.log.info(params);
+        try {
+            this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
-         cpu, cpiIdle )
+         cpu, cpuIdle )
             VALUES
          (  ?,?,?, ?, ?,
             ?,?,?, ?, ?,?,
             ?,?,?, ?, ?,?,
             ?,?
-         )`, [box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif,
-            params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc,
-            params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree,
-            params.cpu, params.cpiIdle]);
+         )`, box_id, params.dt_stamp, params.host, params.remoteAddress, timeDif, params.ioR, params.ioW, params.fsR, params.fsW, params.openMax, params.openAlloc, params.nicR, params.nicT, params.memFree, params.memUsed, params.swapUsed, params.swapFree, params.cpu, params.cpuIdle);
+        }
+        catch (err) {
+            this.log.warn(err);
+        }
     } //()
     schema() {
         this.defCon(process.cwd() + '/ag.db');
@@ -62,12 +65,14 @@ class AgDB extends BaseDBS_1.BaseDBS {
         this.log.info('schema', exists);
         if (exists)
             return;
-        this.write(`CREATE TABLE data( box_id TEXT, dateTime TEXT, host, ip TEXT,  timeDif,
+        this.write(`CREATE TABLE data( box_id TEXT, dateTime TEXT, host, 
+         ip TEXT,  timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
-         cpu, cpiIdle
+         cpu, cpuIdle
       ) `);
-        this.write(`CREATE INDEX i_data ON data(box_id, dateTime DESC, cpu, memUsed, nicR, nicT )`);
+        this.write(`CREATE INDEX i_data ON data(box_id, dateTime DESC, cpu, memUsed, 
+         nicR, nicT )`);
         this.log.info('schemaDone');
     } //()
 } //()

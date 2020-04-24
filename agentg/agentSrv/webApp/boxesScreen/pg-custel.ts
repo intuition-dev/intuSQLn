@@ -1,22 +1,15 @@
 
 declare var defEventFlux
 
-
 import { AbsSlotCustel } from 'https://cdn.jsdelivr.net/gh/intuition-dev/mbToolBelt@v8.4.14/slotCustel/slotCustel/AbsSlotCustel.min.js';
 
 class PgCustel extends AbsSlotCustel {
-
-   template = `
-
-   <slot></slot>
-
-   `;
 
 constructor() {
    super();
 
    console.log('pgComp');
-   this.setup(this.template) // just a helper function for boiler plate.
+   this.setup(this.defTemplate) // just a helper function for boiler plate.
 
    this.addScript('https://cdn.jsdelivr.net/npm/list.js@1.5.0/dist/list.min.js', function() {
       console.log('cons')
@@ -30,12 +23,18 @@ static contactLst
 static onData(data) {
    console.log('onData');
    let options = {
-       valueNames: ['fname', 'lname', 'email', 'pass'],
+       valueNames: ['cpu',  
+       'memUsed', 
+       'nicR', 
+       'nicT',
+       'dateTime'],
        item: `<tr> 
-          <td class="fname"></td>
-          <td class="lname"></td>
-          <td class="email"></td>
-          <td class="org"> </td>
+          <td class="cpu"></td> 
+          <td class="memUsed"></td> 
+          <td class="nicR"></td> 
+          <td class="nicT"></td>
+          <td class="dateTime"></td>
+
        </tr>`
    };
    if (!(PgCustel.contactLst)) {

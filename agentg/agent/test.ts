@@ -1,7 +1,7 @@
 import { SysAgent } from "./lib/SysAgent"
 
 
-SysAgent.statsBig().then(function(data) {
+SysAgent.statsSmall().then(function(data) {
     console.log(data)
 })
 

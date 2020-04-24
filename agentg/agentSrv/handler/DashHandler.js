@@ -6,16 +6,14 @@ class DashHandler extends Serv_1.BaseRPCMethodHandler {
         super(1);
         this.db = db;
     }
-    async agentSmall(params) {
-        const ip = params.remoteAddress;
+    async getBoxes(params) {
         console.log(params);
-        await this.db.writeData(params);
-        return "OK";
+        return await ["123", this.db.getBoxes()];
     } //()
-    agentBig(params) {
-        const ip = params.remoteAddress;
-        //console.log(params)
-        return "OK";
+    async getBoxData(params) {
+        console.log(params);
+        let box_id = params.box_id;
+        return await ["123", this.db.getBoxData(box_id)];
     } //()
 } //class
 exports.DashHandler = DashHandler;

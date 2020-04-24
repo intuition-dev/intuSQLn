@@ -61,6 +61,8 @@ export class AgDB extends BaseDBS  {
       const box_id:string = hash.x86.hash32(params.host + params.remoteAddress)
       let timeDif:number = this._getPriorTimeDiff(box_id, params.dt_stamp)
       
+      //this.log.info(params)
+      try {
       this.write(`INSERT INTO data( box_id, dateTime, host, ip, timeDif,
          ioR, ioW, fsR, fsW, openMax, openAlloc,
          nicR, nicT, memFree, memUsed, swapUsed, swapFree,
@@ -72,15 +74,17 @@ export class AgDB extends BaseDBS  {
             ?,?
          )`
          ,
-        [ box_id, params.dt_stamp, params.host, params.remoteAddress, 
+       box_id, params.dt_stamp, params.host, params.remoteAddress, 
          timeDif,
          params.ioR, params.ioW, params.fsR, params.fsW, params.openMax,
           params.openAlloc,
          params.nicR, params.nicT, params.memFree, params.memUsed,
           params.swapUsed, params.swapFree,
-         params.cpu, params.cpiIdle ]
+         params.cpu, params.cpuIdle 
       )
-
+      } catch(err) {
+         this.log.warn(err)
+      }
    }//()
 
    private  schema() {

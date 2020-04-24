@@ -3,4 +3,4 @@ tsc
 
 #  node agentg.js -m
 
- node agentg.js 
+ node test.js 

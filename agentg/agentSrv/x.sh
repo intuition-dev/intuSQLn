@@ -2,8 +2,8 @@ clear
 
 tsc
 
-node dev1.js
+# node agentg-srv.js
 
-# env NODE_ENV=production node agentg-srv.js &
+env NODE_ENV=production node agentg-srv.js &
 
 # nohup env NODE_ENV=production node agentg-srv.js &
