@@ -27,3 +27,6 @@ REPO: 'github.com/intuition-dev'
 PROJECT: 'intuServices'
 
 ```
+
+
+Note: If running as root (you should not) you need this prefix for install: npm i -g --unsafe-perm=true --allow-root agentg
