@@ -37,7 +37,7 @@ class DownloadC {
         const THIZ = this;
         return new Promise(function (resolve, reject) {
             THIZ.getVal().then(function (ver) {
-                //log.info(ver, lver)
+                THIZ._log.info(ver, lver);
                 if (ver == lver)
                     resolve(true);
                 else

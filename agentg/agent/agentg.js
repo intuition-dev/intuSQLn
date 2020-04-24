@@ -8,11 +8,13 @@ const FileOpsExtra_1 = require("./lib/FileOpsExtra");
 const gitdown_1 = require("./lib/gitdown");
 const Agent_1 = require("./lib/Agent");
 // imports done /////////////////////////////////////////////
-const ver = "v2.4.16";
+const ver = "v2.4.22";
 FileOpsExtra_1.VersionNag.isCurrent('agentg', ver).then(function (isCurrent_) {
     try {
         if (!isCurrent_)
             console.log('There is a newer version of agentg CLI, please update.');
+        else
+            console.log('Current');
     }
     catch (err) {
         console.log(err);

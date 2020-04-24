@@ -11,11 +11,12 @@ import { GitDown  } from './lib/gitdown'
 import { Agent } from './lib/Agent'
 
 // imports done /////////////////////////////////////////////
-const ver = "v2.4.18"
+const ver = "v2.4.22"
 VersionNag.isCurrent('agentg', ver).then(function (isCurrent_: boolean) {
    try {
       if (!isCurrent_)
          console.log('There is a newer version of agentg CLI, please update.')
+      else console.log('Current')
    } catch (err) {
       console.log(err)
    }
