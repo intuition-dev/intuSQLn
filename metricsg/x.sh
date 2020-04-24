@@ -2,6 +2,7 @@ clear
 
 tsc
 
- node dev1.js
+ node main.js
 
-// nohup  node main.js &
+
+# nohup env NODE_ENV=production node main.js &

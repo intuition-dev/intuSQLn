@@ -50,7 +50,7 @@ class GDB extends BaseDBS_1.BaseDBS {
         });
     } //()
     async schema() {
-        this.defCon(process.cwd(), '/dbip.db');
+        this.defCon(process.cwd() + '/dbip.db');
         const exists = this.tableExists('geo');
         this.log.info(exists);
         if (exists)

@@ -113,7 +113,7 @@ class MeDB extends BaseDBS_1.BaseDBS {
         return true;
     } //()
     schema() {
-        this.defCon(process.cwd(), '/met.db');
+        this.defCon(process.cwd() + '/met.db');
         const exists = this.tableExists('met');
         this.log.info('schema', exists);
         if (exists)
