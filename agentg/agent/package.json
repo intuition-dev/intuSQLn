@@ -30,13 +30,13 @@
         "node-downloader-helper": ">=1.0.12",
         "perfy": ">=1.1.5",
         "ps-list": ">=7.0.0",
-        "systeminformation": ">=4.23.5",
+        "systeminformation": ">=4.23.8",
         "luxon": ">=1.23.0",
         "node-cache": ">=5.1.0",
         "uuid": ">=7.0.3"
     },
     "devDependencies": {
-        "@types/node": ">=13.13.2",
+        "@types/node": ">=13.13.4",
         "stack-trace": ">=0.0.10"
     }
 }
