@@ -18,7 +18,7 @@
         "node": ">=14.0.0"
     },
     "dependencies": {
-        "minio": ">=7.0.15",
+        "minio": ">=7.0.16",
         "adm-zip": ">=0.4.14",
         "check-disk-space": ">=2.1.0",
         "command-line-args": ">=5.1.1",
@@ -30,10 +30,10 @@
         "node-downloader-helper": ">=1.0.12",
         "perfy": ">=1.1.5",
         "ps-list": ">=7.0.0",
-        "systeminformation": ">=4.23.8",
+        "systeminformation": ">=4.24.1",
         "luxon": ">=1.23.0",
         "node-cache": ">=5.1.0",
-        "uuid": ">=7.0.3"
+        "uuid": ">=8.0.0"
     },
     "devDependencies": {
         "@types/node": ">=13.13.4",
