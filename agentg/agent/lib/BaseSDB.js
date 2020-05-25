@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseSDB = void 0;
 const terse_b_1 = require("terse-b/terse-b");
 const Minio = require('minio');
 const { Readable } = require('stream');

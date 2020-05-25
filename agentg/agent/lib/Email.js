@@ -1,6 +1,7 @@
 "use strict";
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Email = void 0;
 const fetch = require('make-fetch-happen');
 const terse_b_1 = require("terse-b/terse-b");
 class Email {

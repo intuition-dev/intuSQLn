@@ -1,6 +1,7 @@
 "use strict";
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Dirs = exports.VersionNag = exports.DownloadFrag = exports.YamlConfig = exports.DownloadC = void 0;
 const terse_b_1 = require("terse-b/terse-b");
 const fs = require("fs-extra");
 const AdmZip = require("adm-zip");
@@ -9,83 +10,86 @@ const { DownloaderHelper } = require('node-downloader-helper');
 const fetch = require('make-fetch-happen');
 const path = require("path");
 const FileHound = require("filehound");
-class DownloadC {
-    constructor(key_, targetDir_) {
-        this._log = new terse_b_1.TerseB(this.constructor.name);
-        this.key = key_;
-        this.targetDir = targetDir_;
-    } // cons
-    autoUZ() {
-        const THIZ = this;
-        this.getVal().then(function (url) {
-            THIZ._log.info(url);
-            const fn = THIZ.getFn(url);
-            THIZ._log.info(fn);
-            THIZ.down(url).then(function () {
-                THIZ.unzip(fn);
+let DownloadC = /** @class */ (() => {
+    class DownloadC {
+        constructor(key_, targetDir_) {
+            this._log = new terse_b_1.TerseB(this.constructor.name);
+            this.key = key_;
+            this.targetDir = targetDir_;
+        } // cons
+        autoUZ() {
+            const THIZ = this;
+            this.getVal().then(function (url) {
+                THIZ._log.info(url);
+                const fn = THIZ.getFn(url);
+                THIZ._log.info(fn);
+                THIZ.down(url).then(function () {
+                    THIZ.unzip(fn);
+                });
             });
-        });
-    }
-    auto() {
-        const THIZ = this;
-        this.getVal().then(function (url) {
-            console.log(url);
-            THIZ.down(url);
-        });
-    }
-    checkVer(lver) {
-        const THIZ = this;
-        return new Promise(function (resolve, reject) {
-            THIZ.getVal().then(function (ver) {
-                THIZ._log.info(ver, lver);
-                if (ver == lver)
-                    resolve(true);
-                else
-                    resolve(false);
+        }
+        auto() {
+            const THIZ = this;
+            this.getVal().then(function (url) {
+                console.log(url);
+                THIZ.down(url);
             });
-        }); //pro
+        }
+        checkVer(lver) {
+            const THIZ = this;
+            return new Promise(function (resolve, reject) {
+                THIZ.getVal().then(function (ver) {
+                    THIZ._log.info(ver, lver);
+                    if (ver == lver)
+                        resolve(true);
+                    else
+                        resolve(false);
+                });
+            }); //pro
+        }
+        getVal() {
+            const THIZ = this;
+            return new Promise(function (resolve, reject) {
+                fetch(DownloadC.truth).then((response) => {
+                    return response.text();
+                })
+                    .then(data => {
+                    let dic = yaml.load(data);
+                    resolve(dic[THIZ.key]);
+                }).catch(err => {
+                    THIZ._log.warn('err: where is the vfile?', err, DownloadC.truth);
+                });
+            }); //pro
+        } //()
+        getFn(url) {
+            const pos = url.lastIndexOf('/');
+            return url.substring(pos);
+        }
+        down(url) {
+            const THIZ = this;
+            return new Promise(function (resolve, reject) {
+                const dl = new DownloaderHelper(url, THIZ.targetDir);
+                dl.on('end', () => {
+                    THIZ._log.info('downloaded');
+                    resolve('OK');
+                });
+                dl.on('error', err => console.error('Where is the file ' + url, err));
+                dl.start();
+            }); //pro
+        } //()
+        unzip(fn) {
+            const zfn = this.targetDir + fn;
+            this._log.info(zfn);
+            const zip = new AdmZip(zfn);
+            zip.extractAllTo(this.targetDir, /*overwrite*/ true);
+            fs.remove(this.targetDir + '/' + fn);
+        }
     }
-    getVal() {
-        const THIZ = this;
-        return new Promise(function (resolve, reject) {
-            fetch(DownloadC.truth).then((response) => {
-                return response.text();
-            })
-                .then(data => {
-                let dic = yaml.load(data);
-                resolve(dic[THIZ.key]);
-            }).catch(err => {
-                THIZ._log.warn('err: where is the vfile?', err, DownloadC.truth);
-            });
-        }); //pro
-    } //()
-    getFn(url) {
-        const pos = url.lastIndexOf('/');
-        return url.substring(pos);
-    }
-    down(url) {
-        const THIZ = this;
-        return new Promise(function (resolve, reject) {
-            const dl = new DownloaderHelper(url, THIZ.targetDir);
-            dl.on('end', () => {
-                THIZ._log.info('downloaded');
-                resolve('OK');
-            });
-            dl.on('error', err => console.error('Where is the file ' + url, err));
-            dl.start();
-        }); //pro
-    } //()
-    unzip(fn) {
-        const zfn = this.targetDir + fn;
-        this._log.info(zfn);
-        const zip = new AdmZip(zfn);
-        zip.extractAllTo(this.targetDir, /*overwrite*/ true);
-        fs.remove(this.targetDir + '/' + fn);
-    }
-} //class
+    // in docs root via git
+    DownloadC.truth = 'https://INTUITION-dev.github.io/mbCLI/versions.yaml';
+    return DownloadC;
+})(); //class
 exports.DownloadC = DownloadC;
-// in docs root via git
-DownloadC.truth = 'https://INTUITION-dev.github.io/mbCLI/versions.yaml';
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class YamlConfig {
     constructor(fn) {

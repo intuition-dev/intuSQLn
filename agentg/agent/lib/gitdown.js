@@ -1,6 +1,7 @@
 "use strict";
 // All rights reserved by Cekvenich|INTUITION.DEV) |  Cekvenich, licensed under LGPL 3.0
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GitDown = void 0;
 const terse_b_1 = require("terse-b/terse-b");
 const fs = require("fs-extra");
 const execa = require("execa");
