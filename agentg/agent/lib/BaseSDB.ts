@@ -4,8 +4,10 @@ import { TerseB } from "terse-b/terse-b"
 const Minio = require('minio')
 const { Readable } = require('stream')
 
+/*
 const NodeCache = require( "node-cache" )
 const cache = new NodeCache({stdTTL: 100, maxKeys: 10*1000})
+*/
 
 const uuid = require('uuid/v4')
 
@@ -27,9 +29,7 @@ guid() {
     return uuid()
 }
 
-get cache() {
-    return cache
-}
+
 
 constructor(config, bucket) {
     this.minioClient = new Minio.Client(

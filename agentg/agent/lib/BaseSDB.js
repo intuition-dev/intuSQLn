@@ -4,8 +4,10 @@ exports.BaseSDB = void 0;
 const terse_b_1 = require("terse-b/terse-b");
 const Minio = require('minio');
 const { Readable } = require('stream');
-const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL: 100, maxKeys: 10 * 1000 });
+/*
+const NodeCache = require( "node-cache" )
+const cache = new NodeCache({stdTTL: 100, maxKeys: 10*1000})
+*/
 const uuid = require('uuid/v4');
 // could be msgPack, but using json for now
 /**
@@ -19,9 +21,6 @@ class BaseSDB {
     } //()
     guid() {
         return uuid();
-    }
-    get cache() {
-        return cache;
     }
     writeOne(fullPath, data) {
         const str = JSON.stringify(data); //encode
