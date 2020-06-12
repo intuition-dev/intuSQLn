@@ -11,6 +11,10 @@
 
 # http://www.adminsehow.com/2009/08/how-to-clear-all-iptables-rules
 
+
+invoke-rc.d netfilter-persistent save
+
+
 iptables -F
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
@@ -36,10 +40,19 @@ iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
 iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
 iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
 
-iptables-save | sudo tee /etc/sysconfig/iptables
 
-systemctl restart iptables
 
-iptables -L -n
+# save
+
+/sbin/iptables-save
+netfilter-persistent save
+netfilter-persistent reload
+
+iptables -t nat -L -n -v
+
+
 
 #  nmap -Pn 185.105.7.112
+
+
+
