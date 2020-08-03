@@ -1,4 +1,11 @@
 
+removed:
+
+Note: If running as root (you should not) you need this prefix for install: npm i -g --unsafe-perm=true --allow-root agentg
+
+Note2: https://1155536677.rsc.cdn77.org
+
+
 ## 2.5.1
 - bump
 
